@@ -1,0 +1,95 @@
+{
+  "modelo": "livro-unico",
+  "slug": "gratidao-filha-da-mae",
+  "subdominio": "gratidaofilhadamae",
+  "livro": {
+    "titulo": "Gratidão, filha da mãe",
+    "autor": "Ives Pinheiro",
+    "isbn": "9786561770200"
+  },
+  "tema": {
+    "fonte_titulo": "Playfair Display",
+    "cores": {
+      "claro": "#F6EBDD",
+      "medio": "#EED6BC",
+      "escuro": "#17363A",
+      "destaque": "#8A3B22",
+      "botao": "#A8441F",
+      "botao_texto": "#FFF6EC",
+      "texto": "#2A1F1A",
+      "texto_claro": "#F6EBDD",
+      "rodape": "#0F2629"
+    }
+  },
+  "seo": {
+    "titulo": "Gratidão, filha da mãe · Ives Pinheiro",
+    "descricao": "Um convite para desacelerar e revisitar a relação entre mãe e filho: reconhecer, valorizar e honrar quem sempre esteve presente. De Ives Pinheiro."
+  },
+  "compra": {
+    "texto_botao": "Garanta o seu exemplar",
+    "principal": {
+      "rotulo": "Amazon",
+      "url": "https://www.amazon.com.br/dp/656177020X"
+    },
+    "outros": []
+  },
+  "instagram": {
+    "usuario": "ivespinheiroautor",
+    "rotulo": "Siga o autor"
+  },
+  "hero": {
+    "imagem": "mockup-frente.png",
+    "alt": "Livro Gratidão, filha da mãe, de Ives Pinheiro",
+    "tagline": "Antes de qualquer conquista, alguém esteve nos bastidores. *Você já agradeceu?*",
+    "descricao": "Em textos curtos e diretos, Ives Pinheiro convida o leitor a revisitar a relação com a mãe e a transformar reconhecimento em gesto, enquanto ainda há tempo."
+  },
+  "sinopse": {
+    "titulo": "O vínculo mais essencial da existência, visto de perto.",
+    "paragrafos": [
+      "Em meio à correria da vida moderna, *Gratidão, filha da mãe* propõe uma pausa para olhar a relação entre mãe e filho com outros olhos: os gestos silenciosos, os sacrifícios invisíveis e o amor que sustenta uma família ao longo do tempo.",
+      "Com metáforas como a da **galinha** que protege os pintinhos e a da **águia** que avista o perigo de longe, Ives Pinheiro mostra como a mãe esteve presente em cada etapa, inclusive quando o filho achava que voava sozinho.",
+      "Entre memórias, provocações e relatos da vida real, o livro enfrenta a ingratidão sem rodeios e reconhece a força das mulheres que encaram jornadas dobradas, às vezes triplas, para criar os filhos.",
+      "O resultado é um encontro íntimo com a própria história e um chamado à reaproximação: reconhecer, valorizar e honrar quem sempre esteve ali."
+    ]
+  },
+  "diferenciais": {
+    "titulo": "Uma leitura que pede resposta",
+    "imagem": "ondas.jpg",
+    "alt": "Detalhe da contracapa: ondas em terracota e azul profundo, com folhas desenhadas a traço",
+    "itens": [
+      {
+        "titulo": "Reflexão que vira atitude",
+        "texto": "O livro sugere gestos simples de reaproximação: ligar à noite para dar boa-noite, um café no meio da semana, escutar sem retrucar."
+      },
+      {
+        "titulo": "Fluido do começo ao fim",
+        "texto": "Capítulos curtos e um raciocínio sem interrupções, para ler de uma vez e voltar sempre que precisar."
+      },
+      {
+        "titulo": "Ciência e sensibilidade",
+        "texto": "O olhar de um profissional de saúde que convive todos os dias com histórias de perdas, superações e recomeços."
+      }
+    ]
+  },
+  "trecho": {
+    "texto": "Seja honesto: você está aqui porque a sua mãe sempre esteve nos bastidores da vida para você brilhar; aliás, para você viver!",
+    "referencia": "A galinha e a águia"
+  },
+  "bio": {
+    "rotulo": "Sobre o autor",
+    "nome": "Ives Pinheiro",
+    "foto": "autor.jpg",
+    "paragrafos": [
+      "**Ives Pinheiro** transita entre a ciência e a palavra. Fonoaudiólogo, professor, preceptor e escritor, construiu sua trajetória no encontro entre o cuidado, o ensino e a sensibilidade humana.",
+      "Mestre em Ensino em Ciências e Saúde e especialista em Fonoaudiologia Hospitalar, Disfagia e Preceptoria, dedica-se à assistência de pacientes, à formação de novos profissionais e ao desenvolvimento da Fonoaudiologia no serviço público de saúde.",
+      "A convivência diária com histórias, perdas, superações, silêncios e recomeços encontrou espaço na literatura. Como poeta e escritor, busca dizer aquilo que a linguagem cotidiana nem sempre alcança."
+    ]
+  },
+  "final": {
+    "titulo": "Ainda há tempo.",
+    "texto": "Um livro para ler, presentear e levar para a próxima conversa com a sua mãe.",
+    "fecho": "Porque todos somos filhos, e muitos de nós também são pais.",
+    "imagem": "abraco.jpg",
+    "alt": "Ilustração da capa: mãe abraçando os filhos de olhos fechados"
+  }
+}

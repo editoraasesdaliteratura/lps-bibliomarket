@@ -1,0 +1,21 @@
+{
+  "lombada": false,
+  "avisos": [
+    "Lombada medida fora do plausível (1px para 2401px de altura). Mockup sem lombada."
+  ],
+  "metodo": "PDF da capa (TrimBox)",
+  "proporcao_origem": "miolo 140×210 mm",
+  "confianca": 0.997,
+  "orelha_px": 0,
+  "lombada_px": 1,
+  "W": 1600,
+  "H": 2401,
+  "T": null,
+  "T_estimada": 36,
+  "mm": {
+    "frente": 140.0,
+    "altura": 210.0,
+    "lombada": 0.1,
+    "orelha": 0.0
+  }
+}
