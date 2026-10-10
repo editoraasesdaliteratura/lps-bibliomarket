@@ -193,7 +193,7 @@ def montar(arq, previa=False, saida=None, url_base=None):
     ctx = {
         "previa": previa, "url": url, "ano": d.get("ano") or datetime.date.today().year,
         "seo": {"titulo": seo_titulo, "descricao": seo_desc}, "og_imagem": og,
-        "fonte": {"google": f["google"], "peso": f["peso"], "css": f'"{fonte_nome}", {f["fallback"]}'},
+        "fonte": {"google": f["google"], "peso": f["peso"], "css": Markup(f'"{fonte_nome}", {f["fallback"]}')},
         "cores": cores, "livro": {**livro, "titulo": titulo}, "ficha": ficha,
         "jsonld": Markup(json.dumps(jsonld, ensure_ascii=False).replace("</", "<\\/")),
         "instagram": instagram,
