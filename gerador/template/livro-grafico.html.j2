@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{{ seo.titulo }}</title>
+<meta name="description" content="{{ seo.descricao }}">
+{% if previa %}<meta name="robots" content="noindex,nofollow">{% else %}<link rel="canonical" href="{{ url }}">{% endif %}
+<meta name="theme-color" content="{{ c.noite }}">
+<meta property="og:type" content="book">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="{{ seo.titulo }}">
+<meta property="og:description" content="{{ seo.descricao }}">
+<meta property="og:url" content="{{ url }}">
+<meta property="og:image" content="{{ url }}img/{{ og_imagem }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?{{ fontes_url }}&display=swap">
+<link rel="preload" as="image" href="img/{{ hero.imagem.arquivo }}-{{ hero.imagem.min }}.webp" imagesrcset="img/{{ hero.imagem.arquivo }}-{{ hero.imagem.min }}.webp {{ hero.imagem.min }}w, img/{{ hero.imagem.arquivo }}-{{ hero.imagem.max }}.webp {{ hero.imagem.max }}w" imagesizes="(max-width:860px) 80vw, 440px">
+<script type="application/ld+json">{{ jsonld | safe }}</script>
+<!-- LP LIVRO GRÁFICO · Global Assessoria · v1 · gerado por build.py a partir de lp.json -->
+<style>
+/* Conceito: página escura como o céu da capa; lava, retícula e quadrinho como acentos. */
+:root{
+  --noite:{{ c.noite }};--noite-2:{{ c.noite_2 }};--azul:{{ c.azul }};
+  --lava:{{ c.lava }};--lava-2:{{ c.lava_2 }};--vermelho:{{ c.vermelho }};--portal:{{ c.portal }};
+  --papel:{{ c.papel }};--tinta:{{ c.tinta }};--claro:{{ c.texto_claro }};
+  --f-titulo:{{ fonte_titulo }};--f-texto:{{ fonte_texto }};
+  --largura:1180px;--gutter:clamp(20px,5vw,44px);--secao:clamp(72px,10vw,136px);
+  --borda:3px solid var(--tinta);--sombra-hq:7px 7px 0 var(--tinta);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:80px}
+body{margin:0;background:var(--noite);color:var(--claro);font-family:var(--f-texto);font-size:clamp(16px,.9vw + 12px,18px);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+p{margin:0;text-wrap:pretty}
+strong{font-weight:700;color:#fff}
+em{font-style:italic}
+::selection{background:var(--lava);color:var(--tinta)}
+:focus-visible{outline:3px solid var(--lava);outline-offset:3px;border-radius:6px}
+.pular{position:absolute;left:12px;top:-60px;z-index:60;background:var(--lava);color:var(--tinta);padding:10px 16px;border-radius:999px;font-weight:700;text-decoration:none}
+.pular:focus{top:12px}
+.wrap{width:100%;max-width:var(--largura);margin-inline:auto;padding-inline:var(--gutter);position:relative}
+.secao{padding-block:var(--secao);position:relative;overflow:hidden}
+
+/* ---------- tipografia ---------- */
+.rotulo{font-weight:800;font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--lava);margin:0}
+.h2{font-family:var(--f-titulo);font-weight:400;text-transform:uppercase;font-size:clamp(34px,3.6vw + 14px,62px);line-height:1.02;letter-spacing:.005em;margin:0;text-wrap:balance}
+.h2 em{font-style:normal;color:var(--lava)}
+.prosa{display:grid;gap:1.05em;max-width:62ch}
+
+/* Marca: letreiro da capa (lava com contorno vermelho, sombra de quadrinho e retícula) */
+.marca{font-family:var(--f-titulo);font-weight:400;text-transform:uppercase;line-height:.92;letter-spacing:.01em;margin:0;
+  background:radial-gradient(circle,var(--lava-2) 1.2px,transparent 1.6px) 0 0/7px 7px,linear-gradient(var(--lava),var(--lava));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(2px 0 0 var(--vermelho)) drop-shadow(-2px 0 0 var(--vermelho)) drop-shadow(0 2px 0 var(--vermelho)) drop-shadow(0 -2px 0 var(--vermelho)) drop-shadow(5px 6px 0 var(--tinta))}
+.marca-sub{display:block;font-family:var(--f-texto);font-weight:600;font-size:clamp(13px,.5vw + 10px,16px);letter-spacing:.42em;text-transform:uppercase;color:var(--claro)}
+
+/* ---------- botões ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;min-height:56px;padding:.85em 1.7em;border:var(--borda);border-radius:14px;background:var(--lava);color:var(--tinta);font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;box-shadow:5px 5px 0 var(--tinta);transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--tinta)}
+.btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--tinta)}
+.btn svg{width:1.15em;height:1.15em;flex:none}
+.lojas{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:13.5px;opacity:.85}
+.lojas a{font-weight:700;text-underline-offset:3px}
+
+.ig{display:inline-flex;align-items:center;gap:.5em;padding:7px 14px;border-radius:999px;border:1.5px solid color-mix(in srgb,var(--claro) 35%,transparent);text-decoration:none;font-size:13.5px;font-weight:700;white-space:nowrap;transition:background .2s}
+.ig:hover{background:color-mix(in srgb,var(--claro) 10%,transparent)}
+.ig svg{width:16px;height:16px}
+
+/* ---------- motivos gráficos ---------- */
+.reticula{position:absolute;pointer-events:none;background:radial-gradient(circle,currentColor 1.5px,transparent 1.9px) 0 0/11px 11px;opacity:.22}
+.rachaduras{position:absolute;pointer-events:none;overflow:visible}
+.rachaduras path{fill:none;stroke:var(--lava);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.rachaduras .brilho path{stroke:var(--lava-2);stroke-width:9;opacity:.45}
+.portal{position:absolute;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 50% 50%,color-mix(in srgb,var(--portal) 85%,#fff) 0%,var(--portal) 22%,color-mix(in srgb,var(--portal) 40%,transparent) 48%,transparent 70%);filter:blur(6px)}
+.divisa{display:block;width:100%;height:46px}
+
+/* ---------- topo ---------- */
+.topo{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--noite) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-top:env(safe-area-inset-top,0px);border-bottom:1px solid color-mix(in srgb,var(--claro) 10%,transparent)}
+.topo .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:66px}
+.topo .marca{font-size:24px;filter:drop-shadow(1.5px 0 0 var(--vermelho)) drop-shadow(-1.5px 0 0 var(--vermelho)) drop-shadow(0 1.5px 0 var(--vermelho)) drop-shadow(0 -1.5px 0 var(--vermelho)) drop-shadow(2px 3px 0 var(--tinta));text-decoration:none}
+@media (max-width:520px){.topo .ig span{display:none}.topo .ig{padding:8px}}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(40px,7vw,96px) clamp(56px,8vw,110px);background:
+  radial-gradient(70% 60% at 85% 10%,color-mix(in srgb,var(--lava-2) 26%,transparent),transparent 70%),
+  radial-gradient(60% 70% at 10% 100%,color-mix(in srgb,var(--vermelho) 22%,transparent),transparent 70%),
+  linear-gradient(180deg,var(--noite-2),var(--noite));overflow:hidden;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,72px);align-items:center}
+.hero-texto{display:grid;gap:22px;justify-items:start;min-width:0;position:relative;z-index:2}
+.hero .marca{font-size:clamp(64px,8.2vw + 10px,138px)}
+.hero .marca-sub{margin-top:14px}
+.tagline{font-size:clamp(19px,.9vw + 14px,24px);font-weight:700;line-height:1.35;color:#fff;max-width:28ch}
+.tagline em{font-style:normal;color:var(--lava);background:linear-gradient(transparent 62%,color-mix(in srgb,var(--vermelho) 55%,transparent) 62%)}
+.ficha{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.ficha li{font-size:12.5px;font-weight:700;letter-spacing:.05em;padding:6px 12px;border-radius:999px;background:color-mix(in srgb,var(--claro) 9%,transparent);border:1px solid color-mix(in srgb,var(--claro) 18%,transparent)}
+.hero-livro{position:relative;justify-self:center;width:min(440px,78vw);aspect-ratio:3/4;display:grid;place-items:center}
+.hero-livro .portal{width:120%;aspect-ratio:1;left:-10%;top:-2%;opacity:.55}
+.hero-livro .reticula{inset:6% -6% 14% 8%;color:var(--lava);border-radius:50%;-webkit-mask:radial-gradient(circle,#000 30%,transparent 70%);mask:radial-gradient(circle,#000 30%,transparent 70%);opacity:.35}
+.hero-livro .rachaduras{inset:-8% -14% -10% -14%;width:128%;height:118%;z-index:0}
+.hero-livro picture{position:relative;z-index:1;width:100%}
+.hero-livro img{width:100%;height:auto;filter:drop-shadow(0 30px 40px rgba(0,0,0,.55))}
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-livro{order:-1;width:min(330px,76vw)}
+  .hero-texto{justify-items:stretch}
+  .btn{width:100%}
+}
+
+/* ---------- pergunta (balão) ---------- */
+.pergunta{background:var(--azul);color:var(--tinta)}
+.pergunta .reticula{inset:0;color:#000;opacity:.12;-webkit-mask:linear-gradient(115deg,#000 0%,transparent 55%);mask:linear-gradient(115deg,#000 0%,transparent 55%)}
+.balao{position:relative;margin:0 auto;max-width:900px;background:var(--papel);border:var(--borda);border-radius:48px;box-shadow:var(--sombra-hq);padding:clamp(28px,4.5vw,56px) clamp(24px,5vw,64px)}
+.balao::after{content:"";position:absolute;left:18%;bottom:-38px;width:52px;height:46px;background:var(--papel);border-right:var(--borda);border-bottom:var(--borda);clip-path:polygon(0 0,100% 0,100% 100%);transform:skewX(-18deg)}
+.balao p{font-family:var(--f-titulo);text-transform:uppercase;font-size:clamp(26px,2.6vw + 12px,46px);line-height:1.08;text-wrap:balance;text-align:center}
+.balao em{font-style:normal;color:var(--vermelho)}
+
+/* ---------- sinopse ---------- */
+.sinopse-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(32px,6vw,90px);align-items:start}
+.sinopse .h2{position:sticky;top:110px}
+.sinopse .prosa p:first-child{font-size:1.14em;color:#fff}
+.caixa{margin-top:10px;background:var(--lava);color:var(--tinta);border:var(--borda);box-shadow:5px 5px 0 var(--tinta);padding:18px 22px;transform:rotate(-1deg);display:grid;gap:8px;max-width:520px}
+.caixa blockquote{margin:0;font-weight:700;font-size:1.04em;line-height:1.45}
+.caixa figcaption{font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
+@media (max-width:860px){.sinopse-grid{grid-template-columns:1fr}.sinopse .h2{position:static}}
+
+/* ---------- personagens ---------- */
+.elo{background:linear-gradient(180deg,var(--noite),var(--noite-2))}
+.elo-topo{display:grid;gap:16px;max-width:760px;margin-bottom:clamp(36px,5vw,64px)}
+.elo-topo p:last-child{color:color-mix(in srgb,var(--claro) 85%,transparent)}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+@media (max-width:1040px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.cards{grid-template-columns:1fr}}
+.card{--cor:var(--lava);background:var(--papel);color:var(--tinta);border:var(--borda);border-radius:18px;box-shadow:var(--sombra-hq);overflow:hidden;display:grid;grid-template-rows:auto 1fr;transition:transform .2s ease}
+.card:hover{transform:translateY(-4px) rotate(-.4deg)}
+.card-topo{position:relative;background:var(--cor);padding:22px 20px 0;border-bottom:var(--borda);min-height:150px;display:flex;align-items:flex-end;gap:14px}
+.card-topo .reticula{inset:0;color:#000;opacity:.16}
+.card-topo img{position:relative;width:118px;height:118px;border-radius:50%;border:var(--borda);background:#fff;object-fit:cover;margin-bottom:-26px;box-shadow:4px 4px 0 var(--tinta)}
+.card-corpo{padding:40px 20px 24px;display:grid;gap:10px;align-content:start}
+.card h3{font-family:var(--f-titulo);font-weight:400;text-transform:uppercase;font-size:34px;line-height:1;margin:0;letter-spacing:.01em}
+.forca{justify-self:start;font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:5px 10px;border-radius:999px;border:2px solid var(--tinta);background:color-mix(in srgb,var(--cor) 30%,#fff)}
+.card p{font-size:15px;line-height:1.6}
+.elo-rodape{margin-top:clamp(36px,5vw,56px);display:flex;justify-content:center}
+
+/* ---------- diferenciais ---------- */
+.dif{background:var(--noite-2)}
+.dif .rachaduras.borda{left:0;top:0;width:100%;height:120px}
+.dif-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,3vw,36px);margin-top:clamp(32px,5vw,56px)}
+@media (max-width:860px){.dif-grid{grid-template-columns:1fr}}
+.dif-item{display:grid;gap:10px;padding-top:22px;border-top:4px solid var(--c,var(--lava))}
+.dif-item h3{margin:0;font-family:var(--f-titulo);font-weight:400;text-transform:uppercase;font-size:26px;line-height:1.1;color:#fff}
+.dif-item p{color:color-mix(in srgb,var(--claro) 85%,transparent)}
+
+/* ---------- trecho ---------- */
+.trecho{background:var(--papel);color:var(--tinta)}
+.trecho .reticula{width:380px;height:380px;right:-80px;top:-80px;border-radius:50%;color:var(--vermelho);opacity:.3;-webkit-mask:radial-gradient(circle,#000 20%,transparent 70%);mask:radial-gradient(circle,#000 20%,transparent 70%)}
+.trecho figure{margin:0 auto;max-width:900px;display:grid;gap:22px;position:relative}
+.trecho blockquote{margin:0;font-size:clamp(22px,1.5vw + 14px,34px);font-weight:600;font-style:italic;line-height:1.38;text-wrap:pretty}
+.aspas{font-family:var(--f-titulo);font-size:120px;line-height:.6;height:56px;color:var(--lava);-webkit-text-stroke:3px var(--tinta)}
+.trecho figcaption{font-size:12.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:color-mix(in srgb,var(--vermelho) 75%,#000)}
+
+/* ---------- bio ---------- */
+.bio-grid{display:grid;grid-template-columns:auto 1fr;gap:clamp(32px,6vw,80px);align-items:center}
+.moldura{width:clamp(220px,24vw,300px);border:var(--borda);border-color:#fff;box-shadow:8px 8px 0 var(--lava);transform:rotate(-2.5deg);background:#fff;padding:8px}
+.moldura img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.bio-texto{display:grid;gap:18px;min-width:0;justify-items:start}
+@media (max-width:760px){.bio-grid{grid-template-columns:1fr}.moldura{justify-self:center}}
+
+/* ---------- chamada final ---------- */
+.final{background:var(--azul);color:#fff;padding-bottom:0}
+.final .reticula{inset:0;color:#000;opacity:.14;-webkit-mask:linear-gradient(200deg,#000,transparent 60%);mask:linear-gradient(200deg,#000,transparent 60%)}
+.final-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,5vw,64px);align-items:end}
+.final-texto{display:grid;gap:20px;justify-items:start;padding-bottom:var(--secao);min-width:0}
+.final .h2{color:#fff;filter:drop-shadow(4px 5px 0 var(--tinta))}
+.final .fecho{font-weight:700}
+.final-arte{justify-self:center;position:relative;width:min(380px,80vw)}
+.final-arte::before{content:"";position:absolute;inset:8% -10% 0;background:radial-gradient(circle at 50% 60%,color-mix(in srgb,var(--lava) 55%,transparent),transparent 62%);filter:blur(10px)}
+.final-arte img{position:relative}
+@media (max-width:860px){.final-grid{grid-template-columns:1fr}.final-texto{padding-bottom:0;justify-items:stretch}.final-arte{width:min(300px,76vw)}}
+
+/* ---------- rodapé ---------- */
+.rodape{background:var(--tinta);color:var(--claro);padding-block:40px calc(40px + env(safe-area-inset-bottom,0px))}
+.rodape-grid{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px}
+.rodape .marca{font-size:26px;text-decoration:none;justify-self:start}
+.assinatura{justify-self:end;display:grid;justify-items:end;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-decoration:none}
+.assinatura img{height:34px;width:auto;filter:brightness(0) invert(1)}
+.copy{grid-column:1/-1;border-top:1px solid color-mix(in srgb,var(--claro) 18%,transparent);padding-top:20px;font-size:12.5px;text-align:center;opacity:.8}
+@media (max-width:760px){.rodape-grid{grid-template-columns:1fr;justify-items:center;text-align:center}.rodape .marca,.assinatura{justify-self:center;justify-items:center}}
+
+/* ---------- barra fixa (celular) ---------- */
+.barra{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;background:color-mix(in srgb,var(--noite) 94%,transparent);backdrop-filter:blur(8px);border-top:1px solid color-mix(in srgb,var(--claro) 14%,transparent);padding:10px var(--gutter) calc(12px + env(safe-area-inset-bottom,0px));transform:translateY(120%);transition:transform .35s ease}
+.barra .btn{width:100%;min-height:50px}
+.barra.on{transform:none}
+@media (max-width:860px){.barra{display:block}}
+
+/* ---------- entrada ao rolar ---------- */
+.js .rev{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.js .rev.vis{opacity:1;transform:none}
+@keyframes pulsa{0%,100%{opacity:.45;transform:scale(1)}50%{opacity:.65;transform:scale(1.04)}}
+.hero-livro .portal{animation:pulsa 6s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}.js .rev{opacity:1;transform:none}}
+</style>
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+{% macro seta() %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>{% endmacro %}
+{% macro igicon() %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>{% endmacro %}
+{% macro img(i, sizes, lazy=true) %}<picture><source type="image/webp" srcset="img/{{ i.arquivo }}-{{ i.min }}.webp {{ i.min }}w, img/{{ i.arquivo }}-{{ i.max }}.webp {{ i.max }}w" sizes="{{ sizes }}"><img src="img/{{ i.arquivo }}-{{ i.max }}.{{ i.ext }}" width="{{ i.w }}" height="{{ i.h }}" alt="{{ i.alt }}" {% if lazy %}loading="lazy" decoding="async"{% else %}fetchpriority="high"{% endif %}></picture>{% endmacro %}
+{% macro comprar(local) %}<a class="btn" href="{{ compra.principal.url }}" target="_blank" rel="noopener" data-cta="{{ local }}"{% if local == 'hero' %} id="cta-hero"{% endif %}>{{ compra.texto_botao }} {{ seta() }}</a>{% endmacro %}
+{% macro lojas() %}{% if compra.outros %}<p class="lojas"><span>Também na</span>{% for l in compra.outros %}<a href="{{ l.url }}" target="_blank" rel="noopener" data-cta="loja-{{ loop.index }}">{{ l.rotulo }}</a>{% endfor %}</p>{% endif %}{% endmacro %}
+{% macro ig() %}{% if instagram %}<a class="ig" href="{{ instagram.url }}" target="_blank" rel="noopener" data-cta="instagram">{{ igicon() }}<span>@{{ instagram.usuario }}</span></a>{% endif %}{% endmacro %}
+
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="topo" id="topo">
+  <div class="wrap">
+    <a class="marca" href="#inicio" aria-label="{{ livro.titulo_completo }}">{{ livro.titulo }}</a>
+    {{ ig() }}
+  </div>
+</header>
+
+<main id="inicio">
+
+  <section class="hero" id="conteudo">
+    <div class="wrap hero-grid">
+      <div class="hero-texto">
+        <p class="rotulo">{{ livro.genero }}{% if livro.publico %} · {{ livro.publico }}{% endif %}</p>
+        <h1 class="marca">{{ livro.titulo }}{% if livro.subtitulo %}<span class="marca-sub">{{ livro.subtitulo }}</span>{% endif %}</h1>
+        <p class="tagline">{{ hero.tagline }}</p>
+        <p>{{ hero.descricao }}</p>
+        {% if ficha %}<ul class="ficha" aria-label="Ficha do livro">{% for f in ficha %}<li>{{ f }}</li>{% endfor %}</ul>{% endif %}
+        {{ comprar('hero') }}
+        {{ lojas() }}
+      </div>
+      <div class="hero-livro">
+        {% if 'portal' in motivos %}<div class="portal" aria-hidden="true"></div>{% endif %}
+        {% if 'rachaduras' in motivos %}{{ rach_hero }}{% endif %}
+        {% if 'retícula' in motivos %}<div class="reticula" aria-hidden="true"></div>{% endif %}
+        {{ img(hero.imagem, "(max-width:860px) 76vw, 440px", false) }}
+      </div>
+    </div>
+  </section>
+
+  {% if pergunta %}
+  <section class="secao pergunta" aria-label="Sobre o livro">
+    {% if 'retícula' in motivos %}<div class="reticula" aria-hidden="true"></div>{% endif %}
+    <div class="wrap"><div class="balao rev"><p>{{ pergunta }}</p></div></div>
+  </section>
+  {% endif %}
+
+  <section class="secao sinopse" aria-labelledby="t-sinopse">
+    <div class="wrap sinopse-grid">
+      <h2 class="h2 rev" id="t-sinopse">{{ sinopse.titulo }}</h2>
+      <div class="prosa rev">
+        {% for p in sinopse.paragrafos %}<p>{{ p }}</p>{% endfor %}
+        {% if sinopse.destaque %}<figure class="caixa"><blockquote>{{ sinopse.destaque.texto }}</blockquote>{% if sinopse.destaque.referencia %}<figcaption>{{ sinopse.destaque.referencia }}</figcaption>{% endif %}</figure>{% endif %}
+      </div>
+    </div>
+  </section>
+
+  {% if personagens %}
+  <section class="secao elo" aria-labelledby="t-elo">
+    <div class="wrap">
+      <div class="elo-topo rev">
+        <p class="rotulo">Os personagens</p>
+        <h2 class="h2" id="t-elo">{{ personagens.titulo }}</h2>
+        {% if personagens.intro %}<p>{{ personagens.intro }}</p>{% endif %}
+      </div>
+      <div class="cards">{% for p in personagens.itens %}
+        <article class="card rev" style="--cor:{{ p.cor }}">
+          <div class="card-topo">{% if 'retícula' in motivos %}<div class="reticula" aria-hidden="true"></div>{% endif %}<img src="img/{{ p.foto }}" alt="{{ p.nome }}" width="236" height="236" loading="lazy"></div>
+          <div class="card-corpo"><h3>{{ p.nome }}</h3><span class="forca">Força: {{ p.forca }}</span><p>{{ p.texto }}</p></div>
+        </article>{% endfor %}
+      </div>
+      <div class="elo-rodape rev">{{ comprar('personagens') }}</div>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="secao dif" aria-labelledby="t-dif">
+    {% if 'rachaduras' in motivos %}{{ rach_borda }}{% endif %}
+    <div class="wrap">
+      <h2 class="h2 rev" id="t-dif">{{ diferenciais.titulo }}</h2>
+      <div class="dif-grid">{% for d in diferenciais.itens %}
+        <div class="dif-item rev" style="--c:{{ cores_itens[loop.index0 % cores_itens|length] }}"><h3>{{ d.titulo }}</h3><p>{{ d.texto }}</p></div>{% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {% if trecho %}
+  <section class="secao trecho" aria-label="Trecho do livro">
+    {% if 'retícula' in motivos %}<div class="reticula" aria-hidden="true"></div>{% endif %}
+    <div class="wrap">
+      <figure class="rev"><span class="aspas" aria-hidden="true">“</span><blockquote>{{ trecho.texto }}</blockquote><figcaption>{{ trecho.referencia }}</figcaption></figure>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="secao bio" aria-labelledby="t-bio">
+    <div class="wrap bio-grid">
+      {% if bio.foto %}<div class="moldura rev">{{ img(bio.foto, "300px") }}</div>{% endif %}
+      <div class="bio-texto rev">
+        <p class="rotulo">{{ bio.rotulo }}</p>
+        <h2 class="h2" id="t-bio">{{ bio.nome }}</h2>
+        <div class="prosa">{% for p in bio.paragrafos %}<p>{{ p }}</p>{% endfor %}</div>
+        {{ ig() }}
+      </div>
+    </div>
+  </section>
+
+  <section class="secao final" id="cta-final" aria-labelledby="t-final">
+    {% if 'retícula' in motivos %}<div class="reticula" aria-hidden="true"></div>{% endif %}
+    <div class="wrap final-grid">
+      <div class="final-texto rev">
+        <h2 class="h2" id="t-final">{{ final.titulo }}</h2>
+        <p>{{ final.texto }}</p>
+        {% if final.fecho %}<p class="fecho">{{ final.fecho }}</p>{% endif %}
+        {{ comprar('final') }}
+        {{ lojas() }}
+      </div>
+      <div class="final-arte">{{ img(final.imagem, "(max-width:860px) 76vw, 380px") }}</div>
+    </div>
+  </section>
+</main>
+
+<footer class="rodape">
+  <div class="wrap rodape-grid">
+    <a class="marca" href="#inicio">{{ livro.titulo }}</a>
+    {{ ig() }}
+    <a class="assinatura" href="https://assessoriaglobal.com.br/" target="_blank" rel="noopener"><span>Desenvolvido por</span><img src="img/logo-global.png" alt="Global Assessoria" width="126" height="34"></a>
+    <p class="copy">© {{ ano }} {{ livro.autor }}. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<div class="barra" id="barra" aria-hidden="true">
+  <a class="btn" href="{{ compra.principal.url }}" target="_blank" rel="noopener" tabindex="-1" data-cta="barra">{{ compra.texto_botao }}</a>
+</div>
+
+<script>
+(function(){
+  if(!("IntersectionObserver" in window)){document.querySelectorAll(".rev").forEach(function(e){e.classList.add("vis")});return}
+  var rev=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("vis");rev.unobserve(e.target)}})},{rootMargin:"0px 0px -8% 0px"});
+  document.querySelectorAll(".rev").forEach(function(e){rev.observe(e)});
+  var barra=document.getElementById("barra"),hero=document.getElementById("cta-hero"),fim=document.getElementById("cta-final");
+  var heroVis=true,fimVis=false;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.target===hero)heroVis=e.isIntersecting||e.boundingClientRect.top>0;else fimVis=e.isIntersecting});
+    var on=!heroVis&&!fimVis;barra.classList.toggle("on",on);barra.setAttribute("aria-hidden",on?"false":"true");barra.querySelector("a").tabIndex=on?0:-1;
+  });
+  io.observe(hero);io.observe(fim);
+})();
+</script>
+</body>
+</html>

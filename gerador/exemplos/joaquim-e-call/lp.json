@@ -1,0 +1,105 @@
+{
+  "modelo": "livro-grafico",
+  "slug": "joaquim-e-call",
+  "subdominio": "joaquimecall",
+  "livro": {
+    "titulo": "Joaquim & Call",
+    "subtitulo": "O mundo submerso",
+    "titulo_completo": "Joaquim e Call: o mundo submerso",
+    "autor": "Antônio Carreira Alvim",
+    "genero": "Fantasia",
+    "publico": "12 a 17 anos",
+    "paginas": "304",
+    "editora": "Selo Ventania",
+    "isbn": "9786583274885"
+  },
+  "tema": {
+    "fonte_titulo": "Anton",
+    "fonte_texto": "Montserrat",
+    "cores": {
+      "noite": "#141E2B",
+      "noite_2": "#1E2C3D",
+      "azul": "#007EAE",
+      "lava": "#FFD23F",
+      "lava_2": "#F59E1B",
+      "vermelho": "#E2342B",
+      "portal": "#E26BD8",
+      "papel": "#FFF4DE",
+      "tinta": "#15130F",
+      "texto_claro": "#EEF2F6"
+    },
+    "motivos": ["rachaduras", "retícula", "portal", "quadrinho"]
+  },
+  "seo": {
+    "titulo": "Joaquim & Call: o mundo submerso · Antônio Carreira Alvim",
+    "descricao": "Fantasia para 12 a 17 anos em que emoções viram poder. Conheça Joaquim, Call e os amigos da Vila dos Anjos."
+  },
+  "compra": {
+    "texto_botao": "Garanta o seu exemplar",
+    "principal": { "rotulo": "Amazon", "url": "https://a.co/d/00KeMyRF" },
+    "outros": [
+      { "rotulo": "Loja da editora", "url": "https://asesdaliteratura.com/catalogo/livros/joaquim-e-call-o-mundo-submerso/" }
+    ]
+  },
+  "instagram": { "usuario": "joaquimecall", "rotulo": "Siga o universo" },
+  "hero": {
+    "imagem": "mockup-pe.png",
+    "alt": "Livro Joaquim & Call: o mundo submerso, de Antônio Carreira Alvim",
+    "tagline": "Uma aventura onde o maior poder é ser mais forte que os *próprios traumas*.",
+    "descricao": "Dois irmãos chegam à Vila dos Anjos sem saber explicar de onde vieram. Ali descobrem que medo, amor e amizade podem virar força de verdade."
+  },
+  "pergunta": "E se existisse um livro de super-heróis que falasse de temas sensíveis, como a maldade emocional, de maneira *leve, clara e impactante*?",
+  "sinopse": {
+    "titulo": "Quando emoções se tornam poder, até o impossível pode ser enfrentado.",
+    "paragrafos": [
+      "Marcados por traumas e perdas, **Joaquim e Call** tentam reconstruir suas vidas na pacata Vila dos Anjos, onde conhecem **JimmyJosh**, um aliado carismático de duas personalidades.",
+      "O que começa como um recomeço tranquilo logo se transforma em uma jornada repleta de mistérios, novos laços e batalhas contra forças sombrias.",
+      "Ao lado da enigmática **Felitrix**, os heróis enfrentam ameaças que desafiam não apenas seus poderes, mas também suas emoções mais profundas.",
+      "Entre dimensões instáveis e inimigos capazes de manipular a própria realidade, uma pergunta ecoa: *será possível derrotar aquilo que nunca morre?*"
+    ],
+    "destaque": { "texto": "Ali, a diferença é como flor em campo aberto: natural, diversa e bem-vinda.", "referencia": "Sobre a Vila dos Anjos · Capítulo 1" }
+  },
+  "personagens": {
+    "titulo": "O elo das quatro forças",
+    "intro": "Na Vila dos Anjos, cada poder desperta de um sentimento. Juntos, eles enfrentam **Omatrix**, o tirano de Terra Quente, e seu servo **Zordrax**.",
+    "itens": [
+      { "nome": "Call", "forca": "Empatia", "cor": "#F6C21B", "imagem": "p-call.png",
+        "texto": "O caçula que esconde o medo atrás das piadas. Quando um amigo está em perigo, seu grito vira um campo de força." },
+      { "nome": "Joaquim", "forca": "Amor", "cor": "#2A9AD6", "imagem": "p-joaquim.png",
+        "texto": "O irmão mais velho, de óculos e mãos sujas de graxa. Para proteger quem ama, circuitos de luz se acendem em seus braços." },
+      { "nome": "JimmyJosh", "forca": "Amizade", "cor": "#E2342B", "imagem": "p-jimmyjosh.png",
+        "texto": "Dois irmãos num só corpo: Jimmy, calmo e observador; Josh, pura faísca. Unidos, entram na mente do inimigo." },
+      { "nome": "Felitrix", "forca": "Solidariedade", "cor": "#9B63C4", "imagem": "p-felitrix.png",
+        "texto": "Feiticeira de Terra Quente e guardiã da Magia dos Portais, capaz de abrir e fechar caminhos entre mundos." }
+    ]
+  },
+  "diferenciais": {
+    "titulo": "Fantasia que fala do que a gente sente",
+    "itens": [
+      { "titulo": "A emoção como superpoder", "texto": "Medo, amor, trauma e pertencimento não são só temas: são as fontes reais de poder neste universo." },
+      { "titulo": "O fantástico e o íntimo", "texto": "A história atravessa dimensões sem perder o foco no que importa: família, amizade e crescimento." },
+      { "titulo": "Cenários que sentem junto", "texto": "A Vila dos Anjos e a Terra Quente funcionam como extensões do estado emocional dos personagens." }
+    ]
+  },
+  "trecho": {
+    "texto": "Call permanece de pé, ofegante, o corpo tremendo, mas nos olhos dele há algo novo: a consciência de que a empatia afronta o medo e se transforma em poder.",
+    "referencia": "Capítulo 6 · Poder de Call"
+  },
+  "bio": {
+    "rotulo": "Sobre o autor",
+    "nome": "Antônio Carreira Alvim",
+    "foto": "autor.jpg",
+    "paragrafos": [
+      "**Antônio Carreira Alvim** é um jovem escritor, ilustrador e criador de universos fantásticos. Nascido em 2011, descobriu cedo o amor por contar histórias e desenhar personagens que refletem emoções humanas profundas.",
+      "Aos 13 anos, escreveu e dirigiu seu primeiro curta de animação, *O Monstro da Rejeição*, inspirado em suas vivências com o bullying. O curta foi exibido em diversos festivais e conquistou prêmios.",
+      "*Joaquim e Call* nasceu de seus cadernos de desenho e histórias em quadrinhos e já se transformou em roteiro de série e de longa-metragem animado."
+    ]
+  },
+  "final": {
+    "titulo": "Entre para o elo.",
+    "texto": "Uma história de super-heróis sobre o que a gente sente, para ler, se reconhecer e conversar depois.",
+    "fecho": "Para leitores de 12 a 17 anos e para quem já foi um deles.",
+    "imagem": "orelha-dupla.png",
+    "alt": "Ilustração de Joaquim e Call, de braços cruzados, lado a lado"
+  }
+}
