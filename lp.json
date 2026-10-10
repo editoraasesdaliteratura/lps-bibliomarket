@@ -1,0 +1,99 @@
+{
+  "modelo": "livro-unico",
+  "slug": "historia-divina-do-pao-de-queijo",
+  "subdominio": "paodequeijo",
+  "livro": {
+    "titulo": "A História Divina do Pão de Queijo",
+    "autor": "Luiz E. L. Pinheiro",
+    "isbn": "9786554288576"
+  },
+  "tema": {
+    "fonte_titulo": "Cormorant Garamond",
+    "cores": {
+      "claro": "#F7F0E5",
+      "medio": "#EADBC3",
+      "escuro": "#3E2723",
+      "destaque": "#6B3F2A",
+      "botao": "#6B3F2A",
+      "botao_texto": "#FFF8F0",
+      "texto": "#2E211B",
+      "texto_claro": "#F4EADB",
+      "rodape": "#2E1F1A"
+    },
+    "ornamento": "ornamento.png",
+    "ornamento_opacidade": 0.55,
+    "divisor": "ornamento-centro.png"
+  },
+  "seo": {
+    "titulo": "A História Divina do Pão de Queijo · Luiz E. L. Pinheiro",
+    "descricao": "Lendas, fé e mineiridade nas serras do Caraça: o primeiro volume da trilogia Os Caminhos da Porta do Céu, de Luiz E. L. Pinheiro."
+  },
+  "compra": {
+    "texto_botao": "Garanta o seu exemplar",
+    "principal": {
+      "rotulo": "Amazon",
+      "url": "https://www.amazon.com.br/dp/6554288570"
+    },
+    "outros": []
+  },
+  "instagram": {
+    "usuario": "luizeustaquiolopespinheiro",
+    "rotulo": "Siga o autor"
+  },
+  "hero": {
+    "imagem": "mockup-pe.png",
+    "alt": "Livro A História Divina do Pão de Queijo, de Luiz E. L. Pinheiro",
+    "tagline": "Lendas, fé e mineiridade nas serras do Caraça. *E se tudo fosse verdade?*",
+    "descricao": "Primeiro volume da trilogia *Os Caminhos da Porta do Céu*, o livro revisita a origem simbólica do povo mineiro entre fatos históricos, fantasia e os sabores de Minas."
+  },
+  "sinopse": {
+    "titulo": "Na Porta do Céu, até o pão de queijo tem origem divina.",
+    "paragrafos": [
+      "Minas Gerais, 1773. No alto da Serra da Piedade, **Lourenço** e alguns companheiros erguem uma capela rústica e, à noite, olham as estrelas em silêncio. Entre eles está **José Rafael**, o longevo Guardião da Porta do Céu, que compreende o significado daquela noite e de incontáveis outras.",
+      "É ele quem conduz a narrativa. Por meio de lendas, personagens reais e fictícios, cidades históricas, costumes e sabores da terra, o livro revisita a origem simbólica do povo mineiro e de um lugar chamado Caraça.",
+      "Fatos históricos e imaginação se encontram com conceitos de genética, epigenética e neurociências, apresentados em linguagem acessível. Ao fundo, a fé, a amizade em família, a força do feminino e o sabor da prosa e dos causos.",
+      "Sem querer provar o sobrenatural, *A História Divina do Pão de Queijo* faz um convite mais delicado: desejar que tudo pudesse ser verdade."
+    ]
+  },
+  "diferenciais": {
+    "titulo": "Uma Minas para ler com café fresco",
+    "imagem": "janela.jpg",
+    "proporcao": "natural",
+    "alt": "Ilustração da capa: janela aberta para as montanhas do Caraça, com café e pão de queijo sobre a mesa",
+    "itens": [
+      {
+        "titulo": "História e fantasia na mesma mesa",
+        "texto": "Personagens reais e fictícios, cidades históricas e lendas se misturam numa narrativa que começa no século XVIII e atravessa o tempo."
+      },
+      {
+        "titulo": "Ciência contada como causo",
+        "texto": "Doutor em Genética, o autor leva conceitos de genética, epigenética e neurociências para dentro da ficção, sem perder a leveza da prosa mineira."
+      },
+      {
+        "titulo": "Mais de vinte anos de pesquisa",
+        "texto": "Fruto de décadas de estudo e de muitas visitas ao Caraça, o livro inaugura a trilogia *Os Caminhos da Porta do Céu*."
+      }
+    ]
+  },
+  "trecho": {
+    "texto": "Afinal, nada como se ocupar das coisas singelas, capazes de acalmar espíritos inquietos.",
+    "referencia": "Capítulo 31 · Surge o pão da união"
+  },
+  "bio": {
+    "rotulo": "Sobre o autor",
+    "nome": "Luiz E. L. Pinheiro",
+    "foto": "autor.jpg",
+    "paragrafos": [
+      "**Luiz Eustáquio Lopes Pinheiro** é médico-veterinário formado pela UFMG (1973), mestre em Ciência Animal pela UFRGS (1977) e doutor em Genética pela USP (1979), com pós-doutorado em Ciências Biomédicas na University of Guelph.",
+      "Professor titular aposentado da Escola de Veterinária da UFMG, fundou e presidiu a Sociedade Brasileira de Tecnologia de Embriões e o Colégio Brasileiro de Reprodução Animal. Publicou cerca de 150 artigos científicos e recebeu as comendas Antônio Secundino do Espírito Santo e Juscelino Kubitschek de Oliveira, concedidas pelo Governo de Minas Gerais.",
+      "Visitou o Colégio do Caraça pela primeira vez na adolescência, nos anos 1960, e voltou muitas vezes. Desse vínculo nasceu a vontade de escrever sobre o lugar: da ideia ao texto, foram quatro décadas de estudos e pesquisas."
+    ]
+  },
+  "final": {
+    "titulo": "E se tudo fosse verdade?",
+    "texto": "Uma história para saborear devagar, como se saboreia um pão de queijo com café fresco e quente.",
+    "fecho": "Para quem tem amor pela terra natal e gosta de uma boa prosa.",
+    "imagem": "mockup-par.png",
+    "alt": "Frente e contracapa do livro A História Divina do Pão de Queijo"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "lombada": true,
+  "avisos": [],
+  "metodo": "PDF da capa (TrimBox)",
+  "proporcao_origem": "miolo 140×210 mm",
+  "confianca": 0.999,
+  "orelha_px": 1145,
+  "lombada_px": 283,
+  "W": 1600,
+  "H": 2400,
+  "T": 283,
+  "T_estimada": 283,
+  "mm": {
+    "frente": 140.0,
+    "altura": 209.9,
+    "lombada": 24.8,
+    "orelha": 100.2,
+    "lombada_esperada_papel_75g": 24.6
+  }
+}
