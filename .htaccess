@@ -1,0 +1,8 @@
+# Gerado pelo gerador de LPs da Global. Não editar no servidor.
+Options -Indexes
+RedirectMatch 404 /\.git
+<IfModule mod_headers.c>
+  <FilesMatch "\.(webp|jpg|png|svg)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+</IfModule>
