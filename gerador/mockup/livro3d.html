@@ -1,68 +1,61 @@
 <!doctype html>
 <html><head><meta charset="utf-8">
+<!-- Mockup 3D de livro em brochura. Lê as faces (frente.jpg, lombada.jpg, verso.jpg) da própria pasta.
+     Parâmetros na URL: w, h (tela), W, H, T (proporção do livro: largura, altura, lombada, em qualquer unidade),
+     cena (pe | par | frente), s (escala), recorte=1 (fundo transparente), sem_lombada=1 (só frente). -->
 <style>
-:root{--hz:72%;--W:1004px;--H:1417px;--T:126px;--bg1:#EAF4F9;--bg2:#CFE4EF;--chao:#BFD8E6}
+:root{--W:1004px;--H:1417px;--T:126px}
 *{box-sizing:border-box}
-html,body{margin:0;width:var(--cw);height:var(--ch);overflow:hidden}
-body{background:linear-gradient(180deg,var(--bg1) 0%,var(--bg2) calc(var(--hz) - 1px),var(--chao) var(--hz),color-mix(in srgb,var(--chao) 82%,#000) 100%)}
+html,body{margin:0;width:var(--cw);height:var(--ch);overflow:hidden;background:transparent}
+body{background:#e9eef2}
 body.recorte{background:transparent}
-body.recorte::after{display:none}
-body::after{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(90% 70% at 50% 45%,transparent 55%,rgba(0,0,0,.14) 100%)}
-.cena{filter:drop-shadow(18px 26px 26px rgba(10,30,45,.28))}
-.cena{position:absolute;inset:0;perspective:3200px;perspective-origin:50% 40%}
+.cena{position:absolute;inset:0;perspective:3200px;perspective-origin:50% 40%;filter:drop-shadow(18px 26px 26px rgba(10,30,45,.28))}
 .livro{position:absolute;left:50%;top:50%;width:var(--W);height:var(--H);transform-style:preserve-3d}
 .f{position:absolute;backface-visibility:hidden;background-size:100% 100%}
-.frente{width:var(--W);height:var(--H);transform:translateZ(calc(var(--T)/2));background-image:url(front.jpg)}
-.verso{width:var(--W);height:var(--H);transform:rotateY(180deg) translateZ(calc(var(--T)/2));background-image:url(back.jpg)}
-.lombada{width:var(--T);height:var(--H);left:calc(var(--T)*-1);transform-origin:100% 50%;transform:translateZ(calc(var(--T)/2)) rotateY(-90deg);background-image:url(spine.jpg)}
+.frente{width:var(--W);height:var(--H);transform:translateZ(calc(var(--T)/2));background-image:url(frente.jpg)}
+.verso{width:var(--W);height:var(--H);transform:rotateY(180deg) translateZ(calc(var(--T)/2));background-image:url(verso.jpg)}
+.lombada{width:var(--T);height:var(--H);left:calc(var(--T)*-1);transform-origin:100% 50%;transform:translateZ(calc(var(--T)/2)) rotateY(-90deg);background-image:url(lombada.jpg)}
 .miolo{width:calc(var(--T) - 2px);height:calc(var(--H) - 2px);top:1px;left:calc(var(--W) - 1px);transform-origin:0 50%;transform:translateZ(calc(var(--T)/2 - 1px)) rotateY(90deg);
   background:linear-gradient(90deg,#d9d2c3,#f6f1e6 18%,#f3eee2 82%,#d6cfbf),repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 1px,transparent 1px 4px);background-blend-mode:multiply}
 .topo{width:calc(var(--W) - 2px);height:calc(var(--T) - 2px);left:1px;top:calc((var(--T) - 2px)*-1 + 1px);transform-origin:50% 100%;transform:translateZ(calc(var(--T)/2 - 1px)) rotateX(90deg);background:linear-gradient(0deg,#e2dccd,#f6f1e6 30%,#f6f1e6 70%,#e2dccd),repeating-linear-gradient(0deg,rgba(0,0,0,.05) 0 1px,transparent 1px 4px);background-blend-mode:multiply}
 .base{width:var(--W);height:var(--T);top:var(--H);transform-origin:50% 0;transform:translateZ(calc(var(--T)/2)) rotateX(-90deg);background:#e7e1d3}
-/* luz */
 .frente::after,.verso::after,.lombada::after{content:"";position:absolute;inset:0}
+/* vinco da brochura perto da lombada + luz suave */
 .frente::after{background:
   linear-gradient(90deg,rgba(0,0,0,.18) 0,transparent 1.5%,transparent 3.6%,rgba(0,0,0,.10) 4.1%,rgba(255,255,255,.14) 4.6%,transparent 5.6%),
   linear-gradient(115deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,0) 38%,rgba(0,0,0,.10) 100%)}
 .lombada::after{background:linear-gradient(90deg,rgba(0,0,0,.34) 0%,rgba(0,0,0,.10) 22%,rgba(255,255,255,.10) 50%,rgba(0,0,0,.08) 78%,rgba(0,0,0,.30) 100%)}
 .verso::after{background:linear-gradient(115deg,rgba(255,255,255,.10),rgba(0,0,0,.12))}
-.sombra{position:absolute;border-radius:50%;filter:blur(38px);background:rgba(10,35,55,.38)}
+.sombra{position:absolute;border-radius:50%;filter:blur(14px);background:rgba(10,30,45,.45)}
 </style></head>
 <body>
 <div class="cena" id="cena"></div>
 <script>
-const q=new URLSearchParams(location.search);if(q.get('recorte'))document.body.classList.add('recorte');
+const q=new URLSearchParams(location.search);
+if(q.get('recorte'))document.body.classList.add('recorte');
 const cw=+q.get('w')||1400, ch=+q.get('h')||1400;
-document.documentElement.style.setProperty('--cw',cw+'px');document.documentElement.style.setProperty('--ch',ch+'px');
-for(const k of ['bg1','bg2','chao'])if(q.get(k))document.documentElement.style.setProperty('--'+k,'#'+q.get(k));
-//const livro=(t)=>`<div class="livro" style="transform:${t}"><div class="f verso"></div><div class="f base"></div><div class="f topo"></div><div class="f miolo"></div><div class="f lombada"></div><div class="f frente"></div></div>`;
-const sombra=(css)=>`<div class="sombra" style="${css}"></div>`;
-const c=document.getElementById('cena'), cena=q.get('cena')||'pe';
-const hz=(+q.get('hz')||72)/100; document.documentElement.style.setProperty('--hz',hz*100+'%');
-const H=1417, W=1004, T=126;
-const pos=(s,chao)=>`translate(-50%,-50%) translate(0px,${chao - ch/2 - s*H/2}px) scale(${s})`; // base do livro na linha 'chao'
-const contato=(x,y,w)=>`<div class="sombra" style="left:${x-w/2}px;top:${y-14}px;width:${w}px;height:28px;filter:blur(14px);background:rgba(10,30,45,.45)"></div>`;
-if(cena==='pe'){
-  const s=+q.get('s')||0.60, chao=ch*hz+ch*.06;
-  c.innerHTML=contato(cw/2+70,chao,s*W*1.05)+`<div class="livro" style="transform:translateX(${cw*.05}px) ${pos(s,chao)} rotateX(-3deg) rotateY(34deg)">${faces()}</div>`;
-}else if(cena==='par'){
-  const s=+q.get('s')||0.52, chao=ch*hz+ch*.07;
-  c.innerHTML=contato(cw*.34,chao,s*W*.95)+contato(cw*.66,chao,s*W)+
-   `<div class="livro" style="transform:translateX(-${cw*.17}px) ${pos(s*.95,chao)} rotateY(-148deg)">${faces()}</div>`+
-   `<div class="livro" style="transform:translateX(${cw*.15}px) ${pos(s,chao)} rotateY(24deg)">${faces()}</div>`;
-}else if(cena==='pilha'){
-  const s=+q.get('s')||0.46, chao=ch*hz+ch*.10;
-  // dois livros deitados, lombada para a câmera, e um em pé atrás
-  const deitado=(y,rz)=>`<div class="livro" style="transform:translate(-50%,-50%) translate(${-cw*.10}px,${y-ch/2}px) scale(${s}) rotateX(-22deg) rotateY(${90+rz}deg) rotateX(90deg)">${faces()}</div>`;
-  c.innerHTML=contato(cw/2,chao,s*H*1.05)+
-   `<div class="livro" style="transform:translateX(${cw*.03}px) ${pos(s*.92,chao-s*T*2.6)} rotateY(22deg)">${faces()}</div>`+
-   deitado(chao - s*T*1.6, 3)+deitado(chao - s*T*.55, -4);
-}else if(cena==='mesa'){ // deitado sobre uma superfície da cena gerada
-  const x=+q.get('x'), y=+q.get('y'), s=+q.get('s')||0.5, tilt=+q.get('tilt')||50, rz=+q.get('rz')||0;
-  c.style.perspective=(q.get('persp')||2600)+'px'; c.style.perspectiveOrigin=(q.get('po')||'50% 0%');
-  c.style.filter='none';
-  c.innerHTML=`<div class="livro" style="transform:translate(-50%,-50%) translate(${x-cw/2}px,${y-ch/2}px) scale(${s}) rotateX(${tilt}deg) rotateZ(${rz}deg)">${faces()}</div>`;
+const root=document.documentElement.style;
+root.setProperty('--cw',cw+'px');root.setProperty('--ch',ch+'px');
+// proporções do livro: altura fixa de 1417px na cena, largura e lombada proporcionais
+const H=1417, W=Math.round(H*(+q.get('W')||1004)/(+q.get('H')||1417)), T=Math.max(4,Math.round(H*(+q.get('T')||126)/(+q.get('H')||1417)));
+root.setProperty('--W',W+'px');root.setProperty('--H',H+'px');root.setProperty('--T',T+'px');
+const c=document.getElementById('cena'), cena=q.get('cena')||'pe', chao=ch*.86;
+const k=ch*.74/H; // s=1 → livro ocupa ~74% da altura da tela
+const pos=(s)=>`translate(-50%,-50%) translate(0px,${chao - ch/2 - s*k*H/2}px) scale(${s*k})`;
+const contato=(x,w)=>`<div class="sombra" style="left:${x-w/2}px;top:${chao-14}px;width:${w}px;height:28px"></div>`;
+const faces=()=>`<div class="f verso"></div><div class="f base"></div><div class="f topo"></div><div class="f miolo"></div><div class="f lombada"></div><div class="f frente"></div>`;
+const livro=(t)=>`<div class="livro" style="transform:${t}">${faces()}</div>`;
+if(cena==='pe'){          // em pé, 3/4, mostrando a lombada (precisa de lombada medida)
+  const s=+q.get('s')||0.60;
+  c.innerHTML=contato(cw/2+cw*.05,s*k*W*1.05)+livro(`translateX(${cw*.05}px) ${pos(s)} rotateX(-3deg) rotateY(34deg)`);
+}else if(cena==='frente'){ // em pé, girado para o outro lado: mostra frente e o bloco de páginas, sem lombada
+  const s=+q.get('s')||0.62;
+  c.innerHTML=contato(cw/2-cw*.03,s*k*W*1.02)+livro(`translateX(${-cw*.03}px) ${pos(s)} rotateX(-3deg) rotateY(-24deg)`);
+}else if(cena==='par'){   // frente e contracapa lado a lado (precisa do verso)
+  const s=+q.get('s')||0.52;
+  c.innerHTML=contato(cw*.34,s*k*W*.95)+contato(cw*.66,s*k*W)+
+    livro(`translateX(-${cw*.17}px) ${pos(s*.95)} rotateY(-148deg)`)+
+    livro(`translateX(${cw*.15}px) ${pos(s)} rotateY(24deg)`);
 }
-function faces(){return `<div class="f verso"></div><div class="f base"></div><div class="f topo"></div><div class="f miolo"></div><div class="f lombada"></div><div class="f frente"></div>`}
 </script>
 </body></html>

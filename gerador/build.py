@@ -23,6 +23,9 @@ FONTES = {
     "Fraunces":            {"google": "Fraunces:opsz,wght@9..144,600", "peso": 600, "fallback": "Georgia, serif"},
     "Bricolage Grotesque": {"google": "Bricolage+Grotesque:wght@700",  "peso": 700, "fallback": "system-ui, sans-serif"},
     "Baloo 2":             {"google": "Baloo+2:wght@700",              "peso": 700, "fallback": "system-ui, sans-serif"},
+    "Cormorant Garamond":  {"google": "Cormorant+Garamond:wght@600",   "peso": 600, "fallback": "Georgia, serif"},
+    "Instrument Serif":    {"google": "Instrument+Serif",              "peso": 400, "fallback": "Georgia, serif"},
+    "Space Grotesk":       {"google": "Space+Grotesk:wght@700",        "peso": 700, "fallback": "system-ui, sans-serif"},
 }
 CLARO_FIXO, ESCURO_FIXO = "#FFF8F0", "#2A1F18"
 LARGURAS = (800, 1400)
@@ -130,11 +133,14 @@ def montar(arq, previa=False, saida=None, url_base=None):
     arq = Path(arq).resolve()
     base = arq.parent
     d = json.loads(arq.read_text(encoding="utf-8"))
-    if d.get("modelo") == "livro-grafico":
+    modelo = d.get("modelo", "livro-unico")
+    if modelo not in MODELOS:
+        raise SystemExit(f"modelo '{modelo}' ainda não existe. Disponíveis: {', '.join(MODELOS)}")
+    if modelo == "livro-grafico":
         return montar_grafico(d, base, previa, saida, url_base)
     for c in ["slug", "subdominio", "livro.titulo", "livro.autor", "compra.principal.url",
               "hero.tagline", "hero.descricao", "hero.imagem", "sinopse.titulo", "sinopse.paragrafos",
-              "diferenciais.titulo", "diferenciais.itens", "diferenciais.imagem", "bio.nome", "bio.paragrafos",
+              "diferenciais.titulo", "diferenciais.itens", "bio.nome", "bio.paragrafos",
               "final.titulo", "final.texto", "final.imagem", "tema.cores"]:
         obrigatorio(d, c)
     if not 2 <= len(d["diferenciais"]["itens"]) <= 4:
@@ -159,7 +165,7 @@ def montar(arq, previa=False, saida=None, url_base=None):
         return processar_imagem(base / chave, Path(chave).stem.replace(" ", "-"), img_dir, alt)
 
     hero_img = img(d["hero"]["imagem"], d["hero"].get("alt") or f"Livro {titulo}, de {livro['autor']}")
-    dif_img = img(d["diferenciais"]["imagem"], d["diferenciais"].get("alt", ""))
+    dif_img = img(d["diferenciais"]["imagem"], d["diferenciais"].get("alt", "")) if d["diferenciais"].get("imagem") else None
     fin_img = img(d["final"]["imagem"], d["final"].get("alt") or f"Livro {titulo}")
     bio_img = img(d["bio"]["foto"], livro["autor"]) if d["bio"].get("foto") else None
     shutil.copy(AQUI / "assets" / "logo-global.png", img_dir / "logo-global.png")
@@ -176,7 +182,14 @@ def montar(arq, previa=False, saida=None, url_base=None):
         instagram = {"usuario": usuario, "url": ig.get("url") or f"https://www.instagram.com/{usuario}/",
                      "foto": foto, "rotulo": ig.get("rotulo", "Siga o autor")}
 
-    og = og_imagem(base / d["hero"]["imagem"], img_dir)
+    ornamento = None
+    if d["tema"].get("ornamento"):
+        orn = Image.open(base / d["tema"]["ornamento"]).convert("RGBA")
+        orn.thumbnail((760, 760), Image.LANCZOS)
+        orn.save(img_dir / "ornamento.webp", "WEBP", quality=86)
+        ornamento = "ornamento.webp"
+    og = (og_grafico(cores["medio"], base / d["hero"]["imagem"], img_dir) if hero_img["ext"] == "png"
+          else og_imagem(base / d["hero"]["imagem"], img_dir))
     favicon(cores["destaque"], out)
 
     url = url_base or f"https://{d['subdominio']}.bibliomarket.com.br/"
@@ -203,6 +216,7 @@ def montar(arq, previa=False, saida=None, url_base=None):
         "seo": {"titulo": seo_titulo, "descricao": seo_desc}, "og_imagem": og,
         "fonte": {"google": f["google"], "peso": f["peso"], "css": Markup(f'"{fonte_nome}", {f["fallback"]}')},
         "cores": cores, "livro": {**livro, "titulo": titulo}, "ficha": ficha,
+        "ornamento": ornamento, "ornamento_opacidade": d["tema"].get("ornamento_opacidade", .9),
         "jsonld": Markup(json.dumps(jsonld, ensure_ascii=False).replace("</", "<\\/")),
         "instagram": instagram,
         "compra": {"principal": d["compra"]["principal"], "outros": d["compra"].get("outros", []),
@@ -396,7 +410,15 @@ def montar_grafico(d, base, previa, saida, url_base):
     return out
 
 
+MODELOS = {
+    "livro-unico": "Livro único, linguagem editorial (clara, serifada; adultos, memórias, romance, não ficção, poesia)",
+    "livro-grafico": "Livro único, linguagem gráfica (escura, de impacto; fantasia, aventura, infantojuvenil com ilustração forte)",
+}
+
+
 if __name__ == "__main__":
+    if "--modelos" in sys.argv:
+        print(json.dumps(MODELOS, ensure_ascii=False, indent=2)); sys.exit()
     ap = argparse.ArgumentParser()
     ap.add_argument("lp_json")
     ap.add_argument("--previa", action="store_true")

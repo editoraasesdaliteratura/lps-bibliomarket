@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,700;0,9..40,800;1,9..40,400&family={{ fonte.google }}&display=swap">
-<link rel="preload" as="image" href="img/{{ hero.imagem.arquivo }}-800.webp" imagesrcset="img/{{ hero.imagem.arquivo }}-800.webp 800w, img/{{ hero.imagem.arquivo }}-1400.webp 1400w" imagesizes="(max-width:860px) 100vw, 560px">
+<link rel="preload" as="image" href="img/{{ hero.imagem.arquivo }}-{{ hero.imagem.min }}.webp" imagesrcset="img/{{ hero.imagem.arquivo }}-{{ hero.imagem.min }}.webp {{ hero.imagem.min }}w, img/{{ hero.imagem.arquivo }}-{{ hero.imagem.max }}.webp {{ hero.imagem.max }}w" imagesizes="(max-width:860px) 100vw, 560px">
 <script type="application/ld+json">{{ jsonld | safe }}</script>
 <!--
   LP LIVRO ÚNICO · Global Assessoria · v3
@@ -41,6 +41,7 @@
   --cor-texto-claro:{{ cores.texto_claro }};
   --cor-rodape:{{ cores.rodape }};
   --cor-rodape-texto:{{ cores.rodape_texto }};
+  --orn-opacidade:{{ ornamento_opacidade }};
 
   --f-texto:"DM Sans", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --largura:1120px;
@@ -107,12 +108,25 @@ strong{font-weight:800}
 /* Imagens */
 .lp-foto{border-radius:var(--raio);overflow:hidden;background:rgba(0,0,0,.08);box-shadow:0 30px 60px -30px rgba(0,0,0,.45)}
 .lp-foto img{width:100%;height:100%;object-fit:cover}
+/* Mockup recortado (PNG transparente): sem moldura, com sombra própria */
+.lp-recorte{display:grid;place-items:center;position:relative;z-index:1}
+.lp-recorte picture{width:100%}
+.lp-recorte img{width:100%;height:auto;filter:drop-shadow(0 28px 34px rgba(20,10,5,.30))}
+/* Ornamento: detalhe recortado da própria capa, usado como elemento gráfico */
+.lp-orn{position:absolute;pointer-events:none;z-index:0;width:clamp(180px,26vw,380px);height:auto;opacity:var(--orn-opacidade,.9)}
+.lp-hero,.lp-final,.lp-trecho{position:relative;overflow:hidden}
+.lp-hero .lp-orn{right:-4%;top:-6%}
+.lp-final .lp-orn{left:-5%;bottom:-8%;transform:scaleX(-1)}
+.lp-trecho .lp-orn{right:-6%;bottom:-10%;width:clamp(140px,18vw,260px);opacity:.5}
+.lp-hero .lp-wrap,.lp-final .lp-wrap,.lp-trecho .lp-wrap{position:relative;z-index:1}
+@media (max-width:860px){.lp-orn{width:44vw;opacity:calc(var(--orn-opacidade,.9) * .6)}}
 
 /* Hero */
 .lp-hero{background:var(--cor-medio);padding-block:clamp(36px, 6vw, 88px)}
 .lp-hero-grid{display:grid;grid-template-columns:1.05fr 1fr;grid-template-areas:"img head" "img corpo";column-gap:clamp(32px, 5vw, 72px);row-gap:20px;align-items:center}
 .lp-hero-img{grid-area:img}
 .lp-hero-img .lp-foto{aspect-ratio:1/1}
+.lp-hero-img .lp-recorte{max-width:520px;margin-inline:auto}
 .lp-hero-head{grid-area:head;align-self:end;display:grid;gap:14px}
 .lp-hero-corpo{grid-area:corpo;align-self:start;display:grid;gap:18px;justify-items:start}
 .lp-ficha{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
@@ -140,6 +154,10 @@ strong{font-weight:800}
 .lp-ksp-lista p{padding-left:1.15em}
 .lp-ksp-img{position:sticky;top:96px}
 .lp-ksp-img .lp-foto{aspect-ratio:4/5}
+.lp-ksp-img .lp-recorte{max-width:480px;margin-inline:auto}
+.lp-ksp-grid:not(:has(.lp-ksp-img)){grid-template-columns:1fr}
+.lp-ksp-grid:not(:has(.lp-ksp-img)) .lp-ksp-lista{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));column-gap:clamp(24px,3vw,44px)}
+.lp-ksp-grid:not(:has(.lp-ksp-img)) .lp-ksp-lista li:last-child{border-bottom:0}
 @media (max-width:860px){
   .lp-ksp-grid{grid-template-columns:1fr}
   .lp-ksp-img{position:static;order:-1}
@@ -178,6 +196,7 @@ strong{font-weight:800}
 .lp-final-texto{display:grid;gap:20px;justify-items:start;min-width:0}
 .lp-final .lp-h2{color:var(--cor-destaque)}
 .lp-final .lp-foto{aspect-ratio:1/1}
+.lp-final .lp-recorte{max-width:460px;margin-inline:auto}
 .lp-fecho{font-weight:800}
 @media (max-width:860px){
   .lp-final-grid{grid-template-columns:1fr}
@@ -216,7 +235,8 @@ strong{font-weight:800}
 </head>
 <body>
 {% macro seta() %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>{% endmacro %}
-{% macro img(i, sizes, lazy=true) %}<picture><source type="image/webp" srcset="img/{{ i.arquivo }}-800.webp 800w, img/{{ i.arquivo }}-1400.webp 1400w" sizes="{{ sizes }}"><img src="img/{{ i.arquivo }}-1400.jpg" width="{{ i.w }}" height="{{ i.h }}" alt="{{ i.alt }}" {% if lazy %}loading="lazy" decoding="async"{% else %}fetchpriority="high"{% endif %}></picture>{% endmacro %}
+{% macro img(i, sizes, lazy=true) %}<picture><source type="image/webp" srcset="img/{{ i.arquivo }}-{{ i.min }}.webp {{ i.min }}w, img/{{ i.arquivo }}-{{ i.max }}.webp {{ i.max }}w" sizes="{{ sizes }}"><img src="img/{{ i.arquivo }}-{{ i.max }}.{{ i.ext }}" width="{{ i.w }}" height="{{ i.h }}" alt="{{ i.alt }}" {% if lazy %}loading="lazy" decoding="async"{% else %}fetchpriority="high"{% endif %}></picture>{% endmacro %}
+{% macro quadro(i, sizes, lazy=true, classe='') %}<div class="{{ 'lp-recorte' if i.ext == 'png' else 'lp-foto' }} {{ classe }}">{{ img(i, sizes, lazy) }}</div>{% endmacro %}
 {% macro ig(classe='') %}{% if instagram %}<a class="lp-ig" href="{{ instagram.url }}" target="_blank" rel="noopener" data-cta="instagram">{% if instagram.foto %}<img src="img/{{ instagram.foto }}" alt="" width="30" height="30" loading="lazy">{% endif %}<span>@{{ instagram.usuario }}</span></a>{% endif %}{% endmacro %}
 {% macro comprar(local) %}<a class="lp-btn" href="{{ compra.principal.url }}" target="_blank" rel="noopener" data-cta="{{ local }}"{% if local == 'hero' %} id="cta-hero"{% endif %}>{{ compra.texto_botao }} {{ seta() }}</a>{% endmacro %}
 {% macro lojas() %}{% if compra.outros %}<p class="lp-lojas"><span>Também em</span>{% for l in compra.outros %}<a href="{{ l.url }}" target="_blank" rel="noopener" data-cta="loja-{{ loop.index }}">{{ l.rotulo }}</a>{% endfor %}</p>{% endif %}{% endmacro %}
@@ -233,8 +253,9 @@ strong{font-weight:800}
 <main id="inicio">
 
   <section class="lp-hero" id="conteudo">
+    {% if ornamento %}<img class="lp-orn" src="img/{{ ornamento }}" alt="" aria-hidden="true">{% endif %}
     <div class="lp-wrap lp-hero-grid">
-      <div class="lp-hero-img"><div class="lp-foto">{{ img(hero.imagem, "(max-width:860px) 100vw, 560px", false) }}</div></div>
+      <div class="lp-hero-img">{{ quadro(hero.imagem, "(max-width:860px) 100vw, 560px", false) }}</div>
       <div class="lp-hero-head">
         <p class="lp-eyebrow">{{ livro.autor }}</p>
         <h1 class="lp-h1">{{ livro.titulo }}</h1>
@@ -265,12 +286,13 @@ strong{font-weight:800}
         </ul>
         <div>{{ comprar('diferenciais') }}</div>
       </div>
-      <div class="lp-ksp-img"><div class="lp-foto">{{ img(diferenciais.imagem, "(max-width:860px) 100vw, 520px") }}</div></div>
+      {% if diferenciais.imagem %}<div class="lp-ksp-img">{{ quadro(diferenciais.imagem, "(max-width:860px) 100vw, 520px") }}</div>{% endif %}
     </div>
   </section>
 
   {% if trecho %}
   <section class="lp-secao lp-trecho" aria-label="Trecho do livro">
+    {% if ornamento %}<img class="lp-orn" src="img/{{ ornamento }}" alt="" aria-hidden="true" loading="lazy">{% endif %}
     <div class="lp-wrap">
       <figure class="rev"><blockquote>{{ trecho.texto }}</blockquote><figcaption>{{ trecho.referencia }}</figcaption></figure>
     </div>
@@ -301,6 +323,7 @@ strong{font-weight:800}
   </section>
 
   <section class="lp-secao lp-final" id="cta-final" aria-labelledby="t-final">
+    {% if ornamento %}<img class="lp-orn" src="img/{{ ornamento }}" alt="" aria-hidden="true" loading="lazy">{% endif %}
     <div class="lp-wrap lp-final-grid">
       <div class="lp-final-texto rev">
         <h2 class="lp-h2" id="t-final">{{ final.titulo }}</h2>
@@ -309,7 +332,7 @@ strong{font-weight:800}
         {{ comprar('final') }}
         {{ lojas() }}
       </div>
-      <div class="lp-final-img rev"><div class="lp-foto">{{ img(final.imagem, "(max-width:860px) 100vw, 520px") }}</div></div>
+      <div class="lp-final-img rev">{{ quadro(final.imagem, "(max-width:860px) 100vw, 520px") }}</div>
     </div>
   </section>
 </main>
