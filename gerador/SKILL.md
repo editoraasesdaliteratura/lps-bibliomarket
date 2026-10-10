@@ -103,7 +103,7 @@ Para modelo que ainda não existe (Coletânea, Autor, Infantil enquanto não est
 Monte uma lista de tarefas e processe um card por vez.
 
 ### 0. Pedidos que vêm da news
-Leia os cards das listas da news citadas acima. Card com `**Landing page:** criar` (ou "pedir", "fazer") e **sem** card correspondente no quadro de LP (procure pelo título com `trelloSearch` no quadro de LP) → crie o card em 🤖 Pronto para montar:
+Leia os cards das listas da news citadas acima. Card com `**Landing page:** criar` (ou "pedir", "fazer") e **sem** card correspondente no quadro de LP (procure pelo título com `trelloSearch` no quadro de LP) → crie o card em 🤖 Pronto para montar. A skill da news cria o mesmo pedido quando roda antes: nunca duplique.
 - nome = título do livro; etiquetas **Livro**, **News + LP** e **Externo** se o card da news tiver a etiqueta Externo, senão **Interno**;
 - descrição no formato do modelo, com `**Card da news:** <link do card da news>` e, se houver, o `**Link de compra:**` da news;
 - comente no card da news: `**🌐 LP pedida.** A automação de LP vai montar e colocar o link aqui quando for publicada.` (sem mexer em mais nada).
@@ -234,6 +234,7 @@ O campo Subdomínio do card sempre manda. Sem ele, a automação propõe na pré
 | Livro | título simplificado: o núcleo que o leitor lembraria, sem artigos, preposições e subtítulo; até ~20 caracteres | "Joaquim & Call: o mundo submerso" → `joaquimecall` · "A História Divina do Pão de Queijo" → `paodequeijo` · "Eu faria tudo outra vez" → `eufariatudooutravez` |
 | Autor | nome pelo qual o autor é conhecido (o da capa) | Jil Delanis → `jildelanis` |
 | Coletânea | nome da coleção quando ela tem nome próprio (é o que se divulga e deixa o nome do autor livre para uma futura LP de autor); sem nome próprio, o nome do autor | Coleção Lola → `colecaolola` |
+
 Já existe (subdomínio ou LP antiga do Canva com o mesmo nome)? Acrescente uma palavra curta que diferencie (`livro`, o sobrenome do autor), nunca número.
 
 ## Direção visual
