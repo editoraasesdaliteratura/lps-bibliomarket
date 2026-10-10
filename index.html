@@ -40,6 +40,7 @@
   --cor-texto-claro:#F4ECE2;
   --cor-rodape:#9D6356;
   --cor-rodape-texto:#FFF8F0;
+  --orn-opacidade:0.9;
 
   --f-texto:"DM Sans", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --largura:1120px;
@@ -106,16 +107,29 @@ strong{font-weight:800}
 /* Imagens */
 .lp-foto{border-radius:var(--raio);overflow:hidden;background:rgba(0,0,0,.08);box-shadow:0 30px 60px -30px rgba(0,0,0,.45)}
 .lp-foto img{width:100%;height:100%;object-fit:cover}
+/* Mockup recortado (PNG transparente): sem moldura, com sombra própria */
+.lp-recorte{display:grid;place-items:center;position:relative;z-index:1}
+.lp-recorte picture{width:100%}
+.lp-recorte img{width:100%;height:auto;filter:drop-shadow(0 28px 34px rgba(20,10,5,.30))}
+/* Divisor: vinheta recortada da capa, acima dos títulos */
+.lp-divisor{display:block;width:min(280px,62vw);height:auto;margin:0 auto -8px}
+/* Ornamento: peça de canto recortada da própria capa (orientada como canto superior esquerdo) */
+.lp-orn{position:absolute;pointer-events:none;z-index:0;width:clamp(130px,15vw,230px);height:auto;opacity:var(--orn-opacidade,.9)}
+.lp-hero,.lp-final,.lp-trecho{position:relative;overflow:hidden}
+.lp-hero .lp-orn{right:clamp(8px,2vw,28px);top:clamp(8px,2vw,28px);transform:scaleX(-1)}
+.lp-trecho .lp-orn{left:clamp(8px,2vw,28px);bottom:clamp(8px,2vw,28px);transform:scaleY(-1)}
+.lp-final .lp-orn{right:clamp(8px,2vw,28px);bottom:clamp(8px,2vw,28px);transform:scale(-1,-1)}
+.lp-hero .lp-wrap,.lp-final .lp-wrap,.lp-trecho .lp-wrap{position:relative;z-index:1}
+@media (max-width:860px){.lp-orn{width:26vw;opacity:calc(var(--orn-opacidade,.9) * .7)}}
 
 /* Hero */
 .lp-hero{background:var(--cor-medio);padding-block:clamp(36px, 6vw, 88px)}
 .lp-hero-grid{display:grid;grid-template-columns:1.05fr 1fr;grid-template-areas:"img head" "img corpo";column-gap:clamp(32px, 5vw, 72px);row-gap:20px;align-items:center}
 .lp-hero-img{grid-area:img}
 .lp-hero-img .lp-foto{aspect-ratio:1/1}
+.lp-hero-img .lp-recorte{max-width:520px;margin-inline:auto}
 .lp-hero-head{grid-area:head;align-self:end;display:grid;gap:14px}
 .lp-hero-corpo{grid-area:corpo;align-self:start;display:grid;gap:18px;justify-items:start}
-.lp-ficha{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
-.lp-ficha li{font-size:12.5px;font-weight:700;letter-spacing:.04em;padding:5px 12px;border-radius:999px;border:1px solid color-mix(in srgb, var(--cor-texto) 22%, transparent)}
 @media (max-width:860px){
   .lp-hero-grid{grid-template-columns:1fr;grid-template-areas:"head" "img" "corpo";row-gap:28px}
   .lp-hero-corpo{justify-items:stretch}
@@ -139,6 +153,10 @@ strong{font-weight:800}
 .lp-ksp-lista p{padding-left:1.15em}
 .lp-ksp-img{position:sticky;top:96px}
 .lp-ksp-img .lp-foto{aspect-ratio:4/5}
+.lp-ksp-img .lp-recorte{max-width:480px;margin-inline:auto}
+.lp-ksp-grid:not(:has(.lp-ksp-img)){grid-template-columns:1fr}
+.lp-ksp-grid:not(:has(.lp-ksp-img)) .lp-ksp-lista{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));column-gap:clamp(24px,3vw,44px)}
+.lp-ksp-grid:not(:has(.lp-ksp-img)) .lp-ksp-lista li:last-child{border-bottom:0}
 @media (max-width:860px){
   .lp-ksp-grid{grid-template-columns:1fr}
   .lp-ksp-img{position:static;order:-1}
@@ -177,6 +195,7 @@ strong{font-weight:800}
 .lp-final-texto{display:grid;gap:20px;justify-items:start;min-width:0}
 .lp-final .lp-h2{color:var(--cor-destaque)}
 .lp-final .lp-foto{aspect-ratio:1/1}
+.lp-final .lp-recorte{max-width:460px;margin-inline:auto}
 .lp-fecho{font-weight:800}
 @media (max-width:860px){
   .lp-final-grid{grid-template-columns:1fr}
@@ -220,14 +239,14 @@ strong{font-weight:800}
 <header class="lp-topo" id="topo">
   <div class="lp-wrap">
     <a class="lp-marca" href="#inicio">Eu faria tudo outra vez</a>
-<div class="lp-siga"><span class="lp-siga-label">Siga a autora</span><a class="lp-ig" href="https://www.instagram.com/handriolibauer/" target="_blank" rel="noopener" data-cta="instagram"><img src="img/ig.webp" alt="" width="30" height="30" loading="lazy"><span>@handriolibauer</span></a></div>  </div>
+<div class="lp-siga"><span class="lp-siga-label">Siga a autora</span><a class="lp-ig" href="https://www.instagram.com/handriolibauer/" target="_blank" rel="noopener" data-cta="instagram"><span>@handriolibauer</span></a></div>  </div>
 </header>
 
 <main id="inicio">
 
   <section class="lp-hero" id="conteudo">
     <div class="lp-wrap lp-hero-grid">
-      <div class="lp-hero-img"><div class="lp-foto"><picture><source type="image/webp" srcset="img/hero-800.webp 800w, img/hero-1400.webp 1400w" sizes="(max-width:860px) 100vw, 560px"><img src="img/hero-1400.jpg" width="1000" height="1000" alt="Livro Eu faria tudo outra vez, de Helena Andrioli Bauer" fetchpriority="high"></picture></div></div>
+      <div class="lp-hero-img"><div class="lp-foto "><picture><source type="image/webp" srcset="img/hero-800.webp 800w, img/hero-1400.webp 1400w" sizes="(max-width:860px) 100vw, 560px"><img src="img/hero-1400.jpg" width="1000" height="1000" alt="Livro Eu faria tudo outra vez, de Helena Andrioli Bauer" fetchpriority="high"></picture></div></div>
       <div class="lp-hero-head">
         <p class="lp-eyebrow">Helena Andrioli Bauer</p>
         <h1 class="lp-h1">Eu faria tudo outra vez</h1>
@@ -243,6 +262,7 @@ strong{font-weight:800}
 
   <section class="lp-secao lp-escura lp-sinopse" aria-labelledby="t-sinopse">
     <div class="lp-wrap">
+      
       <h2 class="lp-h2 rev" id="t-sinopse">Uma vida inteira para contar. Uma história para inspirar.</h2>
       <div class="lp-prosa rev"><p>Algumas histórias são feitas de grandes acontecimentos. Outras ganham força justamente nos detalhes: nas dificuldades enfrentadas, nas escolhas difíceis, nas pessoas que caminham ao nosso lado e na coragem necessária para continuar.</p><p>Em <em>Eu Faria Tudo Outra Vez</em>, <strong>Helena Andrioli Bauer</strong> revisita sua própria trajetória, desde uma infância simples no interior do Rio Grande do Sul até os desafios e conquistas de uma carreira construída ao longo de décadas. Entre experiências pessoais e profissionais, a autora compartilha aprendizados que ajudaram a moldar sua maneira de enxergar a vida.</p><p>A narrativa também abre espaço para uma história de amor atravessada por dificuldades inesperadas, uma experiência que exige paciência, coragem e fé. Mais do que reunir memórias, o livro convida o leitor a olhar para a própria caminhada e perceber como cada desafio pode carregar um aprendizado.</p><p>Uma história verdadeira, escrita com sinceridade, para lembrar que a vida nem sempre segue o caminho que imaginamos. Mas ainda assim pode nos levar a lugares que jamais esqueceremos.</p></div>
     </div>
@@ -255,8 +275,7 @@ strong{font-weight:800}
         <ul class="lp-ksp-lista">          <li class="rev"><h3 class="lp-ksp-titulo">Uma história real, sem idealizações</h3><p>Helena compartilha experiências vividas ao longo de sua trajetória, mostrando que superar dificuldades não significa ter uma vida sem problemas, mas encontrar forças para continuar.</p></li>          <li class="rev"><h3 class="lp-ksp-titulo">Fé e esperança diante dos desafios</h3><p>A espiritualidade e os valores familiares atravessam a narrativa e ajudam a construir uma reflexão sobre coragem, perseverança e esperança.</p></li>          <li class="rev"><h3 class="lp-ksp-titulo">Uma leitura para olhar a própria vida de outra maneira</h3><p>Ao revisitar suas escolhas, conquistas e dificuldades, a autora convida o leitor a refletir sobre seus próprios caminhos e sobre aquilo que dá significado a uma vida bem vivida.</p></li>        </ul>
         <div><a class="lp-btn" href="https://a.co/d/08PzZ53r" target="_blank" rel="noopener" data-cta="diferenciais">Adquira o seu exemplar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
       </div>
-      <div class="lp-ksp-img"><div class="lp-foto"><picture><source type="image/webp" srcset="img/ksp-800.webp 800w, img/ksp-1400.webp 1400w" sizes="(max-width:860px) 100vw, 520px"><img src="img/ksp-1400.jpg" width="1000" height="1000" alt="" loading="lazy" decoding="async"></picture></div></div>
-    </div>
+<div class="lp-ksp-img"><div class="lp-foto "><picture><source type="image/webp" srcset="img/ksp-800.webp 800w, img/ksp-1400.webp 1400w" sizes="(max-width:860px) 100vw, 520px"><img src="img/ksp-1400.jpg" width="1000" height="1000" alt="" loading="lazy" decoding="async"></picture></div></div>    </div>
   </section>
 
 
@@ -267,7 +286,7 @@ strong{font-weight:800}
         <p class="lp-eyebrow">Sobre a autora</p>
         <h2 class="lp-h2" id="t-bio">Helena Andrioli Bauer</h2>
         <div class="lp-prosa"><p>Amante dos livros e, agora, também autora, <strong>Helena Andrioli Bauer</strong> decidiu transformar sua própria trajetória em registro depois de encerrar sua carreira profissional. O que começou como uma forma de preservar memórias para os filhos e para a família ganhou um novo propósito: compartilhar experiências que pudessem alcançar e inspirar outras pessoas.</p><p>Nascida em 1961, em uma pequena cidade do interior do Rio Grande do Sul, Helena construiu uma trajetória profissional diversificada e, nos últimos 25 anos de carreira, atuou como executiva em uma empresa inglesa de importação de calçados. Atualmente aposentada, encontrou na escrita uma nova maneira de revisitar momentos marcantes de sua caminhada.</p><p><em>Eu Faria Tudo Outra Vez</em> é sua primeira publicação.</p></div>
-        <a class="lp-ig" href="https://www.instagram.com/handriolibauer/" target="_blank" rel="noopener" data-cta="instagram"><img src="img/ig.webp" alt="" width="30" height="30" loading="lazy"><span>@handriolibauer</span></a>
+        <a class="lp-ig" href="https://www.instagram.com/handriolibauer/" target="_blank" rel="noopener" data-cta="instagram"><span>@handriolibauer</span></a>
       </div>
     </div>
   </section>
@@ -280,7 +299,7 @@ strong{font-weight:800}
 <p class="lp-fecho">Uma história para quem acredita que sempre há uma saída.</p>        <a class="lp-btn" href="https://a.co/d/08PzZ53r" target="_blank" rel="noopener" data-cta="final">Adquira o seu exemplar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         
       </div>
-      <div class="lp-final-img rev"><div class="lp-foto"><picture><source type="image/webp" srcset="img/final-800.webp 800w, img/final-1400.webp 1400w" sizes="(max-width:860px) 100vw, 520px"><img src="img/final-1400.jpg" width="1000" height="1000" alt="Livro Eu faria tudo outra vez" loading="lazy" decoding="async"></picture></div></div>
+      <div class="lp-final-img rev"><div class="lp-foto "><picture><source type="image/webp" srcset="img/final-800.webp 800w, img/final-1400.webp 1400w" sizes="(max-width:860px) 100vw, 520px"><img src="img/final-1400.jpg" width="1000" height="1000" alt="Livro Eu faria tudo outra vez" loading="lazy" decoding="async"></picture></div></div>
     </div>
   </section>
 </main>
@@ -288,7 +307,7 @@ strong{font-weight:800}
 <footer class="lp-rodape">
   <div class="lp-wrap lp-rodape-grid">
     <a class="lp-marca" href="#inicio">Eu faria tudo outra vez</a>
-<div class="lp-siga"><span>Siga a autora</span><a class="lp-ig" href="https://www.instagram.com/handriolibauer/" target="_blank" rel="noopener" data-cta="instagram"><img src="img/ig.webp" alt="" width="30" height="30" loading="lazy"><span>@handriolibauer</span></a></div>    <a class="lp-assinatura" href="https://assessoriaglobal.com.br/" target="_blank" rel="noopener"><span>Desenvolvido por</span><img src="img/logo-global.png" alt="Global Assessoria" width="133" height="36"></a>
+<div class="lp-siga"><span>Siga a autora</span><a class="lp-ig" href="https://www.instagram.com/handriolibauer/" target="_blank" rel="noopener" data-cta="instagram"><span>@handriolibauer</span></a></div>    <a class="lp-assinatura" href="https://assessoriaglobal.com.br/" target="_blank" rel="noopener"><span>Desenvolvido por</span><img src="img/logo-global.png" alt="Global Assessoria" width="133" height="36"></a>
     <p class="lp-copy">© 2026 Helena Andrioli Bauer. Todos os direitos reservados.</p>
   </div>
 </footer>
