@@ -7,10 +7,6 @@
     "subtitulo": "O mundo submerso",
     "titulo_completo": "Joaquim e Call: o mundo submerso",
     "autor": "Antônio Carreira Alvim",
-    "genero": "Fantasia",
-    "publico": "12 a 17 anos",
-    "paginas": "304",
-    "editora": "Selo Ventania",
     "isbn": "9786583274885"
   },
   "tema": {
@@ -28,20 +24,29 @@
       "tinta": "#15130F",
       "texto_claro": "#EEF2F6"
     },
-    "motivos": ["rachaduras", "retícula", "portal", "quadrinho"]
+    "motivos": [
+      "rachaduras",
+      "retícula",
+      "portal",
+      "quadrinho"
+    ]
   },
   "seo": {
     "titulo": "Joaquim & Call: o mundo submerso · Antônio Carreira Alvim",
-    "descricao": "Fantasia para 12 a 17 anos em que emoções viram poder. Conheça Joaquim, Call e os amigos da Vila dos Anjos."
+    "descricao": "Emoções viram poder nesta aventura para 12 a 17 anos. Conheça Joaquim, Call e os amigos da Vila dos Anjos."
   },
   "compra": {
     "texto_botao": "Garanta o seu exemplar",
-    "principal": { "rotulo": "Amazon", "url": "https://a.co/d/00KeMyRF" },
-    "outros": [
-      { "rotulo": "Loja da editora", "url": "https://asesdaliteratura.com/catalogo/livros/joaquim-e-call-o-mundo-submerso/" }
-    ]
+    "principal": {
+      "rotulo": "Amazon",
+      "url": "https://a.co/d/00KeMyRF"
+    },
+    "outros": []
   },
-  "instagram": { "usuario": "joaquimecall", "rotulo": "Siga o universo" },
+  "instagram": {
+    "usuario": "joaquimecall",
+    "rotulo": "Siga o universo"
+  },
   "hero": {
     "imagem": "mockup-pe.png",
     "alt": "Livro Joaquim & Call: o mundo submerso, de Antônio Carreira Alvim",
@@ -57,28 +62,60 @@
       "Ao lado da enigmática **Felitrix**, os heróis enfrentam ameaças que desafiam não apenas seus poderes, mas também suas emoções mais profundas.",
       "Entre dimensões instáveis e inimigos capazes de manipular a própria realidade, uma pergunta ecoa: *será possível derrotar aquilo que nunca morre?*"
     ],
-    "destaque": { "texto": "Ali, a diferença é como flor em campo aberto: natural, diversa e bem-vinda.", "referencia": "Sobre a Vila dos Anjos · Capítulo 1" }
+    "destaque": {
+      "texto": "Ali, a diferença é como flor em campo aberto: natural, diversa e bem-vinda.",
+      "referencia": "Sobre a Vila dos Anjos · Capítulo 1"
+    }
   },
   "personagens": {
     "titulo": "O elo das quatro forças",
     "intro": "Na Vila dos Anjos, cada poder desperta de um sentimento. Juntos, eles enfrentam **Omatrix**, o tirano de Terra Quente, e seu servo **Zordrax**.",
     "itens": [
-      { "nome": "Call", "forca": "Empatia", "cor": "#F6C21B", "imagem": "p-call.png",
-        "texto": "O caçula que esconde o medo atrás das piadas. Quando um amigo está em perigo, seu grito vira um campo de força." },
-      { "nome": "Joaquim", "forca": "Amor", "cor": "#2A9AD6", "imagem": "p-joaquim.png",
-        "texto": "O irmão mais velho, de óculos e mãos sujas de graxa. Para proteger quem ama, circuitos de luz se acendem em seus braços." },
-      { "nome": "JimmyJosh", "forca": "Amizade", "cor": "#E2342B", "imagem": "p-jimmyjosh.png",
-        "texto": "Dois irmãos num só corpo: Jimmy, calmo e observador; Josh, pura faísca. Unidos, entram na mente do inimigo." },
-      { "nome": "Felitrix", "forca": "Solidariedade", "cor": "#9B63C4", "imagem": "p-felitrix.png",
-        "texto": "Feiticeira de Terra Quente e guardiã da Magia dos Portais, capaz de abrir e fechar caminhos entre mundos." }
+      {
+        "nome": "Call",
+        "forca": "Empatia",
+        "cor": "#F6C21B",
+        "imagem": "p-call.png",
+        "texto": "O caçula que esconde o medo atrás das piadas. Quando um amigo está em perigo, seu grito vira um campo de força."
+      },
+      {
+        "nome": "Joaquim",
+        "forca": "Amor",
+        "cor": "#2A9AD6",
+        "imagem": "p-joaquim.png",
+        "texto": "O irmão mais velho, de óculos e mãos sujas de graxa. Para proteger quem ama, circuitos de luz se acendem em seus braços."
+      },
+      {
+        "nome": "JimmyJosh",
+        "forca": "Amizade",
+        "cor": "#E2342B",
+        "imagem": "p-jimmyjosh.png",
+        "texto": "Dois irmãos num só corpo: Jimmy, calmo e observador; Josh, pura faísca. Unidos, entram na mente do inimigo."
+      },
+      {
+        "nome": "Felitrix",
+        "forca": "Solidariedade",
+        "cor": "#9B63C4",
+        "imagem": "p-felitrix.png",
+        "texto": "Feiticeira de Terra Quente e guardiã da Magia dos Portais, capaz de abrir e fechar caminhos entre mundos."
+      }
     ]
   },
   "diferenciais": {
     "titulo": "Fantasia que fala do que a gente sente",
     "itens": [
-      { "titulo": "A emoção como superpoder", "texto": "Medo, amor, trauma e pertencimento não são só temas: são as fontes reais de poder neste universo." },
-      { "titulo": "O fantástico e o íntimo", "texto": "A história atravessa dimensões sem perder o foco no que importa: família, amizade e crescimento." },
-      { "titulo": "Cenários que sentem junto", "texto": "A Vila dos Anjos e a Terra Quente funcionam como extensões do estado emocional dos personagens." }
+      {
+        "titulo": "A emoção como superpoder",
+        "texto": "Medo, amor, trauma e pertencimento não são só temas: são as fontes reais de poder neste universo."
+      },
+      {
+        "titulo": "O fantástico e o íntimo",
+        "texto": "A história atravessa dimensões sem perder o foco no que importa: família, amizade e crescimento."
+      },
+      {
+        "titulo": "Cenários que sentem junto",
+        "texto": "A Vila dos Anjos e a Terra Quente funcionam como extensões do estado emocional dos personagens."
+      }
     ]
   },
   "trecho": {

@@ -131,8 +131,6 @@ strong{font-weight:800}
 .lp-hero-img .lp-recorte{max-width:520px;margin-inline:auto}
 .lp-hero-head{grid-area:head;align-self:end;display:grid;gap:14px}
 .lp-hero-corpo{grid-area:corpo;align-self:start;display:grid;gap:18px;justify-items:start}
-.lp-ficha{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
-.lp-ficha li{font-size:12.5px;font-weight:700;letter-spacing:.04em;padding:5px 12px;border-radius:999px;border:1px solid color-mix(in srgb, var(--cor-texto) 22%, transparent)}
 @media (max-width:860px){
   .lp-hero-grid{grid-template-columns:1fr;grid-template-areas:"head" "img" "corpo";row-gap:28px}
   .lp-hero-corpo{justify-items:stretch}
@@ -266,7 +264,6 @@ strong{font-weight:800}
       <div class="lp-hero-corpo">
         <p class="lp-tagline">{{ hero.tagline }}</p>
         <p>{{ hero.descricao }}</p>
-        {% if ficha %}<ul class="lp-ficha" aria-label="Ficha do livro">{% for f in ficha %}<li>{{ f }}</li>{% endfor %}</ul>{% endif %}
         {{ comprar('hero') }}
         {{ lojas() }}
       </div>

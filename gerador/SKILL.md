@@ -1,6 +1,6 @@
 ---
-name: lps-bibliomarket
-description: Monta e publica as landing pages de livros e autores da Global (subdomínios de bibliomarket.com.br) a partir do quadro do Trello LP • Automação: junta o material no Drive (Global e Ases), escreve o texto, gera a página no modelo certo com mockup 3D da capa, publica a prévia, e depois da aprovação publica no subdomínio e avisa o card da news.
+name: "lps-bibliomarket"
+description: "Monta e publica as LPs de livros e autores da Global (subdomínios do bibliomarket) a partir do Trello LP • Automação: Drive, texto, mockup 3D, prévia, publicação e link na news."
 ---
 
 # LPs de livros e autores (bibliomarket) a partir do Trello
@@ -15,11 +15,12 @@ Substitui as LPs feitas no Canva pelo freelancer. O fluxo vive no quadro **LP �
 4. **Publicação final só com o card em 🟢 Aprovado**, movido pelo Renan. Antes disso, só prévia em `teste-lp.bibliomarket.com.br/<slug>/` (com `noindex`).
 5. **O HTML só sai do `build.py`.** Nunca escrever ou corrigir HTML/CSS à mão, nem no `dist/`, nem no servidor. Ajuste de conteúdo → `lp.json`. Ajuste de layout → template no `main`, só quando o Renan pedir (aí commit no `main` com a mudança descrita).
 6. **Nada inventado.** Texto só com o que está no livro, no briefing, no catálogo, na capa ou no card. Nunca criar prêmios, números de vendas, depoimentos, citações de terceiros ou dados do autor. O trecho (citação) é cópia literal do texto do livro. Depoimento só entra se estiver no material, com nome de quem disse.
-7. **Link de compra só de marketplace** (Amazon, Mercado Livre, Shopee, Magalu, Americanas, Submarino, Shoptime, Estante Virtual), limpo de rastreio (Amazon: `https://www.amazon.com.br/dp/<ASIN>`, os 10 caracteres depois de `/dp/`). Livro interno pode ter a loja/catálogo da Ases como link extra ("Também na loja da editora"); externo nunca menciona a Ases. Nunca WhatsApp, site do autor, Linktree, Pix, e-mail ou telefone.
-8. **Instagram: só a tag**, nunca a foto do perfil. Vem do card ou do briefing. Autor sem Instagram ou que não quer → LP sem Instagram (não é motivo de Stand by).
-9. **Lombada nunca inventada.** Só há mockup mostrando a lombada quando ela foi medida na capa aberta (`capa.py faces`). Sem capa aberta, use a cena `frente`.
-10. **Livro externo** nunca leva "Ases" no texto, nos links ou na ficha.
-11. Na dúvida sobre conteúdo, não invente: Stand by com comentário, ou pergunte ao Renan.
+7. **Só links oficiais de marketplace** (Amazon, Mercado Livre, Shopee, Magalu, Americanas, Submarino, Shoptime, Estante Virtual), limpos de rastreio (Amazon: `https://www.amazon.com.br/dp/<ASIN>`, os 10 caracteres depois de `/dp/`). Nunca catálogo, loja ou site da editora (nem como segunda opção), site do autor, WhatsApp, Linktree, Pix, e-mail ou telefone. O catálogo da Ases serve só como **fonte** (sinopse, link de compra), nunca como link na página. O `build.py` recusa link fora da lista.
+8. **Sem ficha do livro.** A LP não mostra gênero, número de páginas, editora nem selo editorial, em lugar nenhum (hero, texto, rodapé, SEO). O texto também não cita a editora ou o selo.
+9. **Instagram: só a tag**, nunca a foto do perfil. Vem do card ou do briefing. Autor sem Instagram ou que não quer → LP sem Instagram (não é motivo de Stand by).
+10. **Lombada nunca inventada.** Só há mockup mostrando a lombada quando ela foi medida na capa aberta (`capa.py faces`). Sem capa aberta, use a cena `frente`.
+11. **Livro externo** nunca leva "Ases" no texto ou nos links.
+12. Na dúvida sobre conteúdo, não invente: Stand by com comentário, ou pergunte ao Renan.
 
 ## Preparação (início de toda rodada)
 
@@ -59,6 +60,7 @@ Substitui as LPs feitas no Canva pelo freelancer. O fluxo vive no quadro **LP �
 - **Prévia:** branch `lp/previa-<slug>` → pasta `teste-lp/<slug>` → `https://teste-lp.bibliomarket.com.br/<slug>/`.
 - **Final:** branch `lp/<slug>` → pasta `lps/<slug>` → subdomínio `https://<sub>.bibliomarket.com.br/`.
 - **Projeto** (lp.json + imagens, para ajustes futuros): branch `projeto/<slug>` (`ferramentas/projeto.py`).
+- Cada envio do `publicar.py` é um commit novo em cima do anterior (a Hostinger só avança com `pull`). Nunca reescreva o histórico de um branch `lp/*` (nada de force push à mão). Se um deploy falhar com "divergent branches", leia o commit que o servidor tem (`hosting_files_website-content` em `<pasta>/.git/refs/heads/<branch>`) e publique de novo com `publicar.py ... --base <esse commit>`.
 
 ## O card de pedido ("📋 Modelo de pedido")
 | Dado | Onde |
@@ -121,7 +123,7 @@ Leia os cards das listas da news citadas acima. Card com `**Landing page:** cria
    | Miolo PDF (proporção exata) | `<ISBN>_miolo.pdf` ou `PARK_<ISBN>_miolo.pdf`; miolo do externo na Global |
    | Texto do livro | `*RevFinal*.docx` / `.doc` (texto final revisado, o preferido); senão o miolo PDF |
    | Briefing | arquivo com "briefing" na pasta da Global (sempre procure) |
-   | Sinopse, autor, ISBN, páginas, compra | catálogo da Ases (interno): `https://asesdaliteratura.com/catalogo/?s=<título>` → página do livro (WebFetch ou navegador) |
+   | Sinopse, autor, ISBN, compra | catálogo da Ases (interno): `https://asesdaliteratura.com/catalogo/?s=<título>` → página do livro (WebFetch ou navegador) |
    | Bio do autor | briefing; orelha/contracapa (na capa aberta); catálogo; texto do livro (sobre o autor) |
    | Foto do autor | arquivo de foto na Global/Ases/"Upload do autor"; orelha da capa aberta (recorte) |
    | Instagram | card; briefing |
@@ -140,7 +142,7 @@ Leia os cards das listas da news citadas acima. Card com `**Landing page:** cria
    - Mockups (PNG transparente): `python3 mockup/render.py faces mockup-pe.png --cena pe` (com lombada) ou `--cena frente` (sem lombada); `--cena par` mostra frente e contracapa (bom para a seção final ou diferenciais quando a contracapa é bonita). Olhe cada PNG antes de usar.
    - Paleta: `python3 ferramentas/capa.py paleta faces/frente.jpg --amostra paleta.png` (olhe a amostra).
    - Elementos gráficos da capa (ornamento, vinheta, ilustração, personagens, foto da orelha): renderize a capa aberta em alta (`capa.py pdf <Capa.pdf> fonte/aberta.jpg --altura 3000`), olhe, escolha as coordenadas e `python3 ferramentas/capa.py recortar fonte/aberta.jpg x0 y0 x1 y1 saida.png`. Opções: `--tirar-claro [--cor '#hex']` (ornamento impresso sobre papel/fundo claro → PNG transparente, traço numa cor só), `--tirar-fundo '#hex' --tol 60` (fundo de cor chapada), `--circulo`, `--rel` (coordenadas de 0 a 1). Confira cada recorte olhando, sobre fundo claro e escuro. Recortes nunca levam texto, logo de selo/editora ou código de barras da capa.
-9. **Escrever o `lp.json`** (seção "Conteúdo" e "Direção visual" abaixo; exemplos em `exemplos/`). Slug = título em minúsculas sem acento, com hífens, curto (ex.: `joaquim-e-call`). Subdomínio proposto = campo do card ou título/autor sem hífens, curto e legível (ex.: `joaquimecall`); confira que não existe (`hosting_domains_list-website-subdomains`).
+9. **Escrever o `lp.json`** (seção "Conteúdo" e "Direção visual" abaixo; exemplos em `exemplos/`). Slug = título em minúsculas sem acento, com hífens, curto (ex.: `joaquim-e-call`). Subdomínio: veja "Nome do subdomínio" abaixo; confira que não existe (`hosting_domains_list-website-subdomains`).
 10. **Gerar e conferir:**
     - `python3 build.py projeto/<slug>/lp.json --previa --url https://teste-lp.bibliomarket.com.br/<slug>/ --saida dist`
     - `AVISO` de contraste → ajuste as cores no `lp.json` e gere de novo (não ignore contraste abaixo de 4,5 em texto corrido).
@@ -157,7 +159,7 @@ Leia os cards das listas da news citadas acima. Card com `**Landing page:** cria
     - **Ver:** [Abrir prévia](https://teste-lp.bibliomarket.com.br/<slug>/) (não aparece no Google)
     - **Modelo:** <editorial | gráfico> · **Mockup:** <com lombada medida (X mm) | só frente: falta a capa aberta>
     - **Endereço final proposto:** <sub>.bibliomarket.com.br (para trocar, edite o campo Subdomínio antes de aprovar)
-    - **Compra:** [<marketplace>](<link>) <+ outros>
+    - **Compra:** [<marketplace>](<link>) <+ outros marketplaces>
     - **Instagram:** @<tag> | sem Instagram (<motivo>)
     - **Fontes:** briefing [<nome>](<link>) · texto [<arquivo>](<link>) · capa [<arquivo>](<link>)
     - **Atenção:** <pendências: foto do autor ausente, bio curta, LP antiga existente em <link>, dado a confirmar>
@@ -223,7 +225,16 @@ Tom: português do Brasil, editorial, específico deste livro. Sem clichês ("im
 | `final` | título-convite, texto e fecho para quem é o livro | texto até ~45 palavras |
 | `compra.texto_botao` | "Garanta o seu exemplar" / "Adquira o seu exemplar" / "Compre na Amazon" | curto |
 
-Ficha (`livro.genero`, `paginas`, `editora`/selo, `isbn`, `publico`): só o que estiver no catálogo, na ficha ou no briefing. Interno: editora = selo (Ases da Literatura, Asinha, Ventania…). Externo: editora só se o autor informar (nunca Ases).
+`livro` no lp.json leva só `titulo` (e `subtitulo`/`titulo_completo` se houver), `autor` e `isbn` (o ISBN vai só nos metadados para o Google, não aparece). Gênero, páginas, editora e selo não entram (regra 8).
+
+## Nome do subdomínio
+O campo Subdomínio do card sempre manda. Sem ele, a automação propõe na prévia, sempre sem acentos, sem hífens e em minúsculas, fácil de digitar e de achar:
+| Foco | Regra | Exemplos |
+|---|---|---|
+| Livro | título simplificado: o núcleo que o leitor lembraria, sem artigos, preposições e subtítulo; até ~20 caracteres | "Joaquim & Call: o mundo submerso" → `joaquimecall` · "A História Divina do Pão de Queijo" → `paodequeijo` · "Eu faria tudo outra vez" → `eufariatudooutravez` |
+| Autor | nome pelo qual o autor é conhecido (o da capa) | Jil Delanis → `jildelanis` |
+| Coletânea | nome da coleção quando ela tem nome próprio (é o que se divulga e deixa o nome do autor livre para uma futura LP de autor); sem nome próprio, o nome do autor | Coleção Lola → `colecaolola` |
+Já existe (subdomínio ou LP antiga do Canva com o mesmo nome)? Acrescente uma palavra curta que diferencie (`livro`, o sobrenome do autor), nunca número.
 
 ## Direção visual
 
@@ -253,6 +264,6 @@ O padrão é o do Renan: clean, sofisticado, com personalidade, sem cara de temp
 
 ## Limites conhecidos
 - O conector do Trello não cria nem renomeia etiquetas e não adiciona membros.
-- A rede da sessão não alcança o Google Fonts: o `verificar.py` usa as mesmas fontes vindas do npm (@fontsource) para os prints ficarem fiéis.
+- A rede da sessão não alcança o Google Fonts nem o bibliomarket: o `verificar.py` usa as mesmas fontes vindas do npm (@fontsource) para os prints ficarem fiéis, e a conferência no ar é por WebFetch.
 - Os modelos de Coletânea, Autor e Infantil estão em construção (Stand by `stand by · modelo …` até existirem).
 - Os branches `lp/previa-*` e `projeto/*` ficam no GitHub; limpeza só com permissão do Renan.

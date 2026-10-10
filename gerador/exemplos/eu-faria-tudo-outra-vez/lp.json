@@ -29,12 +29,14 @@
   },
   "compra": {
     "texto_botao": "Adquira o seu exemplar",
-    "principal": { "rotulo": "Amazon", "url": "https://a.co/d/08PzZ53r" },
+    "principal": {
+      "rotulo": "Amazon",
+      "url": "https://a.co/d/08PzZ53r"
+    },
     "outros": []
   },
   "instagram": {
     "usuario": "handriolibauer",
-    "foto": "autora.jpg",
     "rotulo": "Siga a autora"
   },
   "hero": {
@@ -56,13 +58,28 @@
     "imagem": "ksp.jpg",
     "alt": "",
     "itens": [
-      { "titulo": "Uma história real, sem idealizações", "texto": "Helena compartilha experiências vividas ao longo de sua trajetória, mostrando que superar dificuldades não significa ter uma vida sem problemas, mas encontrar forças para continuar." },
-      { "titulo": "Fé e esperança diante dos desafios", "texto": "A espiritualidade e os valores familiares atravessam a narrativa e ajudam a construir uma reflexão sobre coragem, perseverança e esperança." },
-      { "titulo": "Uma leitura para olhar a própria vida de outra maneira", "texto": "Ao revisitar suas escolhas, conquistas e dificuldades, a autora convida o leitor a refletir sobre seus próprios caminhos e sobre aquilo que dá significado a uma vida bem vivida." }
+      {
+        "titulo": "Uma história real, sem idealizações",
+        "texto": "Helena compartilha experiências vividas ao longo de sua trajetória, mostrando que superar dificuldades não significa ter uma vida sem problemas, mas encontrar forças para continuar."
+      },
+      {
+        "titulo": "Fé e esperança diante dos desafios",
+        "texto": "A espiritualidade e os valores familiares atravessam a narrativa e ajudam a construir uma reflexão sobre coragem, perseverança e esperança."
+      },
+      {
+        "titulo": "Uma leitura para olhar a própria vida de outra maneira",
+        "texto": "Ao revisitar suas escolhas, conquistas e dificuldades, a autora convida o leitor a refletir sobre seus próprios caminhos e sobre aquilo que dá significado a uma vida bem vivida."
+      }
     ]
   },
-  "trecho": { "texto": "", "referencia": "" },
-  "depoimentos": { "titulo": "", "itens": [] },
+  "trecho": {
+    "texto": "",
+    "referencia": ""
+  },
+  "depoimentos": {
+    "titulo": "",
+    "itens": []
+  },
   "bio": {
     "rotulo": "Sobre a autora",
     "nome": "Helena Andrioli Bauer",

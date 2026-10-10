@@ -24,7 +24,6 @@ MODELOS = {"editorial": "editorial", "grafico": "grafico", "infantil": "infantil
 MARKETPLACES = ("amazon.com.br", "amazon.com", "a.co", "amzn.to", "mercadolivre.com.br", "mercadolivre.com", "mercadolibre.com",
                 "meli.la", "shopee.com.br", "shope.ee", "magazineluiza.com.br", "magalu.com", "americanas.com.br",
                 "submarino.com.br", "shoptime.com.br", "estantevirtual.com.br")
-LOJAS_EDITORA = ("asesdaliteratura.com",)  # só como link extra, e só para livro interno
 
 
 def sem_acento(s):
@@ -109,10 +108,10 @@ def ler(card):
         if not url:
             continue
         u = url.group(0).rstrip(").,")
-        if eh(u, MARKETPLACES) or (not externo and eh(u, LOJAS_EDITORA)):
+        if eh(u, MARKETPLACES):
             outros.append(u)
         else:
-            falta.append(f"Link extra fora da lista permitida: {u}")
+            falta.append(f"Outros links de compra: só marketplace (tirar {u})")
 
     ig = d.get("instagram", "")
     ig_status = "procurar"  # vazio: procurar no briefing

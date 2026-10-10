@@ -120,6 +120,21 @@ def favicon(cor, destino):
         'stroke="#FFF8F0" stroke-width="3.2" stroke-linejoin="round"/></svg>', encoding="utf-8")
 
 
+# ---------- compra ----------
+MARKETPLACES = ("amazon.com.br", "amazon.com", "a.co", "amzn.to", "mercadolivre.com.br", "mercadolivre.com", "mercadolibre.com",
+                "meli.la", "shopee.com.br", "shope.ee", "magazineluiza.com.br", "magalu.com", "americanas.com.br",
+                "submarino.com.br", "shoptime.com.br", "estantevirtual.com.br")
+
+
+def checar_compra(compra):
+    """Só links oficiais de marketplace: nada de site/catálogo da editora, site do autor, WhatsApp etc."""
+    for l in [compra["principal"]] + compra.get("outros", []):
+        m = re.match(r"https://([^/?#]+)", (l.get("url") or "").lower())
+        host = m.group(1) if m else ""
+        if not any(host == d or host.endswith("." + d) for d in MARKETPLACES):
+            raise SystemExit(f"Link de compra fora de marketplace: {l.get('url')} (só Amazon, Mercado Livre, Shopee, Magalu…)")
+
+
 # ---------- montagem ----------
 def obrigatorio(d, caminho):
     atual = d
@@ -133,6 +148,7 @@ def montar(arq, previa=False, saida=None, url_base=None):
     arq = Path(arq).resolve()
     base = arq.parent
     d = json.loads(arq.read_text(encoding="utf-8"))
+    checar_compra(d.get("compra") or {"principal": {}})
     modelo = d.get("modelo", "livro-unico")
     if modelo not in MODELOS:
         raise SystemExit(f"modelo '{modelo}' ainda não existe. Disponíveis: {', '.join(MODELOS)}")
@@ -187,11 +203,7 @@ def montar(arq, previa=False, saida=None, url_base=None):
     if d.get("instagram", {}).get("usuario"):
         ig = d["instagram"]
         usuario = ig["usuario"].lstrip("@")
-        foto = None
-        if ig.get("foto"):
-            im = ImageOps.fit(Image.open(base / ig["foto"]).convert("RGB"), (96, 96), Image.LANCZOS)
-            im.save(img_dir / "ig.webp", "WEBP", quality=85)
-            foto = "ig.webp"
+        foto = None  # foto do perfil do Instagram não é usada (decisão de 10/2026): só a tag
         instagram = {"usuario": usuario, "url": ig.get("url") or f"https://www.instagram.com/{usuario}/",
                      "foto": foto, "rotulo": ig.get("rotulo", "Siga o autor")}
 
@@ -206,16 +218,11 @@ def montar(arq, previa=False, saida=None, url_base=None):
     favicon(cores["destaque"], out)
 
     url = url_base or f"https://{d['subdominio']}.bibliomarket.com.br/"
-    ficha = [x for x in [livro.get("genero"), f"{livro['paginas']} páginas" if livro.get("paginas") else None,
-                         livro.get("editora")] if x]
 
     jsonld = {"@context": "https://schema.org", "@type": "Book", "name": titulo,
               "author": {"@type": "Person", "name": livro["autor"]}, "inLanguage": "pt-BR",
               "url": url, "image": f"{url}img/{og}", "description": plain(d["hero"]["descricao"])}
     if livro.get("isbn"): jsonld["isbn"] = livro["isbn"]
-    if livro.get("paginas"): jsonld["numberOfPages"] = int(livro["paginas"])
-    if livro.get("editora"): jsonld["publisher"] = {"@type": "Organization", "name": livro["editora"]}
-    if livro.get("genero"): jsonld["genre"] = livro["genero"]
     jsonld["offers"] = {"@type": "Offer", "url": d["compra"]["principal"]["url"], "availability": "https://schema.org/InStock"}
 
     seo = d.get("seo", {})
@@ -228,7 +235,7 @@ def montar(arq, previa=False, saida=None, url_base=None):
         "previa": previa, "url": url, "ano": d.get("ano") or datetime.date.today().year,
         "seo": {"titulo": seo_titulo, "descricao": seo_desc}, "og_imagem": og,
         "fonte": {"google": f["google"], "peso": f["peso"], "css": Markup(f'"{fonte_nome}", {f["fallback"]}')},
-        "cores": cores, "livro": {**livro, "titulo": titulo}, "ficha": ficha,
+        "cores": cores, "livro": {**livro, "titulo": titulo},
         "ornamento": ornamento, "ornamento_opacidade": d["tema"].get("ornamento_opacidade", .9), "divisor": divisor,
         "jsonld": Markup(json.dumps(jsonld, ensure_ascii=False).replace("</", "<\\/")),
         "instagram": instagram,
@@ -364,14 +371,11 @@ def montar_grafico(d, base, previa, saida, url_base):
     og = og_grafico(c["noite"], base / d["hero"]["imagem"], img_dir)
     favicon(c["vermelho"], out)
     url = url_base or f"https://{d['subdominio']}.bibliomarket.com.br/"
-    ficha = [x for x in [livro.get("editora"), f"{livro['paginas']} páginas" if livro.get("paginas") else None] if x]
 
     jsonld = {"@context": "https://schema.org", "@type": "Book", "name": plain(livro.get("titulo_completo") or titulo),
               "author": {"@type": "Person", "name": livro["autor"]}, "inLanguage": "pt-BR", "url": url,
               "image": f"{url}img/{og}", "description": plain(d["hero"].get("descricao") or d["hero"]["tagline"])}
-    for k, v in (("isbn", "isbn"), ("genero", "genre")):
-        if livro.get(k): jsonld[v] = livro[k]
-    if livro.get("paginas"): jsonld["numberOfPages"] = int(livro["paginas"])
+    if livro.get("isbn"): jsonld["isbn"] = livro["isbn"]
     jsonld["offers"] = {"@type": "Offer", "url": d["compra"]["principal"]["url"], "availability": "https://schema.org/InStock"}
 
     seo = d.get("seo", {})
@@ -392,7 +396,7 @@ def montar_grafico(d, base, previa, saida, url_base):
         "fontes_url": Markup("&".join(FONTES_EXTRA[f]["google"] for f in dict.fromkeys((ft, fx)))),
         "fonte_titulo": Markup(FONTES_EXTRA[ft]["css"]), "fonte_texto": Markup(FONTES_EXTRA[fx]["css"]),
         "livro": {**livro, "titulo": titulo, "titulo_completo": plain(livro.get("titulo_completo") or titulo)},
-        "ficha": ficha, "jsonld": Markup(json.dumps(jsonld, ensure_ascii=False).replace("</", "<\\/")),
+        "jsonld": Markup(json.dumps(jsonld, ensure_ascii=False).replace("</", "<\\/")),
         "instagram": instagram,
         "compra": {"principal": d["compra"]["principal"], "outros": d["compra"].get("outros", []),
                    "texto_botao": d["compra"].get("texto_botao", "Garanta o seu exemplar")},

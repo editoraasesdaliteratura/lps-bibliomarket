@@ -100,8 +100,6 @@ em{font-style:italic}
 .hero .marca-sub{margin-top:14px}
 .tagline{font-size:clamp(19px,.9vw + 14px,24px);font-weight:700;line-height:1.35;color:#fff;max-width:28ch}
 .tagline em{font-style:normal;color:var(--lava);background:linear-gradient(transparent 62%,color-mix(in srgb,var(--vermelho) 55%,transparent) 62%)}
-.ficha{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
-.ficha li{font-size:12.5px;font-weight:700;letter-spacing:.05em;padding:6px 12px;border-radius:999px;background:color-mix(in srgb,var(--claro) 9%,transparent);border:1px solid color-mix(in srgb,var(--claro) 18%,transparent)}
 .hero-livro{position:relative;justify-self:center;width:min(440px,78vw);aspect-ratio:3/4;display:grid;place-items:center}
 .hero-livro .portal{width:120%;aspect-ratio:1;left:-10%;top:-2%;opacity:.55}
 .hero-livro .reticula{inset:6% -6% 14% 8%;color:var(--lava);border-radius:50%;-webkit-mask:radial-gradient(circle,#000 30%,transparent 70%);mask:radial-gradient(circle,#000 30%,transparent 70%);opacity:.35}
@@ -215,7 +213,7 @@ em{font-style:italic}
 {% macro igicon() %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>{% endmacro %}
 {% macro img(i, sizes, lazy=true) %}<picture><source type="image/webp" srcset="img/{{ i.arquivo }}-{{ i.min }}.webp {{ i.min }}w, img/{{ i.arquivo }}-{{ i.max }}.webp {{ i.max }}w" sizes="{{ sizes }}"><img src="img/{{ i.arquivo }}-{{ i.max }}.{{ i.ext }}" width="{{ i.w }}" height="{{ i.h }}" alt="{{ i.alt }}" {% if lazy %}loading="lazy" decoding="async"{% else %}fetchpriority="high"{% endif %}></picture>{% endmacro %}
 {% macro comprar(local) %}<a class="btn" href="{{ compra.principal.url }}" target="_blank" rel="noopener" data-cta="{{ local }}"{% if local == 'hero' %} id="cta-hero"{% endif %}>{{ compra.texto_botao }} {{ seta() }}</a>{% endmacro %}
-{% macro lojas() %}{% if compra.outros %}<p class="lojas"><span>Também na</span>{% for l in compra.outros %}<a href="{{ l.url }}" target="_blank" rel="noopener" data-cta="loja-{{ loop.index }}">{{ l.rotulo }}</a>{% endfor %}</p>{% endif %}{% endmacro %}
+{% macro lojas() %}{% if compra.outros %}<p class="lojas"><span>Também em</span>{% for l in compra.outros %}<a href="{{ l.url }}" target="_blank" rel="noopener" data-cta="loja-{{ loop.index }}">{{ l.rotulo }}</a>{% endfor %}</p>{% endif %}{% endmacro %}
 {% macro ig() %}{% if instagram %}<a class="ig" href="{{ instagram.url }}" target="_blank" rel="noopener" data-cta="instagram">{{ igicon() }}<span>@{{ instagram.usuario }}</span></a>{% endif %}{% endmacro %}
 
 <a class="pular" href="#conteudo">Pular para o conteúdo</a>
@@ -232,11 +230,10 @@ em{font-style:italic}
   <section class="hero" id="conteudo">
     <div class="wrap hero-grid">
       <div class="hero-texto">
-        <p class="rotulo">{{ livro.genero }}{% if livro.publico %} · {{ livro.publico }}{% endif %}</p>
+        <p class="rotulo">{{ livro.autor }}</p>
         <h1 class="marca">{{ livro.titulo }}{% if livro.subtitulo %}<span class="marca-sub">{{ livro.subtitulo }}</span>{% endif %}</h1>
         <p class="tagline">{{ hero.tagline }}</p>
         <p>{{ hero.descricao }}</p>
-        {% if ficha %}<ul class="ficha" aria-label="Ficha do livro">{% for f in ficha %}<li>{{ f }}</li>{% endfor %}</ul>{% endif %}
         {{ comprar('hero') }}
         {{ lojas() }}
       </div>
