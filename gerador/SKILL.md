@@ -15,7 +15,7 @@ Substitui as LPs feitas no Canva pelo freelancer. O fluxo vive no quadro **LP �
 4. **Publicação final só com o card em 🟢 Aprovado**, movido pelo Renan. Antes disso, só prévia em `teste-lp.bibliomarket.com.br/<slug>/` (com `noindex`).
 5. **O HTML só sai do `build.py`.** Nunca escrever ou corrigir HTML/CSS à mão, nem no `dist/`, nem no servidor. Ajuste de conteúdo → `lp.json`. Ajuste de layout → template no `main`, só quando o Renan pedir (aí commit no `main` com a mudança descrita).
 6. **Nada inventado.** Texto só com o que está no livro, no briefing, no catálogo, na capa ou no card. Nunca criar prêmios, números de vendas, depoimentos, citações de terceiros ou dados do autor. O trecho (citação) é cópia literal do texto do livro. Depoimento só entra se estiver no material, com nome de quem disse.
-7. **Link de compra só de marketplace** (Amazon, Mercado Livre, Shopee, Magalu, Americanas, Submarino, Shoptime, Estante Virtual). Livro interno pode ter a loja/catálogo da Ases como link extra ("Também na loja da editora"); externo nunca menciona a Ases. Nunca WhatsApp, site do autor, Linktree, Pix, e-mail ou telefone.
+7. **Link de compra só de marketplace**, limpo de rastreio (Amazon: `https://www.amazon.com.br/dp/<ASIN>`, os 10 caracteres depois de `/dp/`) (Amazon, Mercado Livre, Shopee, Magalu, Americanas, Submarino, Shoptime, Estante Virtual). Livro interno pode ter a loja/catálogo da Ases como link extra ("Também na loja da editora"); externo nunca menciona a Ases. Nunca WhatsApp, site do autor, Linktree, Pix, e-mail ou telefone.
 8. **Instagram: só a tag**, nunca a foto do perfil. Vem do card ou do briefing. Autor sem Instagram ou que não quer → LP sem Instagram (não é motivo de Stand by).
 9. **Lombada nunca inventada.** Só há mockup mostrando a lombada quando ela foi medida na capa aberta (`capa.py faces`). Sem capa aberta, use a cena `frente`.
 10. **Livro externo** nunca leva "Ases" no texto, nos links ou na ficha.
@@ -116,8 +116,8 @@ Leia os cards das listas da news citadas acima. Card com `**Landing page:** cria
 4. **Inventário.** Monte a tabela do que existe (com id e tamanho):
    | Material | Onde procurar, em ordem |
    |---|---|
-   | Capa da frente | `PREVIEW_*_CapaFrente.jpg`; arquivo com "capa"/"frente" na Global; 1ª página do PDF de capa (metade direita); `og:image` do catálogo (interno) |
-   | Capa aberta (lombada) | `<ISBN>_Capa.pdf` em `PDF_AJUSTADO`/`PDF` (melhor: medidas exatas); `PREVIEW_*_CapaAberta.jpg`; capa aberta enviada pelo autor (PDF ou imagem) |
+   | Capa da frente | arquivo com "CapaFrente" no nome (`PREVIEW_<ISBN>_CapaFrente.jpg`, `CapaFrente_<título>.jpg`); arquivo com "capa"/"frente" na Global; `og:image` do catálogo (interno) |
+   | Capa aberta (lombada) | `<ISBN>_Capa.pdf` em `PDF_AJUSTADO`/`PDF` (melhor: medidas exatas); arquivo com "CapaAberta" no nome; capa aberta enviada pelo autor (PDF ou imagem) |
    | Miolo PDF (proporção exata) | `<ISBN>_miolo.pdf` ou `PARK_<ISBN>_miolo.pdf`; miolo do externo na Global |
    | Texto do livro | `*RevFinal*.docx` / `.doc` (texto final revisado, o preferido); senão o miolo PDF |
    | Briefing | arquivo com "briefing" na pasta da Global (sempre procure) |
@@ -139,7 +139,7 @@ Leia os cards das listas da news citadas acima. Card com `**Landing page:** cria
    - **Olhe `faces/conferencia.jpg`**: as linhas rosa marcam frente e contracapa; azul, as bordas. Confira `confianca` (≥ 0,9 é ótimo), `mm` (frente, altura, lombada) e `avisos`. Lombada errada → não use a cena `pe`.
    - Mockups (PNG transparente): `python3 mockup/render.py faces mockup-pe.png --cena pe` (com lombada) ou `--cena frente` (sem lombada); `--cena par` mostra frente e contracapa (bom para a seção final ou diferenciais quando a contracapa é bonita). Olhe cada PNG antes de usar.
    - Paleta: `python3 ferramentas/capa.py paleta faces/frente.jpg --amostra paleta.png` (olhe a amostra).
-   - Elementos gráficos da capa (ornamento, personagens, foto da orelha): olhe a capa, escolha as coordenadas e `python3 ferramentas/capa.py recortar <img> x0 y0 x1 y1 saida.png [--rel] [--tirar-fundo '#hex' --tol 60] [--circulo]`. Confira o recorte olhando.
+   - Elementos gráficos da capa (ornamento, vinheta, ilustração, personagens, foto da orelha): renderize a capa aberta em alta (`capa.py pdf <Capa.pdf> fonte/aberta.jpg --altura 3000`), olhe, escolha as coordenadas e `python3 ferramentas/capa.py recortar fonte/aberta.jpg x0 y0 x1 y1 saida.png`. Opções: `--tirar-claro [--cor '#hex']` (ornamento impresso sobre papel/fundo claro → PNG transparente, traço numa cor só), `--tirar-fundo '#hex' --tol 60` (fundo de cor chapada), `--circulo`, `--rel` (coordenadas de 0 a 1). Confira cada recorte olhando, sobre fundo claro e escuro. Recortes nunca levam texto, logo de selo/editora ou código de barras da capa.
 9. **Escrever o `lp.json`** (seção "Conteúdo" e "Direção visual" abaixo; exemplos em `exemplos/`). Slug = título em minúsculas sem acento, com hífens, curto (ex.: `joaquim-e-call`). Subdomínio proposto = campo do card ou título/autor sem hífens, curto e legível (ex.: `joaquimecall`); confira que não existe (`hosting_domains_list-website-subdomains`).
 10. **Gerar e conferir:**
     - `python3 build.py projeto/<slug>/lp.json --previa --url https://teste-lp.bibliomarket.com.br/<slug>/ --saida dist`
@@ -149,7 +149,7 @@ Leia os cards das listas da news citadas acima. Card com `**Landing page:** cria
 12. **Prévia no ar:**
     - `python3 ferramentas/publicar.py dist/<slug> --branch lp/previa-<slug>`
     - `hosting_git_deploy-website-repository`: username `u155401317`, domain `bibliomarket.com.br`, repository_url `git@github.com:editoraasesdaliteratura/lps-bibliomarket.git`, branch `lp/previa-<slug>`, directory `teste-lp/<slug>`. `is_success` false → leia o log; pasta já ocupada por outra coisa → Stand by e avise o Renan (não apague).
-    - Confira no ar: `python3 ferramentas/verificar.py dist/<slug> --url https://teste-lp.bibliomarket.com.br/<slug>/` (se a rede da sessão não alcançar o site, use WebFetch para confirmar que a página responde com o título certo).
+    - Confira no ar com WebFetch (a rede da sessão normalmente não alcança o bibliomarket): título, h1, `noindex`, link do botão de compra e lista de imagens batem com o gerado.
 13. **Comentar e mover para 👀 Prévia para revisão:**
     ```
     **👀 Prévia da LP pronta**
@@ -244,7 +244,10 @@ O padrão é o do Renan: clean, sofisticado, com personalidade, sem cara de temp
 - Hero: `mockup-pe.png` (com lombada) ou `mockup-frente.png`.
 - Diferenciais (editorial, opcional): `mockup-par.png` (frente + contracapa), um detalhe da capa ou nada (a lista ocupa a largura).
 - Final: outra cena do mockup ou arte da capa recortada (personagem, orelha) em PNG transparente.
-- `tema.ornamento` (editorial, opcional): um elemento da capa recortado em PNG transparente (flor, ramo, ícone, textura) para dar identidade ao hero, ao trecho e ao final. `tema.ornamento_opacidade` 0,3–0,9. Só use se o elemento for limpo e reconhecível; recorte mal feito fica pior que nada.
+- `tema.ornamento` (editorial, opcional): **peça de canto** recortada da capa em PNG transparente, orientada como canto superior esquerdo (o modelo espelha para o canto do hero, do trecho e do final). `tema.ornamento_opacidade` 0,3–0,9 (0,5–0,6 costuma bastar).
+- `tema.divisor` (editorial, opcional): vinheta horizontal da capa (PNG transparente); o modelo recolore sozinho (cor de destaque nas seções claras, texto claro nas escuras) e põe acima do título da sinopse e da citação.
+- `diferenciais.imagem` + `"proporcao": "natural"`: detalhe ilustrado da capa (cena, objeto) mostrado inteiro, sem corte.
+- Ornamento e vinheta só se o elemento for limpo e reconhecível; recorte mal feito fica pior que nada.
 - Gráfico: `tema.motivos` entre `rachaduras` (fissuras luminosas), `retícula` (pontos de HQ), `portal` (brilho circular), `quadrinho` (balão da pergunta). Use só os que a capa justifica. `personagens` só quando a capa mostra os personagens e o texto os apresenta (retratos recortados da capa, 1 por card).
 - Foto do autor: só se veio no material; recorte da orelha vale. Sem foto, a bio fica só em texto (os modelos já tratam).
 

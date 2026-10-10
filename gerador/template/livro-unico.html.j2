@@ -112,14 +112,16 @@ strong{font-weight:800}
 .lp-recorte{display:grid;place-items:center;position:relative;z-index:1}
 .lp-recorte picture{width:100%}
 .lp-recorte img{width:100%;height:auto;filter:drop-shadow(0 28px 34px rgba(20,10,5,.30))}
-/* Ornamento: detalhe recortado da própria capa, usado como elemento gráfico */
-.lp-orn{position:absolute;pointer-events:none;z-index:0;width:clamp(180px,26vw,380px);height:auto;opacity:var(--orn-opacidade,.9)}
+/* Divisor: vinheta recortada da capa, acima dos títulos */
+.lp-divisor{display:block;width:min(280px,62vw);height:auto;margin:0 auto -8px}
+/* Ornamento: peça de canto recortada da própria capa (orientada como canto superior esquerdo) */
+.lp-orn{position:absolute;pointer-events:none;z-index:0;width:clamp(130px,15vw,230px);height:auto;opacity:var(--orn-opacidade,.9)}
 .lp-hero,.lp-final,.lp-trecho{position:relative;overflow:hidden}
-.lp-hero .lp-orn{right:-4%;top:-6%}
-.lp-final .lp-orn{left:-5%;bottom:-8%;transform:scaleX(-1)}
-.lp-trecho .lp-orn{right:-6%;bottom:-10%;width:clamp(140px,18vw,260px);opacity:.5}
+.lp-hero .lp-orn{right:clamp(8px,2vw,28px);top:clamp(8px,2vw,28px);transform:scaleX(-1)}
+.lp-trecho .lp-orn{left:clamp(8px,2vw,28px);bottom:clamp(8px,2vw,28px);transform:scaleY(-1)}
+.lp-final .lp-orn{right:clamp(8px,2vw,28px);bottom:clamp(8px,2vw,28px);transform:scale(-1,-1)}
 .lp-hero .lp-wrap,.lp-final .lp-wrap,.lp-trecho .lp-wrap{position:relative;z-index:1}
-@media (max-width:860px){.lp-orn{width:44vw;opacity:calc(var(--orn-opacidade,.9) * .6)}}
+@media (max-width:860px){.lp-orn{width:26vw;opacity:calc(var(--orn-opacidade,.9) * .7)}}
 
 /* Hero */
 .lp-hero{background:var(--cor-medio);padding-block:clamp(36px, 6vw, 88px)}
@@ -236,7 +238,8 @@ strong{font-weight:800}
 <body>
 {% macro seta() %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>{% endmacro %}
 {% macro img(i, sizes, lazy=true) %}<picture><source type="image/webp" srcset="img/{{ i.arquivo }}-{{ i.min }}.webp {{ i.min }}w, img/{{ i.arquivo }}-{{ i.max }}.webp {{ i.max }}w" sizes="{{ sizes }}"><img src="img/{{ i.arquivo }}-{{ i.max }}.{{ i.ext }}" width="{{ i.w }}" height="{{ i.h }}" alt="{{ i.alt }}" {% if lazy %}loading="lazy" decoding="async"{% else %}fetchpriority="high"{% endif %}></picture>{% endmacro %}
-{% macro quadro(i, sizes, lazy=true, classe='') %}<div class="{{ 'lp-recorte' if i.ext == 'png' else 'lp-foto' }} {{ classe }}">{{ img(i, sizes, lazy) }}</div>{% endmacro %}
+{% macro quadro(i, sizes, lazy=true, classe='') %}<div class="{{ 'lp-recorte' if i.ext == 'png' else 'lp-foto' }} {{ classe }}"{% if i.prop %} style="aspect-ratio:{{ i.prop }}"{% endif %}>{{ img(i, sizes, lazy) }}</div>{% endmacro %}
+{% macro vinheta(claro=false) %}{% if divisor %}<img class="lp-divisor" src="img/{{ divisor.claro if claro else divisor.escuro }}" alt="" aria-hidden="true" width="{{ divisor.w }}" height="{{ divisor.h }}" loading="lazy">{% endif %}{% endmacro %}
 {% macro ig(classe='') %}{% if instagram %}<a class="lp-ig" href="{{ instagram.url }}" target="_blank" rel="noopener" data-cta="instagram">{% if instagram.foto %}<img src="img/{{ instagram.foto }}" alt="" width="30" height="30" loading="lazy">{% endif %}<span>@{{ instagram.usuario }}</span></a>{% endif %}{% endmacro %}
 {% macro comprar(local) %}<a class="lp-btn" href="{{ compra.principal.url }}" target="_blank" rel="noopener" data-cta="{{ local }}"{% if local == 'hero' %} id="cta-hero"{% endif %}>{{ compra.texto_botao }} {{ seta() }}</a>{% endmacro %}
 {% macro lojas() %}{% if compra.outros %}<p class="lp-lojas"><span>Também em</span>{% for l in compra.outros %}<a href="{{ l.url }}" target="_blank" rel="noopener" data-cta="loja-{{ loop.index }}">{{ l.rotulo }}</a>{% endfor %}</p>{% endif %}{% endmacro %}
@@ -272,6 +275,7 @@ strong{font-weight:800}
 
   <section class="lp-secao lp-escura lp-sinopse" aria-labelledby="t-sinopse">
     <div class="lp-wrap">
+      {{ vinheta(true) }}
       <h2 class="lp-h2 rev" id="t-sinopse">{{ sinopse.titulo }}</h2>
       <div class="lp-prosa rev">{% for p in sinopse.paragrafos %}<p>{{ p }}</p>{% endfor %}</div>
     </div>
@@ -294,7 +298,7 @@ strong{font-weight:800}
   <section class="lp-secao lp-trecho" aria-label="Trecho do livro">
     {% if ornamento %}<img class="lp-orn" src="img/{{ ornamento }}" alt="" aria-hidden="true" loading="lazy">{% endif %}
     <div class="lp-wrap">
-      <figure class="rev"><blockquote>{{ trecho.texto }}</blockquote><figcaption>{{ trecho.referencia }}</figcaption></figure>
+      <figure class="rev">{{ vinheta() }}<blockquote>{{ trecho.texto }}</blockquote><figcaption>{{ trecho.referencia }}</figcaption></figure>
     </div>
   </section>
   {% endif %}

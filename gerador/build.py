@@ -166,6 +166,19 @@ def montar(arq, previa=False, saida=None, url_base=None):
 
     hero_img = img(d["hero"]["imagem"], d["hero"].get("alt") or f"Livro {titulo}, de {livro['autor']}")
     dif_img = img(d["diferenciais"]["imagem"], d["diferenciais"].get("alt", "")) if d["diferenciais"].get("imagem") else None
+    if dif_img and d["diferenciais"].get("proporcao") == "natural":
+        dif_img["prop"] = f'{dif_img["w"]} / {dif_img["h"]}'
+    divisor = None
+    if d["tema"].get("divisor"):
+        dv = Image.open(base / d["tema"]["divisor"]).convert("RGBA")
+        dv.thumbnail((640, 640), Image.LANCZOS)
+        divisor = {"w": dv.width, "h": dv.height}
+        for chave, cor in (("escuro", cores["destaque"]), ("claro", cores["texto_claro"])):
+            rgb = tuple(int(cor.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4))
+            tinta = Image.new("RGBA", dv.size, rgb + (255,))
+            tinta.putalpha(dv.getchannel("A"))
+            tinta.save(img_dir / f"divisor-{chave}.webp", "WEBP", quality=90)
+            divisor[chave] = f"divisor-{chave}.webp"
     fin_img = img(d["final"]["imagem"], d["final"].get("alt") or f"Livro {titulo}")
     bio_img = img(d["bio"]["foto"], livro["autor"]) if d["bio"].get("foto") else None
     shutil.copy(AQUI / "assets" / "logo-global.png", img_dir / "logo-global.png")
@@ -216,7 +229,7 @@ def montar(arq, previa=False, saida=None, url_base=None):
         "seo": {"titulo": seo_titulo, "descricao": seo_desc}, "og_imagem": og,
         "fonte": {"google": f["google"], "peso": f["peso"], "css": Markup(f'"{fonte_nome}", {f["fallback"]}')},
         "cores": cores, "livro": {**livro, "titulo": titulo}, "ficha": ficha,
-        "ornamento": ornamento, "ornamento_opacidade": d["tema"].get("ornamento_opacidade", .9),
+        "ornamento": ornamento, "ornamento_opacidade": d["tema"].get("ornamento_opacidade", .9), "divisor": divisor,
         "jsonld": Markup(json.dumps(jsonld, ensure_ascii=False).replace("</", "<\\/")),
         "instagram": instagram,
         "compra": {"principal": d["compra"]["principal"], "outros": d["compra"].get("outros", []),

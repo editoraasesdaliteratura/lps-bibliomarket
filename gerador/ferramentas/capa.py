@@ -11,6 +11,7 @@
              python3 capa.py paleta frente.jpg [--n 8] [--amostra paleta.png]
   recortar Recorta um trecho (personagem, foto do autor na orelha, arte) em PNG.
              python3 capa.py recortar img.jpg x0 y0 x1 y1 saida.png [--rel] [--tirar-fundo '#007EAE' --tol 60] [--circulo]
+                                     [--tirar-claro [--cor '#5B3E34']]   (ornamento sobre papel → PNG transparente)
 
 Sempre confira a imagem `conferencia.jpg` que o `faces` grava: ela mostra onde cada parte foi cortada.
 """
@@ -225,12 +226,45 @@ def recortar(a):
         alfa = np.clip((dist - a.tol * .6) / (a.tol * .4), 0, 1) * 255
         arr[..., 3] = np.minimum(arr[..., 3], alfa)
         r = Image.fromarray(arr.astype("uint8"), "RGBA")
+    if a.tirar_claro:
+        # ornamento impresso sobre papel/fundo claro: o fundo vira transparente pela luminância
+        arr = np.array(r).astype(float)
+        lum = arr[..., :3] @ np.array([.299, .587, .114])
+        fundo = np.percentile(lum, 85)
+        tinta = np.percentile(lum, 3)
+        alfa = np.clip((fundo - lum) / max(1, (fundo - tinta)) * 1.6 - .38, 0, 1) ** .8
+        # cor única da tinta (mediana dos pixels mais escuros) para um traço limpo
+        escuros = arr[..., :3][lum < np.percentile(lum, 10)]
+        cor = np.median(escuros, axis=0) if a.cor is None else np.array([int(a.cor.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4)], float)
+        # tira manchas soltas do papel: só ficam as partes conectadas grandes do traço
+        import cv2
+        mascara = (alfa > .25).astype("uint8")
+        n, rotulos, est, _ = cv2.connectedComponentsWithStats(mascara, 8)
+        minimo = mascara.size * .0015
+        manter = np.zeros(n, bool); manter[1:] = est[1:, cv2.CC_STAT_AREA] >= minimo
+        perto = cv2.dilate((manter[rotulos]).astype("uint8"), np.ones((5, 5), "uint8")) > 0
+        alfa = np.where(perto, alfa, 0)
+        # esmaece as bordas do recorte: nenhuma aresta reta aparece na página
+        h, w = alfa.shape
+        fy = np.clip(np.minimum(np.arange(h), np.arange(h)[::-1]) / (h * .06), 0, 1)
+        fx = np.clip(np.minimum(np.arange(w), np.arange(w)[::-1]) / (w * .06), 0, 1)
+        alfa = alfa * np.outer(fy, fx)
+        arr[..., :3] = cor
+        arr[..., 3] = alfa * 255
+        r = Image.fromarray(arr.astype("uint8"), "RGBA")
+        bb = r.getchannel("A").point(lambda v: 255 if v > 20 else 0).getbbox()
+        if bb:
+            r = r.crop(bb)
     if a.circulo:
         lado = min(r.size)
         r = ImageOps.fit(r, (lado, lado))
         m = Image.new("L", (lado, lado), 0); ImageDraw.Draw(m).ellipse([0, 0, lado, lado], fill=255)
         r.putalpha(Image.fromarray(np.minimum(np.array(r.getchannel("A")), np.array(m))))
-    r.save(a.saida)
+    if Path(a.saida).suffix.lower() in (".jpg", ".jpeg"):
+        r = r.convert("RGB")
+        r.save(a.saida, quality=92)
+    else:
+        r.save(a.saida)
     print("OK", a.saida, r.size)
 
 
@@ -251,5 +285,8 @@ if __name__ == "__main__":
     p = sp.add_parser("recortar"); p.add_argument("imagem")
     for k in ("x0", "y0", "x1", "y1"): p.add_argument(k, type=float)
     p.add_argument("saida"); p.add_argument("--rel", action="store_true"); p.add_argument("--tirar-fundo"); p.add_argument("--tol", type=float, default=60)
-    p.add_argument("--circulo", action="store_true"); p.set_defaults(f=recortar)
+    p.add_argument("--circulo", action="store_true")
+    p.add_argument("--tirar-claro", action="store_true", help="ornamento impresso sobre fundo claro: fundo transparente, traço numa cor só")
+    p.add_argument("--cor", help="cor do traço com --tirar-claro (padrão: a da própria tinta)")
+    p.set_defaults(f=recortar)
     a = ap.parse_args(); a.f(a)

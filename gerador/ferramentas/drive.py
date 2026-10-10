@@ -11,6 +11,13 @@ import base64, json, re, sys
 from pathlib import Path
 
 
+def nome_seguro(titulo):
+    """Nome sem acentos nem espaços (evita problemas de normalização Unicode no terminal)."""
+    import unicodedata
+    base = "".join(c for c in unicodedata.normalize("NFD", titulo) if unicodedata.category(c) != "Mn")
+    return re.sub(r"[^A-Za-z0-9._-]+", "_", base).strip("_") or "arquivo"
+
+
 def main(origem, destino):
     bruto = Path(origem).read_text(encoding="utf-8", errors="ignore").strip()
     titulo, tipo = None, None
@@ -25,7 +32,7 @@ def main(origem, destino):
     dest = Path(destino)
     if dest.is_dir() or str(destino).endswith("/"):
         dest.mkdir(parents=True, exist_ok=True)
-        nome = re.sub(r'[\\/:*?"<>|]+', "_", titulo or "arquivo")
+        nome = nome_seguro(titulo or "arquivo")
         dest = dest / nome
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_bytes(dados)

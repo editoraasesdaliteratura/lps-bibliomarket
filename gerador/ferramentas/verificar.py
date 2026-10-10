@@ -134,14 +134,22 @@ async def conferir(pasta, prints, url):
             await pg.route("https://fonts.googleapis.com/**", fontes_css)
             await pg.route("**/__fontes/**", fontes_arq)
             await pg.goto(url, wait_until="networkidle")
-            await pg.wait_for_timeout(500)
-            # rola até o fim para carregar as imagens lazy
-            await pg.evaluate("async () => { for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 60)); } window.scrollTo(0, 0); }")
-            await pg.wait_for_timeout(600)
+            await pg.evaluate("() => document.querySelectorAll('img[loading=lazy]').forEach(i => i.loading = 'eager')")
+            # para o print: tudo visível de uma vez (sem animação de entrada) e sem a barra fixa do celular,
+            # que num print de página inteira apareceria no meio do conteúdo
+            await pg.add_style_tag(content=".rev{opacity:1!important;transform:none!important;transition:none!important}"
+                                           ".barra,.lp-barra{display:none!important}")
+            await pg.evaluate("document.fonts.ready.then(() => true)")
+            await pg.wait_for_timeout(1500)
+            try:
+                await pg.wait_for_function("() => [...document.images].every(i => i.complete)", timeout=15000)
+            except Exception:
+                rel["avisos"].append(f"{nome}: nem todas as imagens terminaram de carregar a tempo")
             r = await pg.evaluate(JS)
-            await pg.wait_for_timeout(800)
+            await pg.evaluate("() => Promise.all([...document.images].map(i => i.decode().catch(() => null)))")
+            await pg.wait_for_timeout(500)
             tmp = prints / f"{nome}.png"
-            await pg.screenshot(path=str(tmp), full_page=True)
+            await pg.screenshot(path=str(tmp), full_page=True, animations="disabled")
             rel["prints"][nome] = fatiar(tmp, nome, 1800 if nome == "desktop" else 2600)
             locais = [f for f in falhas if "fonts.g" not in f]
             if locais: rel["erros"].append(f"{nome}: recursos que não carregaram: {locais[:6]}")
