@@ -15,7 +15,7 @@ Substitui as LPs feitas no Canva pelo freelancer. O fluxo vive no quadro **LP �
 4. **Publicação final só com o card em 🟢 Aprovado**, movido pelo Renan. Antes disso, só prévia em `teste-lp.bibliomarket.com.br/<slug>/` (com `noindex`).
 5. **O HTML só sai do `build.py`.** Nunca escrever ou corrigir HTML/CSS à mão, nem no `dist/`, nem no servidor. Ajuste de conteúdo → `lp.json`. Ajuste de layout → template no `main`, só quando o Renan pedir (aí commit no `main` com a mudança descrita).
 6. **Nada inventado.** Texto só com o que está no livro, no briefing, no catálogo, na capa ou no card. Nunca criar prêmios, números de vendas, depoimentos, citações de terceiros ou dados do autor. O trecho (citação) é cópia literal do texto do livro. Depoimento só entra se estiver no material, com nome de quem disse.
-7. **Link de compra só de marketplace**, limpo de rastreio (Amazon: `https://www.amazon.com.br/dp/<ASIN>`, os 10 caracteres depois de `/dp/`) (Amazon, Mercado Livre, Shopee, Magalu, Americanas, Submarino, Shoptime, Estante Virtual). Livro interno pode ter a loja/catálogo da Ases como link extra ("Também na loja da editora"); externo nunca menciona a Ases. Nunca WhatsApp, site do autor, Linktree, Pix, e-mail ou telefone.
+7. **Link de compra só de marketplace** (Amazon, Mercado Livre, Shopee, Magalu, Americanas, Submarino, Shoptime, Estante Virtual), limpo de rastreio (Amazon: `https://www.amazon.com.br/dp/<ASIN>`, os 10 caracteres depois de `/dp/`). Livro interno pode ter a loja/catálogo da Ases como link extra ("Também na loja da editora"); externo nunca menciona a Ases. Nunca WhatsApp, site do autor, Linktree, Pix, e-mail ou telefone.
 8. **Instagram: só a tag**, nunca a foto do perfil. Vem do card ou do briefing. Autor sem Instagram ou que não quer → LP sem Instagram (não é motivo de Stand by).
 9. **Lombada nunca inventada.** Só há mockup mostrando a lombada quando ela foi medida na capa aberta (`capa.py faces`). Sem capa aberta, use a cena `frente`.
 10. **Livro externo** nunca leva "Ases" no texto, nos links ou na ficha.
@@ -186,7 +186,7 @@ Leia os cards das listas da news citadas acima. Card com `**Landing page:** cria
    2. `hosting_domains_create-website-subdomain`: username `u155401317`, domain `bibliomarket.com.br`, subdomain `<sub>`, directory `lps/<slug>`.
    3. Confira `hosting_domains_list-website-subdomains`: o novo subdomínio aponta para `.../public_html/lps/<slug>`.
    **Republicação** (já existe e aponta para `lps/<slug>`): só o deploy (ele puxa a versão nova).
-6. **Conferir no ar** `https://<sub>.bibliomarket.com.br/` (verificar.py com `--url`, ou WebFetch). O certificado HTTPS de subdomínio novo pode levar alguns minutos: se só o HTTPS falhar, espere e confira de novo antes de comentar; se continuar, comente avisando.
+6. **Conferir no ar** `https://<sub>.bibliomarket.com.br/` com WebFetch (título, canonical, sem `noindex`, botão de compra, imagens). O certificado HTTPS de subdomínio novo pode levar alguns minutos: se só o HTTPS falhar, espere e confira de novo antes de comentar; se continuar, comente avisando.
 7. Comente e mova para 🌐 Publicada:
    ```
    **🌐 LP publicada:** [<sub>.bibliomarket.com.br](https://<sub>.bibliomarket.com.br/)
