@@ -120,7 +120,7 @@ def obrigatorio(d, caminho):
         atual = atual[p]
 
 
-def montar(arq, previa=False, saida=None):
+def montar(arq, previa=False, saida=None, url_base=None):
     arq = Path(arq).resolve()
     base = arq.parent
     d = json.loads(arq.read_text(encoding="utf-8"))
@@ -171,7 +171,7 @@ def montar(arq, previa=False, saida=None):
     og = og_imagem(base / d["hero"]["imagem"], img_dir)
     favicon(cores["destaque"], out)
 
-    url = f"https://{d['subdominio']}.bibliomarket.com.br/"
+    url = url_base or f"https://{d['subdominio']}.bibliomarket.com.br/"
     ficha = [x for x in [livro.get("genero"), f"{livro['paginas']} páginas" if livro.get("paginas") else None,
                          livro.get("editora")] if x]
 
@@ -229,5 +229,6 @@ if __name__ == "__main__":
     ap.add_argument("lp_json")
     ap.add_argument("--previa", action="store_true")
     ap.add_argument("--saida")
+    ap.add_argument("--url", help="URL final da página (padrão: https://<subdominio>.bibliomarket.com.br/)")
     a = ap.parse_args()
-    montar(a.lp_json, a.previa, a.saida)
+    montar(a.lp_json, a.previa, a.saida, a.url)
