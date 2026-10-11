@@ -103,7 +103,7 @@ Para modelo que ainda não existe (Coletânea e Autor, enquanto não estiverem e
 Monte uma lista de tarefas e processe um card por vez.
 
 ### 0. Pedidos que vêm da news
-Leia os cards das listas da news citadas acima. Card com `**Landing page:** criar` (ou "pedir", "fazer") e **sem** card correspondente no quadro de LP (procure pelo título com `trelloSearch` no quadro de LP) → crie o card em 🤖 Pronto para montar. A skill da news cria o mesmo pedido quando roda antes: nunca duplique.
+Leia os cards das listas da news citadas acima. Card com `**Landing page:**` igual a uma destas palavras (a mesma lista da news, sem acento e sem diferenciar maiúsculas): `criar`, `pedir`, `fazer`, `solicitar`, `sim`, `nova`, `criar lp`, `pedir lp`, e **sem** card correspondente no quadro de LP (procure pelo título com `trelloSearch` no quadro de LP) → crie o card em 🤖 Pronto para montar. A skill da news cria o mesmo pedido quando roda antes: nunca duplique.
 - nome = título do livro; etiquetas **Livro**, **News + LP** e **Externo** se o card da news tiver a etiqueta Externo, senão **Interno**;
 - descrição no formato do modelo, com `**Card da news:** <link do card da news>` e, se houver, o `**Link de compra:**` da news;
 - comente no card da news: `**🌐 LP pedida.** A automação de LP vai montar e colocar o link aqui quando for publicada.` (sem mexer em mais nada).
