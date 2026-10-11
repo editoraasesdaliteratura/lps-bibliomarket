@@ -42,7 +42,7 @@ def salvar(pasta, slug):
 
 
 def baixar(slug, destino):
-    destino = Path(destino)
+    destino = Path(destino).resolve()
     if destino.exists() and any(destino.iterdir()):
         sys.exit(f"{destino} já tem arquivos; use uma pasta vazia.")
     r = git("clone", "-q", "--depth", "1", "--branch", f"projeto/{slug}", remoto(), str(destino), cwd=RAIZ, ok=True)
