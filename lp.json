@@ -1,0 +1,120 @@
+{
+  "modelo": "infantil",
+  "slug": "o-dia-em-que-levei-um-cavalo-pra-casa",
+  "subdominio": "nathaliastef",
+  "livro": {
+    "titulo": "O dia em que levei um cavalo pra casa",
+    "autor": "Nathalia Stef",
+    "ilustrador": "Lucas Chaves",
+    "isbn": "9786561940085"
+  },
+  "tema": {
+    "fonte_titulo": "Grandstander",
+    "fonte_texto": "Nunito",
+    "estampa": "coracoes",
+    "divisor": "vinheta.png",
+    "cores": {
+      "papel": "#FFFDF8",
+      "creme": "#FBF5E6",
+      "sol": "#EEE796",
+      "sol_2": "#E6DD84",
+      "tinta": "#3A2A1F",
+      "destaque": "#C0472A",
+      "botao": "#B6432A",
+      "botao_texto": "#FFFFFF",
+      "profundo": "#5C3F2A",
+      "texto_claro": "#FFF8EC",
+      "acento": "#25698C"
+    }
+  },
+  "seo": {
+    "titulo": "O dia em que levei um cavalo pra casa · Nathalia Stef",
+    "descricao": "Um menino solta um cavalo maltratado e o esconde em casa. Uma história ilustrada sobre amizade, imaginação e respeito aos animais."
+  },
+  "compra": {
+    "texto_botao": "Garanta o seu exemplar",
+    "texto_topo": "Comprar",
+    "principal": {
+      "rotulo": "Amazon",
+      "url": "https://a.co/d/0gW3vGv3"
+    },
+    "outros": []
+  },
+  "hero": {
+    "imagem": "mockup-frente.png",
+    "alt": "Livro O dia em que levei um cavalo pra casa, de Nathalia Stef",
+    "tagline": "Uma amizade capaz de transformar até o dia mais comum em *aventura*.",
+    "descricao": "Na saída da escola, um menino encontra um cavalo preso a uma carroça pesada demais. Ele decide agir e leva o novo amigo para casa, escondido da mãe."
+  },
+  "sinopse": {
+    "titulo": "Cavalos não descem escadas. Pelo menos, era o que ele achava.",
+    "paragrafos": [
+      "O cavalo marrom parecia ter fugido do desenho que o menino fez na noite anterior: era da cor exata do lápis, nem mais claro, nem mais escuro. Só que estava preso a uma carroça tão carregada de sacos de farinha que as rodas nem se mexiam.",
+      "Com uma tesoura sem ponta, uma maçã da lancheira e a confiança de quem se diz **mestre em planos**, o menino solta o animal e foge com ele para casa. O difícil vem depois: esconder um cavalo de verdade da mãe, que está logo ali na sala.",
+      "O que se segue é uma tarde de rosas amarelas devoradas, ferraduras que machucavam tiradas com o alicate do avô, guerreiros de vassoura e uma capa de super-herói feita com o cobertor vermelho. Uma história divertida sobre cuidar, confiar e deixar o outro ser livre."
+    ]
+  },
+  "galeria": {
+    "titulo": "Espie as páginas",
+    "intro": "As ilustrações de **Lucas Chaves** acompanham cada passo da aventura, da saída da escola ao quintal de casa.",
+    "itens": [
+      {
+        "imagem": "pagina-pg01.jpg",
+        "legenda": "Na saída da escola, um cavalo igualzinho ao do desenho.",
+        "alt": "Ilustração: o menino, de mochila caída, vê o cavalo preso à carroça diante da escola"
+      },
+      {
+        "imagem": "pagina-pg03.jpg",
+        "legenda": "Plano em ação: correr antes que o dono perceba.",
+        "alt": "Ilustração: o menino corre pela rua com a mochila, perseguido pelo dono da carroça"
+      },
+      {
+        "imagem": "pagina-pg14.jpg",
+        "legenda": "Jantar às pressas: lá fora, um amigo espera.",
+        "alt": "Ilustração: o menino janta com a mãe na cozinha, pensativo"
+      }
+    ]
+  },
+  "diferenciais": {
+    "titulo": "Para ler junto e conversar depois",
+    "itens": [
+      {
+        "icone": "coracao",
+        "titulo": "Respeito aos animais",
+        "texto": "Sem sermão, a história mostra que todo animal merece carinho e cuidado. Aqui é o cavalo quem guia o menino, e não o chicote."
+      },
+      {
+        "icone": "estrela",
+        "titulo": "Imaginação de verdade",
+        "texto": "A vassoura vira espada, o cobertor vira capa e o quintal vira campo de batalha. Brincar, ensina o menino, é usar a imaginação."
+      },
+      {
+        "icone": "livro",
+        "titulo": "Para quem já lê sozinho",
+        "texto": "Um texto com diálogos, humor e mais fôlego que o habitual, para crianças que estão começando a encarar histórias mais longas."
+      }
+    ]
+  },
+  "trecho": {
+    "texto": "Brincar é usar a imaginação! Minha vassoura é a espada! Faça de conta que estou com uma armadura brilhante e que você é meu cavalo superforte e corajoso!",
+    "referencia": "O menino, no quintal de casa",
+    "imagem": "orelha.jpg",
+    "alt": "Ilustração da orelha do livro: o menino amarra uma capa vermelha no pescoço do cavalo"
+  },
+  "bio": {
+    "rotulo": "Sobre a autora",
+    "nome": "Nathalia Stef",
+    "foto": "autora.jpg",
+    "paragrafos": [
+      "**Nathalia Stef** é escritora de literatura infantil e formada em Letras. É apaixonada por livros e por cavalos desde a infância.",
+      "A paixão ganhou um novo propósito quando o filho, Miguel, aos cinco anos, fez um pedido: *“Mãe, escreve uma história de cavalos para mim?”*. Para levar a missão a sério, ela estudou a fundo esse universo e viveu experiências que deram origem a este livro, sua estreia como autora."
+    ]
+  },
+  "final": {
+    "titulo": "Cavalos são incríveis e merecem ser tratados com carinho e respeito.",
+    "texto": "Uma aventura para ler em voz alta, rir junto e conversar sobre o cuidado com os animais.",
+    "fecho": "Para crianças que estão começando a ler sozinhas e para quem lê com elas.",
+    "imagem": "personagens.png",
+    "alt": "Ilustração da capa: o cavalo marrom e o menino caminham lado a lado"
+  }
+}
