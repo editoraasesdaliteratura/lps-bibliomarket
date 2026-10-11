@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{{ seo.titulo }}</title>
+<meta name="description" content="{{ seo.descricao }}">
+{% if previa %}<meta name="robots" content="noindex,nofollow">{% else %}<link rel="canonical" href="{{ url }}">{% endif %}
+<meta name="theme-color" content="{{ c.creme }}">
+<meta property="og:type" content="book">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="{{ seo.titulo }}">
+<meta property="og:description" content="{{ seo.descricao }}">
+<meta property="og:url" content="{{ url }}">
+<meta property="og:image" content="{{ url }}img/{{ og_imagem }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?{{ fontes_url }}&display=swap">
+<link rel="preload" as="image" href="img/{{ hero.imagem.arquivo }}-{{ hero.imagem.min }}.webp" imagesrcset="img/{{ hero.imagem.arquivo }}-{{ hero.imagem.min }}.webp {{ hero.imagem.min }}w, img/{{ hero.imagem.arquivo }}-{{ hero.imagem.max }}.webp {{ hero.imagem.max }}w" imagesizes="(max-width:860px) 80vw, 480px">
+<script type="application/ld+json">{{ jsonld }}</script>
+<!--
+  LP INFANTIL · Global Assessoria · v1
+  Gerado por build.py a partir de lp.json. Não edite este arquivo à mão:
+  altere o lp.json e gere de novo.
+-->
+<style>
+:root{
+  --f-titulo:{{ fonte_titulo }};
+  --f-texto:{{ fonte_texto }};
+  --papel:{{ c.papel }};
+  --creme:{{ c.creme }};
+  --sol:{{ c.sol }};
+  --sol-2:{{ c.sol_2 }};
+  --tinta:{{ c.tinta }};
+  --destaque:{{ c.destaque }};
+  --botao:{{ c.botao }};
+  --botao-texto:{{ c.botao_texto }};
+  --profundo:{{ c.profundo }};
+  --texto-claro:{{ c.texto_claro }};
+  --acento:{{ c.acento }};
+  --rodape:{{ c.rodape }};
+  --rodape-texto:{{ c.rodape_texto }};
+  --largura:1160px;
+  --gutter:clamp(20px, 5vw, 40px);
+  --raio:26px;
+  --secao:clamp(72px, 9vw, 128px);
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:84px}
+body{margin:0;background:var(--papel);color:var(--tinta);font-family:var(--f-texto);font-size:clamp(16.5px, 1vw + 12.5px, 19px);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+p{margin:0;text-wrap:pretty}
+strong{font-weight:800}
+::selection{background:var(--sol);color:var(--tinta)}
+:focus-visible{outline:3px solid var(--destaque);outline-offset:3px;border-radius:8px}
+.ki-pular{position:absolute;left:12px;top:-60px;z-index:50;background:var(--botao);color:var(--botao-texto);padding:10px 16px;border-radius:999px;font-weight:800;text-decoration:none;transition:top .2s}
+.ki-pular:focus{top:12px}
+
+.ki-wrap{width:100%;max-width:var(--largura);margin-inline:auto;padding-inline:var(--gutter)}
+.ki-secao{padding-block:var(--secao);position:relative}
+.ki-prosa{display:grid;gap:1.05em;max-width:62ch}
+
+/* Tipografia */
+.ki-marca{font-family:var(--f-titulo);font-weight:800;font-size:clamp(16px, .9vw + 11px, 21px);line-height:1.1;text-decoration:none;color:var(--destaque)}
+.ki-eyebrow{display:inline-flex;align-items:center;gap:.5em;font-weight:800;font-size:13px;line-height:1.3;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta);margin:0}
+.ki-eyebrow::before{content:"";width:22px;height:3px;border-radius:3px;background:var(--destaque)}
+.ki-h1{font-family:var(--f-titulo);font-weight:800;font-size:clamp(42px, 4.4vw + 14px, 80px);line-height:1;letter-spacing:-.01em;color:var(--destaque);margin:0;text-wrap:balance}
+.ki-h2{font-family:var(--f-titulo);font-weight:800;font-size:clamp(32px, 2.8vw + 14px, 54px);line-height:1.06;letter-spacing:-.005em;margin:0;text-wrap:balance;color:var(--destaque)}
+.ki-tagline{font-family:var(--f-titulo);font-weight:700;font-size:clamp(20px, .9vw + 15px, 26px);line-height:1.3;color:var(--tinta)}
+.ki-tagline em{font-style:normal;color:var(--destaque)}
+.ki-intro{font-size:1.06em;max-width:56ch}
+
+/* Botão */
+.ki-btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;min-height:58px;padding:.95em 1.9em;border-radius:999px;background:var(--botao);color:var(--botao-texto);font-family:var(--f-texto);font-weight:800;font-size:16.5px;line-height:1.2;letter-spacing:.01em;text-decoration:none;box-shadow:0 5px 0 0 color-mix(in srgb, var(--botao) 62%, #000),0 16px 26px -14px rgba(40,20,10,.55);transition:transform .18s ease,box-shadow .18s ease,filter .18s ease}
+.ki-btn:hover{transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 7px 0 0 color-mix(in srgb, var(--botao) 62%, #000),0 20px 30px -14px rgba(40,20,10,.6)}
+.ki-btn:active{transform:translateY(3px);box-shadow:0 2px 0 0 color-mix(in srgb, var(--botao) 62%, #000),0 8px 16px -10px rgba(40,20,10,.5)}
+.ki-btn svg{width:1.15em;height:1.15em;flex:none}
+.ki-lojas{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:14px}
+.ki-lojas a{font-weight:800;text-underline-offset:3px}
+
+/* Instagram */
+.ki-ig{display:inline-flex;align-items:center;gap:.5em;padding:8px 16px;border-radius:999px;background:var(--sol);color:var(--tinta);text-decoration:none;font-size:14px;font-weight:800;white-space:nowrap;transition:transform .2s ease}
+.ki-ig:hover{transform:translateY(-1px)}
+.ki-siga{display:flex;align-items:center;gap:.75em;font-size:13.5px}
+
+/* Topo */
+.ki-topo{position:sticky;top:0;z-index:20;background:color-mix(in srgb, var(--creme) 92%, transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);padding-top:env(safe-area-inset-top,0px);transition:box-shadow .3s ease}
+.ki-topo.rolou{box-shadow:0 10px 24px -20px rgba(40,20,10,.6)}
+.ki-topo .ki-wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px}
+.ki-topo .ki-marca{min-width:0;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.ki-topo-cta{font-size:14px;font-weight:800;color:var(--destaque);text-decoration:none;white-space:nowrap;display:inline-flex;align-items:center;gap:.4em}
+.ki-topo-cta svg{width:1em;height:1em}
+@media (max-width:560px){ .ki-topo .ki-siga-label{display:none} .ki-topo .ki-marca{font-size:15px} .ki-topo-cta{background:var(--botao);color:var(--botao-texto);padding:8px 14px;border-radius:999px;font-size:13.5px} }
+
+/* Estampa (motivo repetido da capa) e mancha de aquarela */
+.ki-estampa{background-color:var(--sol);background-image:{{ estampa }};background-size:{{ estampa_tam }}px {{ estampa_tam }}px}
+.ki-mancha{position:absolute;inset:-10% -14%;z-index:0;pointer-events:none}
+.ki-mancha svg{width:100%;height:100%;overflow:visible}
+
+/* Onda entre seções */
+.ki-onda{display:block;width:100%;height:clamp(22px, 3.4vw, 46px);margin-bottom:-1px}
+.ki-onda-baixo{margin-top:-1px;margin-bottom:0;transform:scaleY(-1)}
+
+/* Imagens */
+.ki-recorte img{width:100%;height:auto;filter:drop-shadow(0 12px 14px rgba(50,25,10,.16))}
+.ki-hero-img .ki-recorte img{filter:none}
+.ki-cartao{margin:0;background:#fff;padding:clamp(8px,1vw,12px);border-radius:22px;box-shadow:0 2px 0 rgba(0,0,0,.04),0 26px 44px -26px rgba(50,25,10,.5)}
+.ki-cartao img{border-radius:15px;width:100%;height:auto}
+.ki-divisor{display:block;width:min(230px,58vw);height:auto}
+.ki-coracoes{position:absolute;inset:0;pointer-events:none;z-index:2}
+.ki-coracoes svg{position:absolute;width:var(--t,26px);height:auto;fill:var(--destaque);opacity:.9;animation:ki-boia 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+@keyframes ki-boia{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-10px) rotate(var(--r,0deg))}}
+
+/* Hero */
+.ki-hero{background:var(--creme);padding-block:clamp(28px, 5vw, 80px) clamp(40px, 6vw, 96px);overflow:hidden;position:relative}
+.ki-hero-grid{display:grid;grid-template-columns:1.08fr 1fr;grid-template-areas:"head img" "corpo img";column-gap:clamp(28px, 5vw, 80px);row-gap:22px;align-items:center}
+.ki-hero-head{grid-area:head;align-self:end;display:grid;gap:18px;justify-items:start}
+.ki-hero-corpo{grid-area:corpo;align-self:start;display:grid;gap:20px;justify-items:start}
+.ki-hero-img{grid-area:img;position:relative;display:grid;place-items:center;padding:clamp(10px,3vw,40px)}
+.ki-hero-img .ki-recorte{position:relative;z-index:1;width:min(100%,460px);transform:rotate(-2deg)}
+.ki-creditos{font-size:14.5px;color:color-mix(in srgb, var(--tinta) 80%, transparent);margin-top:-4px}
+.ki-creditos b{font-weight:800;color:var(--tinta)}
+@media (max-width:860px){
+  .ki-hero-grid{grid-template-columns:1fr;grid-template-areas:"head" "img" "corpo";row-gap:22px}
+  .ki-hero-img{padding:4px 0}
+  .ki-hero-img .ki-recorte{width:min(58%,280px)}
+  .ki-hero-corpo{justify-items:stretch}
+}
+
+/* História */
+.ki-historia .ki-wrap{display:grid;gap:clamp(28px, 4vw, 44px);justify-items:center;text-align:center}
+.ki-historia .ki-h2{max-width:20ch}
+.ki-historia .ki-prosa{text-align:left}
+.ki-historia .ki-prosa p:first-child{font-size:1.14em;line-height:1.6}
+.ki-historia-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,5vw,72px);align-items:center;text-align:left;justify-items:start}
+.ki-historia-grid .ki-recorte{max-width:440px;justify-self:center}
+@media (max-width:860px){ .ki-historia-grid{grid-template-columns:1fr} .ki-historia-grid .ki-recorte{order:-1;max-width:340px} }
+
+/* Páginas do livro */
+.ki-paginas .ki-wrap{display:grid;gap:clamp(30px,4vw,52px)}
+.ki-paginas-head{display:grid;gap:14px;justify-items:center;text-align:center}
+.ki-paginas .ki-h2{color:var(--tinta)}
+.ki-galeria{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat({{ galeria.itens|length if galeria else 3 }},minmax(0,1fr));gap:clamp(18px,3vw,40px);align-items:start}
+.ki-galeria li{display:grid;gap:14px;justify-items:center}
+.ki-galeria li:nth-child(3n+1) .ki-cartao{transform:rotate(-2.2deg)}
+.ki-galeria li:nth-child(3n+2) .ki-cartao{transform:rotate(1.6deg) translateY(18px)}
+.ki-galeria li:nth-child(3n) .ki-cartao{transform:rotate(-1deg)}
+.ki-galeria .ki-cartao{transition:transform .3s ease}
+.ki-galeria li:hover .ki-cartao{transform:rotate(0) translateY(-4px)}
+.ki-legenda{font-family:var(--f-titulo);font-weight:700;font-size:clamp(16px,.5vw + 13px,19px);line-height:1.3;text-align:center;color:var(--tinta);max-width:24ch}
+.ki-galeria li:nth-child(3n+2) .ki-legenda{margin-top:18px}
+@media (max-width:760px){
+  .ki-galeria{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:76%;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px var(--gutter) 22px;margin-inline:calc(var(--gutter) * -1);scrollbar-width:none}
+  .ki-galeria::-webkit-scrollbar{display:none}
+  .ki-galeria li{scroll-snap-align:center}
+  .ki-galeria li:nth-child(3n+2) .ki-cartao{transform:rotate(1.6deg)}
+  .ki-galeria li:nth-child(3n+2) .ki-legenda{margin-top:0}
+}
+.ki-arraste{display:none;justify-self:center;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+@media (max-width:760px){ .ki-arraste{display:block} }
+
+/* Motivos para ler */
+.ki-motivos{background:var(--creme)}
+.ki-motivos .ki-wrap{display:grid;gap:clamp(30px,4vw,52px);justify-items:center}
+.ki-motivos .ki-h2{text-align:center;max-width:22ch}
+.ki-cards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:clamp(16px,2vw,26px);width:100%}
+.ki-card{background:var(--papel);border-radius:var(--raio);padding:clamp(24px,2.6vw,34px);display:grid;gap:12px;align-content:start;box-shadow:0 1px 0 rgba(0,0,0,.04),0 20px 40px -32px rgba(50,25,10,.55)}
+.ki-icone{width:64px;height:64px;border-radius:50%;background:var(--sol);display:grid;place-items:center;margin-bottom:6px}
+.ki-card:nth-child(3n+2) .ki-icone{border-radius:44% 56% 52% 48% / 55% 45% 55% 45%}
+.ki-card:nth-child(3n) .ki-icone{border-radius:56% 44% 46% 54% / 46% 56% 44% 54%}
+.ki-icone svg{width:32px;height:32px;stroke:var(--destaque);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ki-card-titulo{font-family:var(--f-titulo);font-weight:800;font-size:clamp(20px,.6vw + 16px,24px);line-height:1.2;margin:0;color:var(--tinta)}
+
+/* Trecho */
+.ki-trecho-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(36px,6vw,96px);align-items:center}
+.ki-trecho-grid:not(:has(.ki-cartao)){grid-template-columns:minmax(0,860px);justify-content:center;text-align:center}
+.ki-trecho .ki-cartao{transform:rotate(-2.5deg);max-width:380px;justify-self:center}
+.ki-trecho figure.ki-citacao{margin:0;display:grid;gap:22px}
+.ki-trecho blockquote{margin:0;font-family:var(--f-titulo);font-weight:700;font-size:clamp(25px,1.9vw + 15px,40px);line-height:1.28;color:var(--tinta);text-wrap:balance}
+.ki-trecho blockquote::before{content:"\201C";display:block;font-size:2.6em;line-height:.62;color:var(--destaque)}
+.ki-trecho figcaption{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--destaque)}
+@media (max-width:860px){ .ki-trecho-grid{grid-template-columns:1fr} .ki-trecho .ki-cartao{max-width:300px} }
+
+/* Bio */
+.ki-bio{background:var(--profundo);color:var(--texto-claro)}
+.ki-bio-grid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(36px,6vw,88px);align-items:center;max-width:1000px;margin-inline:auto}
+.ki-bio-grid:not(:has(.ki-retrato)){grid-template-columns:minmax(0,760px);justify-content:center}
+.ki-retrato{width:clamp(220px,24vw,320px);aspect-ratio:1;border-radius:50%;overflow:hidden;box-shadow:0 0 0 8px var(--sol),0 0 0 15px var(--profundo),0 0 0 17px color-mix(in srgb, var(--sol) 55%, transparent)}
+.ki-retrato img{width:100%;height:100%;object-fit:cover}
+.ki-bio-texto{display:grid;gap:18px;justify-items:start;min-width:0}
+.ki-bio .ki-eyebrow{color:var(--texto-claro)}
+.ki-bio .ki-eyebrow::before{background:var(--sol)}
+.ki-bio .ki-h2{color:var(--sol)}
+.ki-bio :focus-visible{outline-color:var(--sol)}
+@media (max-width:760px){ .ki-bio-grid{grid-template-columns:1fr;justify-items:center} .ki-bio-texto{justify-items:center;text-align:center} }
+
+/* Final */
+.ki-final{background:var(--creme);overflow:hidden}
+.ki-final-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(36px,5vw,80px);align-items:center}
+.ki-final-texto{display:grid;gap:20px;justify-items:start;min-width:0;position:relative;z-index:1}
+.ki-final-img{position:relative;display:grid;place-items:center}
+.ki-final-img .ki-recorte{position:relative;z-index:1;width:min(100%,470px)}
+.ki-fecho{font-weight:800}
+@media (max-width:860px){
+  .ki-final-grid{grid-template-columns:1fr}
+  .ki-final-img{order:-1}
+  .ki-final-img .ki-recorte{width:min(82%,380px)}
+  .ki-final-texto{justify-items:stretch}
+  .ki-btn{width:100%}
+}
+
+/* Rodapé + assinatura Global (fixos em todas as LPs) */
+.ki-rodape{background:var(--rodape);color:var(--rodape-texto);padding-block:40px calc(40px + env(safe-area-inset-bottom,0px))}
+.ki-rodape .ki-marca{color:inherit}
+.ki-rodape-grid{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:28px}
+.ki-rodape .ki-siga{justify-self:center}
+.ki-assinatura{justify-self:end;display:grid;justify-items:end;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-decoration:none}
+.ki-assinatura img{height:36px;width:auto;{% if c.rodape_texto_claro %}filter:brightness(0) invert(1){% else %}filter:brightness(0){% endif %}}
+.ki-copy{grid-column:1/-1;border-top:1px solid color-mix(in srgb, currentColor 25%, transparent);padding-top:20px;font-size:12.5px;text-align:center}
+@media (max-width:760px){
+  .ki-rodape-grid{grid-template-columns:1fr;justify-items:center;text-align:center}
+  .ki-assinatura,.ki-rodape .ki-siga{justify-self:center;justify-items:center}
+}
+
+/* Barra fixa de compra (celular) */
+.ki-barra{position:fixed;left:0;right:0;bottom:0;z-index:30;display:none;background:var(--creme);border-top:1px solid rgba(0,0,0,.1);padding:10px var(--gutter) calc(12px + env(safe-area-inset-bottom,0px));transform:translateY(110%);transition:transform .35s ease}
+.ki-barra .ki-btn{min-height:52px;width:100%}
+.ki-barra.on{transform:none}
+@media (max-width:860px){ .ki-barra{display:block} }
+
+/* Entrada suave ao rolar */
+.js .rev{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.js .rev.vis{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  .js .rev{opacity:1;transform:none}
+}
+</style>
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+{% macro seta() %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>{% endmacro %}
+{% macro img(i, sizes, lazy=true) %}<picture><source type="image/webp" srcset="img/{{ i.arquivo }}-{{ i.min }}.webp {{ i.min }}w, img/{{ i.arquivo }}-{{ i.max }}.webp {{ i.max }}w" sizes="{{ sizes }}"><img src="img/{{ i.arquivo }}-{{ i.max }}.{{ i.ext }}" width="{{ i.w }}" height="{{ i.h }}" alt="{{ i.alt }}" {% if lazy %}loading="lazy" decoding="async"{% else %}fetchpriority="high"{% endif %}></picture>{% endmacro %}
+{% macro quadro(i, sizes, lazy=true, classe='') %}{% if i.ext == 'png' %}<div class="ki-recorte {{ classe }}">{{ img(i, sizes, lazy) }}</div>{% else %}<figure class="ki-cartao {{ classe }}">{{ img(i, sizes, lazy) }}</figure>{% endif %}{% endmacro %}
+{% macro ig() %}{% if instagram %}<a class="ki-ig" href="{{ instagram.url }}" target="_blank" rel="noopener" data-cta="instagram">@{{ instagram.usuario }}</a>{% endif %}{% endmacro %}
+{% macro comprar(local) %}<a class="ki-btn" href="{{ compra.principal.url }}" target="_blank" rel="noopener" data-cta="{{ local }}"{% if local == 'hero' %} id="cta-hero"{% endif %}>{{ compra.texto_botao }} {{ seta() }}</a>{% endmacro %}
+{% macro lojas() %}{% if compra.outros %}<p class="ki-lojas"><span>Também em</span>{% for l in compra.outros %}<a href="{{ l.url }}" target="_blank" rel="noopener" data-cta="loja-{{ loop.index }}">{{ l.rotulo }}</a>{% endfor %}</p>{% endif %}{% endmacro %}
+{% macro onda(cor, fundo, baixo=false) %}<svg class="ki-onda{{ ' ki-onda-baixo' if baixo }}" style="background:{{ fundo }}" viewBox="0 0 1440 48" preserveAspectRatio="none" aria-hidden="true"><path fill="{{ cor }}" d="M0 48V22c120-18 240-22 360-8s240 26 360 14 240-34 360-30 240 18 360 18v32z"/></svg>{% endmacro %}
+{% macro mancha(cor, id) %}<div class="ki-mancha" aria-hidden="true"><svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet"><defs><filter id="aq{{ id }}" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="3" seed="{{ semente + id }}"/><feDisplacementMap in="SourceGraphic" scale="46"/><feGaussianBlur stdDeviation="1.2"/></filter></defs><path filter="url(#aq{{ id }})" fill="{{ cor }}" opacity=".9" d="M300 70c96 0 190 44 222 128s18 196-52 262-196 84-282 44S54 384 62 290s54-176 118-204 74-16 120-16z"/></svg></div>{% endmacro %}
+{% macro coracoes(posicoes) %}<div class="ki-coracoes" aria-hidden="true">{% for p in posicoes %}<svg viewBox="0 0 32 29" style="left:{{ p[0] }}%;top:{{ p[1] }}%;--t:{{ p[2] }}px;--r:{{ p[3] }}deg;--d:{{ loop.index0 * -1.7 }}s"><path d="M16 29S0 19 0 8.6C0 3.7 3.8 0 8.4 0 11.6 0 14.4 1.8 16 4.4 17.6 1.8 20.4 0 23.6 0 28.2 0 32 3.7 32 8.6 32 19 16 29 16 29z"/></svg>{% endfor %}</div>{% endmacro %}
+{% macro icone(nome) %}<svg viewBox="0 0 32 32" aria-hidden="true">{{ icones[nome] }}</svg>{% endmacro %}
+
+<a class="ki-pular" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="ki-topo" id="topo">
+  <div class="ki-wrap">
+    <a class="ki-marca" href="#inicio">{{ livro.titulo }}</a>
+    {% if instagram %}<div class="ki-siga"><span class="ki-siga-label">{{ instagram.rotulo }}</span>{{ ig() }}</div>{% else %}<a class="ki-topo-cta" href="{{ compra.principal.url }}" target="_blank" rel="noopener" data-cta="topo">{{ compra.texto_topo }} {{ seta() }}</a>{% endif %}
+  </div>
+</header>
+
+<main id="inicio">
+
+  <section class="ki-hero" id="conteudo">
+    <div class="ki-wrap ki-hero-grid">
+      <div class="ki-hero-head">
+        <p class="ki-eyebrow">{{ livro.autor }}</p>
+        <h1 class="ki-h1">{{ livro.titulo }}</h1>
+        {% if livro.ilustrador %}<p class="ki-creditos">Ilustrações de <b>{{ livro.ilustrador }}</b></p>{% endif %}
+      </div>
+      <div class="ki-hero-img">
+        {{ mancha(c.sol, 1) }}
+        {{ quadro(hero.imagem, "(max-width:860px) 80vw, 480px", false) }}
+        {{ coracoes([(8, 16, 26, -14), (84, 10, 18, 12), (90, 64, 30, 8), (4, 74, 16, -6)]) }}
+      </div>
+      <div class="ki-hero-corpo">
+        <p class="ki-tagline">{{ hero.tagline }}</p>
+        <p>{{ hero.descricao }}</p>
+        {{ comprar('hero') }}
+        {{ lojas() }}
+      </div>
+    </div>
+  </section>
+
+  <section class="ki-secao ki-historia" aria-labelledby="t-historia">
+    <div class="ki-wrap">
+      {% if sinopse.imagem %}
+      <div class="ki-historia-grid">
+        <div style="display:grid;gap:clamp(22px,3vw,34px)">
+          {% if divisor %}<img class="ki-divisor rev" src="img/{{ divisor.arquivo }}" alt="" aria-hidden="true" width="{{ divisor.w }}" height="{{ divisor.h }}" loading="lazy">{% endif %}
+          <h2 class="ki-h2 rev" id="t-historia">{{ sinopse.titulo }}</h2>
+          <div class="ki-prosa rev">{% for p in sinopse.paragrafos %}<p>{{ p }}</p>{% endfor %}</div>
+        </div>
+        <div class="rev">{{ quadro(sinopse.imagem, "(max-width:860px) 80vw, 440px") }}</div>
+      </div>
+      {% else %}
+      {% if divisor %}<img class="ki-divisor rev" src="img/{{ divisor.arquivo }}" alt="" aria-hidden="true" width="{{ divisor.w }}" height="{{ divisor.h }}" loading="lazy">{% endif %}
+      <h2 class="ki-h2 rev" id="t-historia">{{ sinopse.titulo }}</h2>
+      <div class="ki-prosa rev">{% for p in sinopse.paragrafos %}<p>{{ p }}</p>{% endfor %}</div>
+      {% endif %}
+    </div>
+  </section>
+
+  {% if galeria %}
+  {{ onda(c.sol, c.papel) }}
+  <section class="ki-secao ki-paginas ki-estampa" aria-labelledby="t-paginas">
+    <div class="ki-wrap">
+      <div class="ki-paginas-head rev">
+        <h2 class="ki-h2" id="t-paginas">{{ galeria.titulo }}</h2>
+        {% if galeria.intro %}<p class="ki-intro">{{ galeria.intro }}</p>{% endif %}
+      </div>
+      <ul class="ki-galeria">{% for g in galeria.itens %}
+        <li class="rev">{{ quadro(g.imagem, "(max-width:760px) 76vw, 360px") }}{% if g.legenda %}<p class="ki-legenda">{{ g.legenda }}</p>{% endif %}</li>{% endfor %}
+      </ul>
+      <p class="ki-arraste" aria-hidden="true">Arraste para o lado →</p>
+    </div>
+  </section>
+  {{ onda(c.sol, c.creme, true) }}
+  {% endif %}
+
+  <section class="ki-secao ki-motivos" aria-labelledby="t-motivos">
+    <div class="ki-wrap">
+      <h2 class="ki-h2 rev" id="t-motivos">{{ diferenciais.titulo }}</h2>
+      <ul class="ki-cards">{% for d in diferenciais.itens %}
+        <li class="ki-card rev"><div class="ki-icone">{{ icone(d.icone) }}</div><h3 class="ki-card-titulo">{{ d.titulo }}</h3><p>{{ d.texto }}</p></li>{% endfor %}
+      </ul>
+      {{ comprar('diferenciais') }}
+    </div>
+  </section>
+
+  {% if trecho %}
+  <section class="ki-secao ki-trecho" aria-label="Trecho do livro">
+    <div class="ki-wrap ki-trecho-grid">
+      {% if trecho.imagem %}<div class="rev">{{ quadro(trecho.imagem, "(max-width:860px) 72vw, 380px") }}</div>{% endif %}
+      <figure class="ki-citacao rev"><blockquote>{{ trecho.texto }}</blockquote><figcaption>{{ trecho.referencia }}</figcaption></figure>
+    </div>
+  </section>
+  {% endif %}
+
+  {{ onda(c.profundo, c.papel if trecho else c.creme) }}
+  <section class="ki-secao ki-bio" aria-labelledby="t-bio">
+    <div class="ki-wrap ki-bio-grid">
+      {% if bio.foto %}<div class="ki-retrato rev">{{ img(bio.foto, "320px") }}</div>{% endif %}
+      <div class="ki-bio-texto rev">
+        <p class="ki-eyebrow">{{ bio.rotulo }}</p>
+        <h2 class="ki-h2" id="t-bio">{{ bio.nome }}</h2>
+        <div class="ki-prosa">{% for p in bio.paragrafos %}<p>{{ p }}</p>{% endfor %}</div>
+        {{ ig() }}
+      </div>
+    </div>
+  </section>
+  {{ onda(c.profundo, c.creme, true) }}
+
+  <section class="ki-secao ki-final" id="cta-final" aria-labelledby="t-final">
+    <div class="ki-wrap ki-final-grid">
+      <div class="ki-final-texto rev">
+        <h2 class="ki-h2" id="t-final">{{ final.titulo }}</h2>
+        <p>{{ final.texto }}</p>
+        {% if final.fecho %}<p class="ki-fecho">{{ final.fecho }}</p>{% endif %}
+        {{ comprar('final') }}
+        {{ lojas() }}
+      </div>
+      <div class="ki-final-img rev">
+        {{ mancha(c.sol, 2) }}
+        {{ quadro(final.imagem, "(max-width:860px) 82vw, 470px") }}
+        {{ coracoes([(6, 8, 22, -10), (88, 18, 28, 10), (82, 84, 18, -4)]) }}
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="ki-rodape">
+  <div class="ki-wrap ki-rodape-grid">
+    <a class="ki-marca" href="#inicio">{{ livro.titulo }}</a>
+    {% if instagram %}<div class="ki-siga"><span>{{ instagram.rotulo }}</span>{{ ig() }}</div>{% else %}<span></span>{% endif %}
+    <a class="ki-assinatura" href="https://assessoriaglobal.com.br/" target="_blank" rel="noopener"><span>Desenvolvido por</span><img src="img/logo-global.png" alt="Global Assessoria" width="133" height="36"></a>
+    <p class="ki-copy">© {{ ano }} {{ livro.autor }}. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<div class="ki-barra barra" id="ki-barra" aria-hidden="true">
+  <a class="ki-btn" href="{{ compra.principal.url }}" target="_blank" rel="noopener" tabindex="-1" data-cta="barra">{{ compra.texto_botao }}</a>
+</div>
+
+<script>
+(function(){
+  var topo=document.getElementById("topo");
+  addEventListener("scroll",function(){topo.classList.toggle("rolou",scrollY>8)},{passive:true});
+  if(!("IntersectionObserver" in window)){document.querySelectorAll(".rev").forEach(function(e){e.classList.add("vis")});return}
+  var rev=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("vis");rev.unobserve(e.target)}})},{rootMargin:"0px 0px -8% 0px"});
+  document.querySelectorAll(".rev").forEach(function(e){rev.observe(e)});
+  var barra=document.getElementById("ki-barra"),hero=document.getElementById("cta-hero"),fim=document.getElementById("cta-final");
+  if(!barra||!hero||!fim)return;
+  var heroVis=true,fimVis=false;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.target===hero)heroVis=e.isIntersecting||e.boundingClientRect.top>0;else fimVis=e.isIntersecting});
+    var on=!heroVis&&!fimVis;
+    barra.classList.toggle("on",on);barra.setAttribute("aria-hidden",on?"false":"true");barra.querySelector("a").tabIndex=on?0:-1;
+  });
+  io.observe(hero);io.observe(fim);
+})();
+</script>
+</body>
+</html>

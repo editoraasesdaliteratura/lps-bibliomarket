@@ -154,6 +154,8 @@ def montar(arq, previa=False, saida=None, url_base=None):
         raise SystemExit(f"modelo '{modelo}' ainda não existe. Disponíveis: {', '.join(MODELOS)}")
     if modelo == "livro-grafico":
         return montar_grafico(d, base, previa, saida, url_base)
+    if modelo == "infantil":
+        return montar_infantil(d, base, previa, saida, url_base)
     for c in ["slug", "subdominio", "livro.titulo", "livro.autor", "compra.principal.url",
               "hero.tagline", "hero.descricao", "hero.imagem", "sinopse.titulo", "sinopse.paragrafos",
               "diferenciais.titulo", "diferenciais.itens", "bio.nome", "bio.paragrafos",
@@ -427,9 +429,193 @@ def montar_grafico(d, base, previa, saida, url_base):
     return out
 
 
+# ================== modelo "infantil" ==================
+FONTES_INFANTIL = {
+    "Grandstander": {"google": "family=Grandstander:wght@700;800", "css": '"Grandstander", "Comic Sans MS", system-ui, sans-serif'},
+    "Baloo 2": {"google": "family=Baloo+2:wght@700;800", "css": '"Baloo 2", system-ui, sans-serif'},
+    "Fredoka": {"google": "family=Fredoka:wght@600;700", "css": '"Fredoka", system-ui, sans-serif'},
+    "Sniglet": {"google": "family=Sniglet:wght@400;800", "css": '"Sniglet", system-ui, sans-serif'},
+    "Nunito": {"google": "family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400", "css": '"Nunito", system-ui, -apple-system, "Segoe UI", Arial, sans-serif'},
+    "Quicksand": {"google": "family=Quicksand:wght@400;600;700", "css": '"Quicksand", system-ui, sans-serif'},
+}
+
+# Ícones de traço (32x32) para os cards de motivos. Escolha um por item no lp.json ("icone").
+ICONES = {
+    "coracao": '<path d="M16 27s-11-6.6-11-14.2A6 6 0 0 1 16 9.4a6 6 0 0 1 11 3.4C27 20.4 16 27 16 27z"/>',
+    "estrela": '<path d="M16 4.5l3.4 7.1 7.8 1-5.7 5.4 1.4 7.7L16 22l-6.9 3.7 1.4-7.7-5.7-5.4 7.8-1z"/>',
+    "livro": '<path d="M16 9c-3-2.4-7-3-11-2v17c4-1 8-.4 11 2 3-2.4 7-3 11-2V7c-4-1-8-.4-11 2zM16 9v17"/>',
+    "folha": '<path d="M7 25C7 13 14 6 26 6c0 12-7 19-19 19zM7 25l10-10"/>',
+    "casa": '<path d="M5 15L16 6l11 9M8 13v13h16V13M13 26v-7h6v7"/>',
+    "sol": '<circle cx="16" cy="16" r="5.5"/><path d="M16 3v4M16 25v4M3 16h4M25 16h4M6.8 6.8l2.8 2.8M22.4 22.4l2.8 2.8M6.8 25.2l2.8-2.8M22.4 9.6l2.8-2.8"/>',
+    "balao": '<path d="M6 7h20v13H14l-6 5v-5H6z"/><path d="M11 13.5h.01M16 13.5h.01M21 13.5h.01"/>',
+    "patinha": '<path d="M16 17c-4 0-7 4-7 7 0 2 2 3 4 2.5s4-.6 6 0S23 26 23 24c0-3-3-7-7-7z"/><circle cx="8" cy="12" r="2.4"/><circle cx="13" cy="7.5" r="2.4"/><circle cx="19" cy="7.5" r="2.4"/><circle cx="24" cy="12" r="2.4"/>',
+    "lapis": '<path d="M21 5l6 6-15 15H6v-6zM18 8l6 6"/>',
+    "lupa": '<circle cx="14" cy="14" r="8"/><path d="M20 20l7 7"/>',
+}
+
+# Estampas (padrões repetidos que lembram a capa), desenhadas em SVG na cor "sol_2".
+ESTAMPAS = {
+    "coracoes": (120, '<path transform="translate({x} {y}) rotate({r}) scale({s})" d="M0 9.5S-11 3-11-4.4A5.6 5.6 0 0 1 0-7.6a5.6 5.6 0 0 1 11 3.2C11 3 0 9.5 0 9.5z"/>',
+                 [(22, 24, -14, 1.1), (68, 30, 12, .85), (44, 70, 6, 1.0), (88, 78, -10, .75), (6, 74, 18, .8)]),
+    "estrelas": (96, '<path transform="translate({x} {y}) rotate({r}) scale({s})" d="M0-10l2.9 6 6.6.9-4.8 4.6 1.2 6.5L0 4.9l-5.9 3.1 1.2-6.5-4.8-4.6 6.6-.9z"/>',
+                 [(20, 22, -8, 1.0), (70, 34, 14, .8), (42, 74, 0, .9), (88, 82, -16, .7)]),
+    "bolinhas": (64, '<circle transform="translate({x} {y}) scale({s})" r="5"/>',
+                 [(16, 16, 0, 1.0), (48, 48, 0, .7)]),
+}
+
+
+def estampa_css(nome, cor):
+    if not nome or nome == "nenhuma":
+        return "none", 80
+    if nome not in ESTAMPAS:
+        raise SystemExit(f"estampa inválida: {nome}. Use uma de: {', '.join(ESTAMPAS)}, nenhuma")
+    tam, forma, pontos = ESTAMPAS[nome]
+    k = tam / 100
+    corpo = "".join(forma.format(x=round(x * k, 1), y=round(y * k, 1), r=r, s=s) for x, y, r, s in pontos)
+    svg = f'<svg xmlns="http://www.w3.org/2000/svg" width="{tam}" height="{tam}" viewBox="0 0 {tam} {tam}"><g fill="{cor}">{corpo}</g></svg>'
+    from urllib.parse import quote
+    return Markup(f'url("data:image/svg+xml,{quote(svg)}")'), tam
+
+
+def montar_infantil(d, base, previa, saida, url_base):
+    for k in ["slug", "subdominio", "livro.titulo", "livro.autor", "compra.principal.url", "hero.imagem", "hero.tagline",
+              "hero.descricao", "sinopse.titulo", "sinopse.paragrafos", "diferenciais.titulo", "diferenciais.itens",
+              "bio.nome", "bio.paragrafos", "final.titulo", "final.texto", "final.imagem", "tema.cores"]:
+        obrigatorio(d, k)
+    if not 2 <= len(d["diferenciais"]["itens"]) <= 4:
+        raise SystemExit("diferenciais.itens precisa ter de 2 a 4 itens")
+    for i in d["diferenciais"]["itens"]:
+        if i.get("icone", "coracao") not in ICONES:
+            raise SystemExit(f"ícone inválido: {i.get('icone')}. Use um de: {', '.join(ICONES)}")
+    avisos = []
+    out = Path(saida or AQUI / "dist").resolve() / d["slug"]
+    if out.exists():
+        shutil.rmtree(out)
+    img_dir = out / "img"
+    img_dir.mkdir(parents=True)
+    livro = d["livro"]
+    titulo = plain(livro["titulo"])
+
+    c = dict(d["tema"]["cores"])
+    for k in ("papel", "creme", "sol", "sol_2", "tinta", "destaque", "profundo", "texto_claro"):
+        if not c.get(k):
+            raise SystemExit(f"Cor obrigatória ausente em tema.cores: {k}")
+    c.setdefault("botao", c["destaque"])
+    c.setdefault("botao_texto", "#FFFFFF")
+    c.setdefault("acento", c["destaque"])
+    c.setdefault("rodape", escurecer(c["profundo"], .25))
+    txt = CLARO_FIXO if contraste(CLARO_FIXO, c["rodape"]) >= contraste(ESCURO_FIXO, c["rodape"]) else ESCURO_FIXO
+    c["rodape_texto"], c["rodape_texto_claro"] = txt, txt == CLARO_FIXO
+    for a, b, m in (("tinta", "papel", 4.5), ("tinta", "creme", 4.5), ("tinta", "sol", 4.5), ("botao_texto", "botao", 4.5),
+                    ("texto_claro", "profundo", 4.5), ("sol", "profundo", 3), ("destaque", "papel", 3), ("destaque", "creme", 3),
+                    ("destaque", "sol", 3), ("rodape_texto", "rodape", 4.5)):
+        r = contraste(c[a], c[b])
+        if r < m:
+            avisos.append(f"contraste baixo: {a} sobre {b} = {r:.2f} (mínimo {m})")
+
+    ft, fx = d["tema"].get("fonte_titulo", "Grandstander"), d["tema"].get("fonte_texto", "Nunito")
+    for f in (ft, fx):
+        if f not in FONTES_INFANTIL:
+            raise SystemExit(f"fonte inválida: {f}. Use uma de: {', '.join(FONTES_INFANTIL)}")
+    estampa, estampa_tam = estampa_css(d["tema"].get("estampa", "coracoes"), c["sol_2"])
+
+    def imagem(chave, nome, alt, larguras=LARGURAS):
+        return processar_imagem(base / chave, nome, img_dir, alt, larguras)
+
+    hero_img = imagem(d["hero"]["imagem"], "livro", d["hero"].get("alt") or f"Livro {titulo}, de {livro['autor']}", (520, 960))
+    fin_img = imagem(d["final"]["imagem"], "final", d["final"].get("alt", ""), (480, 940))
+    sin_img = imagem(d["sinopse"]["imagem"], "historia", d["sinopse"].get("alt", ""), (480, 900)) if d["sinopse"].get("imagem") else None
+    bio_img = None
+    if d["bio"].get("foto"):
+        f = ImageOps.exif_transpose(Image.open(base / d["bio"]["foto"])).convert("RGB")
+        lado = min(f.size)
+        ImageOps.fit(f, (lado, lado), Image.LANCZOS, centering=(.5, .4)).save(img_dir / "_autor.jpg", quality=92)
+        bio_img = processar_imagem(img_dir / "_autor.jpg", "autor", img_dir, livro["autor"], (320, 640))
+        (img_dir / "_autor.jpg").unlink()
+
+    galeria = None
+    if d.get("galeria", {}).get("itens"):
+        g = d["galeria"]
+        if not 2 <= len(g["itens"]) <= 4:
+            raise SystemExit("galeria.itens precisa ter de 2 a 4 ilustrações")
+        galeria = {"titulo": rich(g.get("titulo", "Espie as páginas")), "intro": rich(g.get("intro")),
+                   "itens": [{"imagem": imagem(i["imagem"], f"pagina-{n}", i.get("alt") or plain(i.get("legenda")), (420, 820)),
+                              "legenda": rich(i.get("legenda"))} for n, i in enumerate(g["itens"], 1)]}
+
+    trecho = None
+    if d.get("trecho", {}).get("texto"):
+        t = d["trecho"]
+        trecho = {"texto": rich(t["texto"]), "referencia": t.get("referencia") or titulo,
+                  "imagem": imagem(t["imagem"], "trecho", t.get("alt", ""), (420, 800)) if t.get("imagem") else None}
+
+    divisor = None
+    if d["tema"].get("divisor"):
+        dv = Image.open(base / d["tema"]["divisor"]).convert("RGBA")
+        dv.thumbnail((520, 520), Image.LANCZOS)
+        dv.save(img_dir / "divisor.webp", "WEBP", quality=90)
+        divisor = {"arquivo": "divisor.webp", "w": dv.width, "h": dv.height}
+
+    shutil.copy(AQUI / "assets" / "logo-global.png", img_dir / "logo-global.png")
+    instagram = None
+    if d.get("instagram", {}).get("usuario"):
+        u = d["instagram"]["usuario"].lstrip("@")
+        instagram = {"usuario": u, "url": d["instagram"].get("url") or f"https://www.instagram.com/{u}/",
+                     "rotulo": d["instagram"].get("rotulo", "Siga a autora")}
+
+    og = og_grafico(c["creme"], base / d["hero"]["imagem"], img_dir) if hero_img["ext"] == "png" else og_imagem(base / d["hero"]["imagem"], img_dir)
+    favicon(c["destaque"], out)
+    url = url_base or f"https://{d['subdominio']}.bibliomarket.com.br/"
+
+    jsonld = {"@context": "https://schema.org", "@type": "Book", "name": titulo,
+              "author": {"@type": "Person", "name": livro["autor"]}, "inLanguage": "pt-BR", "url": url,
+              "image": f"{url}img/{og}", "description": plain(d["hero"]["descricao"]), "audience": {"@type": "PeopleAudience", "audienceType": "Crianças"}}
+    if livro.get("ilustrador"): jsonld["illustrator"] = {"@type": "Person", "name": livro["ilustrador"]}
+    if livro.get("isbn"): jsonld["isbn"] = livro["isbn"]
+    jsonld["offers"] = {"@type": "Offer", "url": d["compra"]["principal"]["url"], "availability": "https://schema.org/InStock"}
+
+    seo = d.get("seo", {})
+    seo_desc = seo.get("descricao") or plain(d["hero"]["descricao"])
+    if len(seo_desc) > 160:
+        avisos.append(f"seo.descricao com {len(seo_desc)} caracteres (ideal até 160)")
+
+    ctx = {
+        "previa": previa, "url": url, "ano": d.get("ano") or datetime.date.today().year,
+        "seo": {"titulo": seo.get("titulo") or f"{titulo} · {livro['autor']}", "descricao": seo_desc}, "og_imagem": og,
+        "c": c, "estampa": estampa, "estampa_tam": estampa_tam, "semente": sum(map(ord, d["slug"])) % 97,
+        "icones": {k: Markup(v) for k, v in ICONES.items()},
+        "fontes_url": Markup("&".join(FONTES_INFANTIL[f]["google"] for f in dict.fromkeys((ft, fx)))),
+        "fonte_titulo": Markup(FONTES_INFANTIL[ft]["css"]), "fonte_texto": Markup(FONTES_INFANTIL[fx]["css"]),
+        "livro": {**livro, "titulo": titulo},
+        "jsonld": Markup(json.dumps(jsonld, ensure_ascii=False).replace("</", "<\\/")),
+        "instagram": instagram, "divisor": divisor,
+        "compra": {"principal": d["compra"]["principal"], "outros": d["compra"].get("outros", []),
+                   "texto_botao": d["compra"].get("texto_botao", "Garanta o seu exemplar"),
+                   "texto_topo": d["compra"].get("texto_topo", "Comprar")},
+        "hero": {"tagline": rich(d["hero"]["tagline"]), "descricao": rich(d["hero"]["descricao"]), "imagem": hero_img},
+        "sinopse": {"titulo": rich(d["sinopse"]["titulo"]), "paragrafos": [rich(x) for x in d["sinopse"]["paragrafos"]], "imagem": sin_img},
+        "galeria": galeria,
+        "diferenciais": {"titulo": rich(d["diferenciais"]["titulo"]),
+                         "itens": [{"titulo": rich(i["titulo"]), "texto": rich(i["texto"]), "icone": i.get("icone", "coracao")}
+                                   for i in d["diferenciais"]["itens"]]},
+        "trecho": trecho,
+        "bio": {"rotulo": d["bio"].get("rotulo", "Sobre a autora"), "nome": d["bio"]["nome"], "foto": bio_img,
+                "paragrafos": [rich(x) for x in d["bio"]["paragrafos"]]},
+        "final": {"titulo": rich(d["final"]["titulo"]), "texto": rich(d["final"]["texto"]), "fecho": rich(d["final"].get("fecho")), "imagem": fin_img},
+    }
+    env = Environment(loader=FileSystemLoader(AQUI / "template"), autoescape=True, trim_blocks=True, lstrip_blocks=True)
+    (out / "index.html").write_text(env.get_template("infantil.html.j2").render(**ctx), encoding="utf-8")
+    (out / "robots.txt").write_text("User-agent: *\nDisallow: /\n" if previa else "User-agent: *\nAllow: /\n", encoding="utf-8")
+    total = sum(x.stat().st_size for x in out.rglob("*") if x.is_file())
+    print(f"OK  {out}  ({total / 1024:.0f} KB)")
+    for a in avisos:
+        print("AVISO", a)
+    return out
+
+
 MODELOS = {
     "livro-unico": "Livro único, linguagem editorial (clara, serifada; adultos, memórias, romance, não ficção, poesia)",
     "livro-grafico": "Livro único, linguagem gráfica (escura, de impacto; fantasia, aventura, infantojuvenil com ilustração forte)",
+    "infantil": "Livro único infantil (até ~10 anos; ilustrado): claro, arredondado, aquarela, páginas do livro e motivos para ler junto",
 }
 
 

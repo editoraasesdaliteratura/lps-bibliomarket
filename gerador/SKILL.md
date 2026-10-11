@@ -96,7 +96,7 @@ Stand by (falta material ou decisão):
 Dados da automação (não editar):
 `stand by`
 ```
-Para modelo que ainda não existe (Coletânea, Autor, Infantil enquanto não estiverem em `build.py --modelos`), o mesmo formato com o bloco `stand by · modelo <nome>`: a cada rodada, se o modelo já existir, a automação move de volta para 🤖 Pronto para montar sozinha e comenta `**▶️ Modelo disponível.** Retomando a montagem.`
+Para modelo que ainda não existe (Coletânea e Autor, enquanto não estiverem em `build.py --modelos`), o mesmo formato com o bloco `stand by · modelo <nome>`: a cada rodada, se o modelo já existir, a automação move de volta para 🤖 Pronto para montar sozinha e comenta `**▶️ Modelo disponível.** Retomando a montagem.`
 
 ## Rodada completa ("roda as LPs")
 
@@ -113,7 +113,7 @@ Leia os cards das listas da news citadas acima. Card com `**Landing page:** cria
 
 ### 2. Cards em 🤖 Pronto para montar
 1. **Ler o card.** Salve a resposta do `trelloReadCard` (`get`) em `card.json` → `python3 ferramentas/card.py card.json`. `falta` não vazio → Stand by (comentário acima) e próximo card.
-2. **Modelo existe?** Foco Coletânea/Autor, ou livro infantil (selo Asinha, infantil até ~10 anos), sem modelo em `build.py --modelos` → Stand by `stand by · modelo <coletanea|autor|infantil>`.
+2. **Modelo existe?** Foco Coletânea/Autor sem modelo em `build.py --modelos` → Stand by `stand by · modelo <coletanea|autor>`. Livro infantil (até ~10 anos, ilustrado, qualquer selo) usa o modelo `infantil`.
 3. **Achar as pastas** (seção "Drive" acima): campo do card; senão `search_files` com `title = '<título>' and mimeType = 'application/vnd.google-apps.folder'` (se não achar, `title contains '<palavra marcante>'`). Global = pasta cuja mãe é uma letra dentro de LIVROS (`get_file_metadata` da mãe tem `parentId` `1Azkr8lx74bKRJ-mkaWYLw8o9TctRZJfA`). Ases = pasta com `PREVIEW`/`PDF_AJUSTADO`/`PDF`/`*RevFinal*` dentro. Liste os arquivos (`parentId = '<pasta>'`) e as subpastas relevantes.
 4. **Inventário.** Monte a tabela do que existe (com id e tamanho):
    | Material | Onde procurar, em ordem |
@@ -157,7 +157,7 @@ Leia os cards das listas da news citadas acima. Card com `**Landing page:** cria
     **👀 Prévia da LP pronta**
 
     - **Ver:** [Abrir prévia](https://teste-lp.bibliomarket.com.br/<slug>/) (não aparece no Google)
-    - **Modelo:** <editorial | gráfico> · **Mockup:** <com lombada medida (X mm) | só frente: falta a capa aberta>
+    - **Modelo:** <editorial | gráfico | infantil> · **Mockup:** <com lombada medida (X mm) | só frente: falta a capa aberta>
     - **Endereço final proposto:** <sub>.bibliomarket.com.br (para trocar, edite o campo Subdomínio antes de aprovar)
     - **Compra:** [<marketplace>](<link>) <+ outros marketplaces>
     - **Instagram:** @<tag> | sem Instagram (<motivo>)
@@ -246,7 +246,7 @@ O padrão é o do Renan: clean, sofisticado, com personalidade, sem cara de temp
 |---|---|
 | Adulto: romance, memórias, biografia, não ficção, religioso, poesia, autoajuda; capas fotográficas, tipográficas ou sóbrias | `livro-unico` (editorial) |
 | Juvenil/infantojuvenil, fantasia, aventura, HQ, ação; capas ilustradas, saturadas, com personagens | `livro-grafico` |
-| Infantil (até ~10 anos, Asinha) | `infantil` (quando existir) |
+| Infantil (até ~10 anos; livro ilustrado, de qualquer selo) | `infantil` |
 
 **Cores:** parta da `paleta`. Editorial: `claro` (fundo principal, quase branco puxado para o tom da capa), `medio` (hero/final, um tom da capa suavizado), `escuro` (sinopse/bio, o tom mais profundo da capa), `destaque` (título e botão; a cor mais marcante, escurecida se precisar de contraste), `rodape`. Gráfico: `noite`/`noite_2` (fundo escuro da capa), `azul` (seção de cor), `lava`/`lava_2` (acento luminoso), `vermelho` (contorno/alerta), `portal` (brilho), `papel`/`tinta`. Contraste mínimo 4,5 em texto corrido: o `build.py` avisa.
 
@@ -263,8 +263,23 @@ O padrão é o do Renan: clean, sofisticado, com personalidade, sem cara de temp
 - Gráfico: `tema.motivos` entre `rachaduras` (fissuras luminosas), `retícula` (pontos de HQ), `portal` (brilho circular), `quadrinho` (balão da pergunta). Use só os que a capa justifica. `personagens` só quando a capa mostra os personagens e o texto os apresenta (retratos recortados da capa, 1 por card).
 - Foto do autor: só se veio no material; recorte da orelha vale. Sem foto, a bio fica só em texto (os modelos já tratam).
 
+### Modelo infantil (`"modelo": "infantil"`)
+Claro, arredondado e com cara de aquarela: hero com mockup sobre mancha de aquarela e corações, história, **páginas do livro** (galeria das ilustrações do miolo), motivos para ler junto (cards com ícone), trecho com ilustração, bio com retrato redondo e chamada final. Projeto de referência: branch `projeto/o-dia-em-que-levei-um-cavalo-pra-casa` (`projeto.py baixar`).
+- **Cores** (`tema.cores`): `papel` (fundo claro principal), `creme` (hero, motivos, final), `sol` (cor alegre da capa: galeria, mancha, ícones), `sol_2` (um tom acima do `sol`, só para a estampa), `tinta` (texto), `destaque` (títulos), `botao`/`botao_texto` (opcional; padrão = destaque e branco), `profundo` (seção da autora; tom escuro da capa), `texto_claro`, `acento` (opcional). O `build.py` avisa contraste baixo.
+- **Fontes:** `fonte_titulo` Grandstander (traço de marcador, padrão), Baloo 2, Fredoka ou Sniglet; `fonte_texto` Nunito (padrão) ou Quicksand. Escolha a que lembra o letreiro da capa.
+- **`tema.estampa`:** `coracoes`, `estrelas`, `bolinhas` ou `nenhuma`, desenhada na cor `sol_2` no fundo da galeria. Use a que a capa justifica (ex.: orelhas com corações).
+- **`tema.divisor`:** vinheta da capa (PNG transparente) acima do título da história, em cor original.
+- **`galeria`** (opcional, recomendada): `titulo`, `intro`, 2–4 `itens` com `imagem` (ilustração do miolo em JPG: pasta de ilustrações finais ou página do miolo), `legenda` curta e `alt`. **Nada de ilustração do desfecho** (spoiler). Ilustrações do miolo são arte do livro, não "foto": podem entrar.
+- **`sinopse.imagem`** (opcional): recorte PNG ao lado do texto; sem ela a história fica centralizada.
+- **`diferenciais.itens[].icone`:** `coracao`, `estrela`, `livro`, `folha`, `casa`, `sol`, `balao`, `patinha`, `lapis`, `lupa`.
+- **`trecho.imagem`** (opcional): ilustração em JPG (ex.: arte da orelha), mostrada como cartão.
+- **`livro.ilustrador`:** crédito "Ilustrações de …" no hero (só se estiver na capa/ficha).
+- **`compra.texto_topo`:** botão curto do topo ("Comprar"), que no celular garante compra na primeira dobra quando não há Instagram.
+- **Bio:** `bio.foto` é recortada em quadrado e mostrada em círculo; `bio.rotulo` padrão "Sobre a autora" (troque para "Sobre o autor").
+- Recortes de personagens da capa (PNG transparente) ficam bons na chamada final; mockup no hero.
+
 ## Limites conhecidos
 - O conector do Trello não cria nem renomeia etiquetas e não adiciona membros.
 - A rede da sessão não alcança o Google Fonts nem o bibliomarket: o `verificar.py` usa as mesmas fontes vindas do npm (@fontsource) para os prints ficarem fiéis, e a conferência no ar é por WebFetch.
-- Os modelos de Coletânea, Autor e Infantil estão em construção (Stand by `stand by · modelo …` até existirem).
+- Os modelos de Coletânea e Autor estão em construção (Stand by `stand by · modelo …` até existirem).
 - Os branches `lp/previa-*` e `projeto/*` ficam no GitHub; limpeza só com permissão do Renan.
