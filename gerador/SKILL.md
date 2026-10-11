@@ -15,12 +15,13 @@ Substitui as LPs feitas no Canva pelo freelancer. O fluxo vive no quadro **LP �
 4. **Publicação final só com o card em 🟢 Aprovado**, movido pelo Renan. Antes disso, só prévia em `teste-lp.bibliomarket.com.br/<slug>/` (com `noindex`).
 5. **O HTML só sai do `build.py`.** Nunca escrever ou corrigir HTML/CSS à mão, nem no `dist/`, nem no servidor. Ajuste de conteúdo → `lp.json`. Ajuste de layout → template no `main`, só quando o Renan pedir (aí commit no `main` com a mudança descrita).
 6. **Nada inventado.** Texto só com o que está no livro, no briefing, no catálogo, na capa ou no card. Nunca criar prêmios, números de vendas, depoimentos, citações de terceiros ou dados do autor. O trecho (citação) é cópia literal do texto do livro. Depoimento só entra se estiver no material, com nome de quem disse.
-7. **Só links oficiais de marketplace** (Amazon, Mercado Livre, Shopee, Magalu, Americanas, Submarino, Shoptime, Estante Virtual), limpos de rastreio (Amazon: `https://www.amazon.com.br/dp/<ASIN>`, os 10 caracteres depois de `/dp/`). Nunca catálogo, loja ou site da editora (nem como segunda opção), site do autor, WhatsApp, Linktree, Pix, e-mail ou telefone. O catálogo da Ases serve só como **fonte** (sinopse, link de compra), nunca como link na página. O `build.py` recusa link fora da lista.
+7. **Só links oficiais de marketplace** (Amazon, Mercado Livre, Shopee, Magalu, Americanas, Submarino, Shoptime, Estante Virtual, Um Livro), limpos de rastreio (Amazon: `https://www.amazon.com.br/dp/<ASIN>`, os 10 caracteres depois de `/dp/`). Nunca catálogo, loja ou site da editora (nem como segunda opção), site do autor, WhatsApp, Linktree, Pix, e-mail ou telefone. O catálogo da Ases serve só como **fonte** (sinopse, link de compra), nunca como link na página. O `build.py` recusa link fora da lista.
 8. **Sem ficha do livro.** A LP não mostra gênero, número de páginas, editora nem selo editorial, em lugar nenhum (hero, texto, rodapé, SEO). O texto também não cita a editora ou o selo.
 9. **Instagram: só a tag**, nunca a foto do perfil. Vem do card ou do briefing. Autor sem Instagram ou que não quer → LP sem Instagram (não é motivo de Stand by).
 10. **Lombada nunca inventada.** Só há mockup mostrando a lombada quando ela foi medida na capa aberta (`capa.py faces`). Sem capa aberta, use a cena `frente`.
 11. **Livro externo** nunca leva "Ases" no texto ou nos links.
 12. Na dúvida sobre conteúdo, não invente: Stand by com comentário, ou pergunte ao Renan.
+13. **LP é entregue, não mantida.** A Global entrega a página pronta ao autor e não a atualiza depois. Nada de seções que dependem de manutenção (novidades, agenda de eventos, "em breve", futuras publicações), nem promessa de que a página vai crescer. Pedido do autor nesse sentido entra no comentário da prévia como fora do escopo; se for o centro do pedido, Stand by para o Renan decidir.
 
 ## Preparação (início de toda rodada)
 

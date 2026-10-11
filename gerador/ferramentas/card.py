@@ -23,7 +23,7 @@ FOCOS = {"livro": "livro", "coletanea": "coletanea", "autor": "autor"}
 MODELOS = {"editorial": "editorial", "grafico": "grafico", "infantil": "infantil"}
 MARKETPLACES = ("amazon.com.br", "amazon.com", "a.co", "amzn.to", "mercadolivre.com.br", "mercadolivre.com", "mercadolibre.com",
                 "meli.la", "shopee.com.br", "shope.ee", "magazineluiza.com.br", "magalu.com", "americanas.com.br",
-                "submarino.com.br", "shoptime.com.br", "estantevirtual.com.br")
+                "submarino.com.br", "shoptime.com.br", "estantevirtual.com.br", "umlivro.com.br")
 
 
 def sem_acento(s):

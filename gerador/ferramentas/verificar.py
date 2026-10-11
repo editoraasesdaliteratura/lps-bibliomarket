@@ -14,7 +14,7 @@ from PIL import Image
 
 MARKETPLACES = ("amazon.com.br", "amazon.com", "a.co", "amzn.to", "mercadolivre.com.br", "mercadolivre.com", "mercadolibre.com",
                 "meli.la", "shopee.com.br", "shope.ee", "magazineluiza.com.br", "magalu.com", "americanas.com.br",
-                "submarino.com.br", "shoptime.com.br", "estantevirtual.com.br")
+                "submarino.com.br", "shoptime.com.br", "estantevirtual.com.br", "umlivro.com.br")
 
 JS = r"""
 () => {
