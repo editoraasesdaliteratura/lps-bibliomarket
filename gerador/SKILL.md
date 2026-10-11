@@ -24,7 +24,7 @@ Substitui as LPs feitas no Canva pelo freelancer. O fluxo vive no quadro **LP �
 
 ## Preparação (início de toda rodada)
 
-1. **Repositório.** Se `lps-bibliomarket/` não existir na pasta de trabalho: `add_repo` (owner `editoraasesdaliteratura`, repo `lps-bibliomarket`, access `push`) e clone pelo comando que ele devolver. Depois `cd lps-bibliomarket && git pull`. Tudo abaixo roda de `lps-bibliomarket/gerador/`.
+1. **Repositório.** Se `lps-bibliomarket/` não existir na pasta de trabalho: `add_repo` (owner `editoraasesdaliteratura`, repo `lps-bibliomarket`, access `push`) e clone pelo comando que ele devolver. Depois `cd lps-bibliomarket && git pull`. Tudo abaixo roda de `lps-bibliomarket/gerador/`. O `gerador/SKILL.md` do repositório é a versão mais nova destas instruções: se for diferente do texto carregado pela skill, leia-o e siga-o.
 2. **Bibliotecas** (só se faltar): `pip install jinja2 pillow playwright opencv-python-headless pypdf pypdfium2 python-docx scikit-learn numpy --break-system-packages`. O Chromium do Playwright já vem instalado (não rode `playwright install`).
 3. Conferir: `python3 build.py --modelos` lista os modelos prontos.
 
@@ -188,7 +188,7 @@ Leia os cards das listas da news citadas acima. Card com `**Landing page:**` igu
    2. `hosting_domains_create-website-subdomain`: username `u155401317`, domain `bibliomarket.com.br`, subdomain `<sub>`, directory `lps/<slug>`.
    3. Confira `hosting_domains_list-website-subdomains`: o novo subdomínio aponta para `.../public_html/lps/<slug>`.
    **Republicação** (já existe e aponta para `lps/<slug>`): só o deploy (ele puxa a versão nova).
-6. **Conferir no ar** `https://<sub>.bibliomarket.com.br/` com WebFetch (título, canonical, sem `noindex`, botão de compra, imagens). O certificado HTTPS de subdomínio novo pode levar alguns minutos: se só o HTTPS falhar, espere e confira de novo antes de comentar; se continuar, comente avisando.
+6. **Conferir no ar** `https://<sub>.bibliomarket.com.br/` com WebFetch (título, canonical, sem `noindex`, botão de compra, imagens). O certificado HTTPS de subdomínio novo pode levar alguns minutos (o WebFetch responde `ROBOTS_DISALLOWED` enquanto isso): espere uns 5 minutos e confira de novo antes de comentar; se continuar, comente avisando.
 7. Comente e mova para 🌐 Publicada:
    ```
    **🌐 LP publicada:** [<sub>.bibliomarket.com.br](https://<sub>.bibliomarket.com.br/)
