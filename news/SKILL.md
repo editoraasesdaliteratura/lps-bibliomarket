@@ -94,7 +94,12 @@ Infantil e Adulto usam o mesmo desenho; a faixa só muda o nome da campanha. Os 
 | Catálogo | linha na planilha de leituras ativas | nunca |
 
 - Validade: da data de envio até 23:59 do 7º dia depois. Antes da data de envio o link mostra "Esta leitura ainda não começou" (correto).
-- Rótulo do botão: livro inteiro → "Leia por 1 semana"; livro com capítulos → "Leia o primeiro capítulo"; livro sem capítulos (poesia, crônicas, diário) → "Leia um trecho".
+- **O que fica disponível (regra do Renan, 12/10/2026), sempre por 1 semana:**
+  - **Livro infantil:** o livro **inteiro**, sempre (mesmo que o card diga 1º capítulo; o `ler_card.py` já força isso quando a faixa é Infantil).
+  - **Livro adulto com capítulos claros:** o **1º capítulo inteiro**, contado a partir do começo real do livro (veja "1º capítulo / trecho").
+  - **Livro adulto de poesia, crônicas, diário ou sem divisão em capítulos:** um **trecho proporcional ao tamanho do livro** (veja "1º capítulo / trecho").
+  - Campo **Leitura: livro inteiro** num livro adulto → respeite (decisão da Digital).
+- Rótulo do botão: livro inteiro → "Leia por 1 semana"; 1º capítulo → "Leia o primeiro capítulo"; trecho → "Leia um trecho".
 - Os dois leitores estão no ar (o da Global desde 09/10/2026). Mesmo assim, confira sempre a prévia antes do teste; erro → avise o Renan.
 
 ### Google Drive (conta asesdaliteratura@gmail.com)
@@ -211,7 +216,7 @@ A Emilly só cria o card com o nome do livro, a data de entrega e as etiquetas (
 - **Como ler a página:** prefira o navegador do app (Claude_Browser: `navigate` + `javascript_tool` ou `get_page_text`), que traz o texto exato. Sem navegador, use `WebFetch` pedindo os campos acima e uma descrição detalhada de tudo o que a sinopse diz (temas, personagens, enredo, tom), sem inventar nada.
 - Livro "Em breve" ou sem "Sobre o livro", sem `**Sinopse:**` no card e sem briefing (B2) → Stand by pedindo a sinopse.
 - O link "Comprar" do catálogo também passa pela regra 8: se não for de marketplace, Stand by pedindo o link de marketplace.
-- Faixa sem etiqueta: deduza pelo catálogo (gênero Infantil/Infantojuvenil ou selo Asinha → Infantil; senão Adulto) e diga no comentário do teste "Faixa: Adulto (deduzida; para trocar, ponha a etiqueta)".
+- Faixa sem etiqueta: deduza pelo catálogo (gênero Infantil/Infantojuvenil ou selo Asinha → Infantil; senão Adulto) e diga no comentário do teste "Faixa: Adulto (deduzida; para trocar, ponha a etiqueta)". Faixa deduzida **Infantil** com leitura → a leitura é o livro inteiro.
 
 ### B. Livro externo: miolo e página de compra
 Não procure no catálogo da Ases.
@@ -333,7 +338,8 @@ Não saiu `%PDF-` → confira o compartilhamento (`get_file_permissions`); se n�
    - `python3 scripts/trecho.py analisar miolo.pdf`. Ele separa a **abertura** do **livro**: `titulo` (folhas de rosto e títulos curtos), `pré` (ficha, copyright, dedicatória, agradecimentos, sumário), `para` (prefácio, apresentação, introdução, nota do editor), `branco`, `imagem` (ilustração) e `texto` (o livro de fato). Diz **em que página o livro começa** e o **corte mínimo**. Confira essa página olhando o PDF renderizado: se o script errou o começo (ex.: dedicatória longa sem a palavra "dedico"), decida pelo que você vê e diga no comentário do teste.
      - **Regra de ouro:** o leitor precisa ler o livro, não a abertura. Livros costumam ter várias páginas iniciais (rosto, ficha, dedicatória, agradecimentos, sumário, prefácio...): elas vêm junto, porque são o começo do PDF, mas **nunca contam**. Conte sempre a partir da página onde o livro começa de verdade.
      - **Livro com capítulos:** libere **o 1º capítulo inteiro**, do começo do PDF até a última página dele, seja qual for o tamanho. Se o 1º capítulo tiver menos de 8 páginas de texto, inclua também o 2º (e assim por diante, sempre terminando no fim de um capítulo).
-     - **Livro sem capítulos claros** (poesia, crônicas, devocional, diário, texto corrido): cerca de 15% das páginas de texto, **nunca menos de 8 nem mais de 24 páginas de texto**, contadas a partir do começo real do livro, terminando no fim de um poema, crônica ou seção. Nunca no meio de um texto.
+     - **Livro sem capítulos claros** (poesia, crônicas, devocional, diário, texto corrido): porcentagem ajustada ao tamanho do livro, contada só sobre as páginas de texto (a partir do começo real): cerca de 15%, **nunca menos de 8 nem mais de 24 páginas de texto**, terminando no fim de um poema, crônica ou seção. Nunca no meio de um texto. Livro curto (até ~55 páginas de texto) fica no mínimo de 8; livro longo (160+) no teto de 24.
+     - Livro infantil nunca chega aqui: é sempre o livro inteiro.
      - "Páginas do 1º capítulo" no card → respeite, desde que dê pelo menos 8 páginas de texto; se não der, estenda e diga no comentário do teste.
      - Livro com menos de 8 páginas de texto no total → use o livro inteiro.
    - `python3 scripts/trecho.py cortar miolo.pdf <FIM> trecho.pdf`. Ele **recusa** o corte com menos de 8 páginas de texto do livro: nunca contorne com `--minimo` (só o Renan pode autorizar um mínimo menor, por card). Depois renderize **a primeira página de texto e a última página** do trecho e olhe as duas: a primeira tem de ser texto do livro, a última tem de fechar um capítulo, poema ou seção.
@@ -515,6 +521,9 @@ def ler(card: dict) -> dict:
         leitura = "capitulo"
     else:
         leitura = "nenhuma"
+    # Regra do Renan (12/10/2026): livro infantil com leitura fica sempre inteiro por 1 semana.
+    if leitura != "nenhuma" and faixa == "Infantil":
+        leitura = "livro"
 
     envio, origem = data_envio(card, campos.get("envio", ""))
     miolo_id = id_drive(campos.get("miolo", ""))
