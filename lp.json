@@ -1,0 +1,125 @@
+{
+  "modelo": "livro-unico",
+  "slug": "setimo",
+  "subdominio": "se7imo",
+  "livro": {
+    "titulo": "Sé7imo",
+    "subtitulo": "a melodia da Terra",
+    "titulo_completo": "Sé7imo: a melodia da Terra",
+    "autor": "Sebastian Levati",
+    "isbn": "9786561940160"
+  },
+  "tema": {
+    "fonte_titulo": "Fraunces",
+    "cores": {
+      "claro": "#F7F1E3",
+      "medio": "#E6D8B2",
+      "escuro": "#44301F",
+      "destaque": "#9E2F25",
+      "botao": "#9E2F25",
+      "botao_texto": "#FFF8EE",
+      "texto": "#2E2419",
+      "texto_claro": "#F6EEDD",
+      "rodape": "#77482B"
+    },
+    "textura": "textura-patinhas.png",
+    "textura_cor": "escuro",
+    "textura_opacidade": 0.06,
+    "textura_largura": 280,
+    "divisor": "estrelas-vinheta.png"
+  },
+  "seo": {
+    "titulo": "Sé7imo: a melodia da Terra · Sebastian Levati",
+    "descricao": "Narrado por um cão, um romance de realismo mágico sobre lealdade, a vida no campo, os sacis guardiões da natureza e a ambição dos homens."
+  },
+  "compra": {
+    "texto_botao": "Garanta o seu exemplar",
+    "principal": {
+      "rotulo": "Amazon",
+      "url": "https://a.co/d/08Fr0b1l"
+    },
+    "outros": [],
+    "texto_topo": "Comprar"
+  },
+  "hero": {
+    "imagem": "mockup-pe.png",
+    "alt": "Livro Sé7imo: a melodia da Terra, de Sebastian Levati",
+    "tagline": "Para ouvir a alma do mundo e a doce *melodia da terra*.",
+    "descricao": "Ferido e à espera do fim, um cão conta a sua vida aos sacis que giram nos redemoinhos de vento: a amizade com o menino Jonas, a lida no campo e a força invisível que mantém tudo em equilíbrio."
+  },
+  "sinopse": {
+    "titulo": "Uma fábula cortante sobre a ambição dos homens e a lealdade da terra.",
+    "paragrafos": [
+      "Ao amanhecer, com um tiro entre as costelas, **Sétimo** chama para perto os sacis que rodopiam nos pés de vento. Antes que o dia termine, ele quer contar a quem tiver paciência as passagens da sua existência. Assim começa o livro: pelo fim, na voz de um cão que diz ter vivido intensamente.",
+      "A história volta à toca sob as raízes de uma jaqueira, onde ele nasceu ao lado da mãe de orelha rasgada. Vem a mata queimada, vem a fome, e vem o som de uma gaita: é **Jonas**, o menino que vira o caldeirão do almoço na porta da toca e se torna o seu primeiro amigo.",
+      "Ao lado da família de colonos, Sétimo acompanha colheitas e mudanças, o pai endividado com o patrão que arrenda os cafezais, a mãe adoentada, as noites de chuva e as partidas. Observa os humanos com os instintos de cão e o olhar de quem não entende como eles podem queimar coisas vivas.",
+      "Entre o realismo da vida rural e o mistério dos sacis, guardiões invisíveis da natureza, o romance fala de lealdade, dignidade e memória, e de quem ainda sabe escutar a terra."
+    ]
+  },
+  "galeria": {
+    "titulo": "Das páginas do livro",
+    "intro": "Ilustrações de Larissa Virgilli que acompanham a história de Sétimo.",
+    "itens": [
+      {
+        "imagem": "g-toca.jpg",
+        "legenda": "Sob as raízes da jaqueira, a toca onde Sétimo nasceu e conheceu Jonas.",
+        "alt": "Ilustração do livro: Jonas encontra os filhotes na toca sob as raízes da jaqueira"
+      },
+      {
+        "imagem": "g-redemoinho.jpg",
+        "legenda": "Choco, o saci, gira no redemoinho que leva o filhote até a casa de Jonas.",
+        "alt": "Ilustração do livro: um saci dentro de um redemoinho de vento e o filhote junto ao monte de lenha"
+      },
+      {
+        "imagem": "g-engradado.jpg",
+        "legenda": "No engradado do tio, a viagem que afasta Sétimo do amigo.",
+        "alt": "Ilustração do livro: Sétimo num engradado de madeira na caçamba de uma caminhonete"
+      },
+      {
+        "imagem": "g-correnteza.jpg",
+        "legenda": "Na travessia do rio, Sétimo enfrenta a correnteza para salvar um homem.",
+        "alt": "Ilustração do livro: Sétimo sobre um tronco no rio, segurando um homem pela camisa"
+      }
+    ]
+  },
+  "diferenciais": {
+    "titulo": "Por que ouvir a história de Sétimo?",
+    "imagem": "cao-na-mata.jpg",
+    "alt": "Ilustração do livro: Sétimo, o cão dourado, na mata, olhando para o horizonte",
+    "itens": [
+      {
+        "titulo": "Um cão que não é caricatura",
+        "texto": "Sétimo mantém o faro, os instintos e o corpo de cão, mas observa tudo como um filósofo. Visto pelos olhos dele, o mundo dos homens perde as desculpas."
+      },
+      {
+        "titulo": "Sacis como guardiões da natureza",
+        "texto": "No meio dos redemoinhos, os sacis deixam de ser figuras de brincadeira: protegem a terra e os animais. O realismo mágico encontra a crítica social."
+      },
+      {
+        "titulo": "Uma história contada a partir do fim",
+        "texto": "Começar pelo cão ferido transforma o livro numa reflexão sobre aceitação, dignidade e memória, para leitores a partir de 14 anos."
+      }
+    ],
+    "proporcao": "natural"
+  },
+  "trecho": {
+    "texto": "Jonas sempre falou sobre os entes invisíveis que protegem a natureza. Não tenho certeza se algum dia ele chegou a vê-los. Só sei que vocês são muito espertos, muito velozes. Não gostam que maltratem a terra ou aqueles que dependem dela.",
+    "referencia": "Introdução"
+  },
+  "bio": {
+    "rotulo": "Sobre o autor",
+    "nome": "Sebastian Levati",
+    "paragrafos": [
+      "**Sebastian Levati** é escritor e pesquisador literário. É autor do romance histórico *Cinzas de Cogumelos Azuis*, que debate a resistência política e as marcas da Ditadura Militar no Brasil.",
+      "Sua escrita, sensorial e humanista, transita entre a ficção social e o realismo mágico. Em *Sé7imo: a melodia da Terra*, constrói cenas de realismo e emoção, intercalando drama, ternura e leveza."
+    ],
+    "foto": "autor.jpg"
+  },
+  "final": {
+    "titulo": "São poucos os que tocam a melodia da terra.",
+    "texto": "Uma sinfonia poética de realismo mágico e denúncia social, narrada a partir do silêncio de um cão.",
+    "fecho": "Para quem tem ligação com os animais, com o campo e com as boas histórias.",
+    "imagem": "jonas-e-setimo.jpg",
+    "alt": "Ilustração da capa: o menino Jonas abraça Sétimo, o cão de pelo dourado"
+  }
+}
