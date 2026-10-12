@@ -97,7 +97,12 @@ strong{font-weight:800}
 .lp-topo.rolou{box-shadow:0 8px 24px -16px rgba(0,0,0,.6)}
 .lp-topo .lp-wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
 .lp-topo .lp-marca{min-width:0;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+/* Sem Instagram: compra discreta no lugar do @ (contorno claro sobre a cor do topo) */
+.lp-topo-cta{display:inline-flex;align-items:center;gap:.45em;padding:7px 16px;border:1.5px solid currentColor;border-radius:999px;color:inherit;text-decoration:none;font-family:var(--f-texto);font-size:13.5px;font-weight:700;letter-spacing:.02em;white-space:nowrap;opacity:.92;transition:background-color .2s ease,color .2s ease,opacity .2s ease}
+.lp-topo-cta svg{width:1em;height:1em}
+.lp-topo-cta:hover{opacity:1;background:var(--cor-botao-texto);color:var(--cor-destaque)}
 @media (max-width:560px){
+  .lp-topo-cta{padding:6px 12px;font-size:12.5px}
   .lp-topo .lp-siga-label{display:none}
   .lp-topo .lp-ig:has(img) span{display:none}
   .lp-topo .lp-ig:has(img){padding:5px}
@@ -247,7 +252,7 @@ strong{font-weight:800}
 <header class="lp-topo" id="topo">
   <div class="lp-wrap">
     <a class="lp-marca" href="#inicio">{{ livro.titulo }}</a>
-    {% if instagram %}<div class="lp-siga"><span class="lp-siga-label">{{ instagram.rotulo }}</span>{{ ig() }}</div>{% endif %}
+    {% if instagram %}<div class="lp-siga"><span class="lp-siga-label">{{ instagram.rotulo }}</span>{{ ig() }}</div>{% else %}<a class="lp-topo-cta" href="{{ compra.principal.url }}" target="_blank" rel="noopener" data-cta="topo">{{ compra.texto_topo }} {{ seta() }}</a>{% endif %}
   </div>
 </header>
 
