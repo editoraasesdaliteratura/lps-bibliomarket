@@ -16,10 +16,10 @@ Há dois tipos de livro:
 ## Regras que nunca se quebram
 
 1. **Drive:** nunca editar, mover, renomear, compartilhar ou apagar arquivo que a automação não criou. O PARK, as pastas dos livros e os miolos do Drive da Global são só leitura (copiar é permitido: a cópia é um arquivo novo).
-2. **Apagar:** nada é apagado sem permissão do Renan. Única exceção autorizada por ele (09/10/2026): mandar para a **lixeira** do Drive as cópias que a própria automação criou na pasta `_LEITURA NEWS (automação)` (leitura, miolo de externo e PDF de capa já convertido em JPG), depois que deixam de ser usadas. As capas JPG da subpasta `CAPAS` ficam (o e-mail enviado usa). Também autorizado (11/10/2026): as cópias temporárias de miolo que a automação faz para cortar trechos vão para a lixeira assim que o trecho é cortado; e os trechos enviados ao servidor da Ases (`leia/trechos/`) são apagados pelo próprio leitor 2 dias depois do fim da leitura (a automação não apaga nada no servidor).
+2. **Apagar:** nada é apagado sem permissão do Renan. Única exceção autorizada por ele (09/10/2026): mandar para a **lixeira** do Drive as cópias que a própria automação criou na pasta `_LEITURA NEWS (automação)` (leitura, miolo de externo e PDF de capa já convertido em JPG), depois que deixam de ser usadas. As capas JPG da subpasta `CAPAS` ficam (o e-mail enviado usa). Também autorizado (11/10/2026): as cópias temporárias de miolo que a automação faz para cortar trechos vão para a lixeira assim que o trecho é cortado; e os trechos enviados ao servidor da Ases (`leia/trechos/`) são apagados pelo próprio leitor 2 dias depois do fim da leitura (a automação não apaga nada no servidor). Autorizado em 12/10/2026: o mesmo vale para trechos e capas de livros externos guardados no servidor da Ases (`leia/trechos/` e `leia/capas/`) e para as cópias que o leitor da Global guarda (`global-private`): tudo se apaga sozinho.
 3. **Envio:** a automação só envia **testes**. Campanha para as bases só é criada (agendada) quando o card está em 🟢 Aprovado, movido pelo Renan. Nunca "enviar agora".
 4. **Chaves da leitura:** nunca aparecem em card, comentário, e-mail, mensagem ou artefato. Só vão na variável de ambiente do script.
-5. **Livro externo:** nunca entra na planilha de leituras ativas (catálogo da Ases), nunca usa o leitor da Ases e nunca leva "Ases" no texto, no assunto ou nos links.
+5. **Livro externo:** nunca entra na planilha de leituras ativas (catálogo da Ases), nunca usa o leitor da Ases e nunca leva "Ases" no texto, no assunto ou nos links. (O trecho e a capa convertida de externo ficam guardados numa pasta bloqueada do servidor da Ases, mas só o site da Global os busca, de servidor para servidor: o leitor e o e-mail só mostram `assessoriaglobal.com.br`. Isso é permitido.)
 6. Na dúvida sobre conteúdo (texto estranho, link quebrado, livro não encontrado), não invente: Stand by com comentário, ou pergunte ao Renan.
 7. **E-mail só pelo modelo:** o HTML da news sai **somente** de `scripts/modelo_global.py`. Nunca escreva, complete, corrija ou edite HTML à mão, nem antes nem depois do script, e nunca troque de modelo. O script grava um selo de integridade na última linha (`<!-- modelo-global v… -->`); o HTML só vai para a Brevo se `modelo_global.py --verificar news.html` disser OK. Se o script der erro ou a verificação falhar, **não contorne**: corrija os dados (`dados.json`) e gere de novo; se não resolver, Stand by com o erro no comentário. Mudança de layout só acontece no script, pedida pelo Renan.
 8. **Link de compra sempre de marketplace** (Amazon, Mercado Livre, Shopee, Magalu, Americanas, Submarino, Shoptime, Estante Virtual, Um Livro). Nunca WhatsApp, Instagram, site ou loja própria do autor, Linktree, Pix, e-mail ou telefone, nem que o briefing ou o autor diga que esse é o canal principal. Os scripts barram link fora da lista (`ler_card.py` aponta em `falta`; `modelo_global.py` se recusa a gerar). Link fora da lista → Stand by pedindo um link de marketplace (se o briefing ou o catálogo tiver um, sugira no comentário). Marketplace novo só entra na lista a pedido do Renan.
@@ -220,14 +220,15 @@ Não procure no catálogo da Ases.
    - Sem link: `search_files` com `title = '<Título>' and mimeType = 'application/vnd.google-apps.folder'` (se não achar, `title contains '<primeiras palavras>'`). Fique só com a pasta cuja pasta-mãe é uma letra dentro de LIVROS da Global (`get_file_metadata` da mãe: o `parentId` dela é `1Azkr8lx74bKRJ-mkaWYLw8o9TctRZJfA`). Liste os arquivos (`parentId = '<pasta do livro>'`): o miolo é o PDF que não é capa nem briefing nem contrato (nome com "capa", "briefing", "contrato" fica de fora); com mais de um candidato, o maior. Nenhum, ou dúvida entre dois → Stand by: "Não achei o miolo na pasta do livro no Drive da Global. Cole o link do PDF no campo Miolo."
    - O **briefing de marketing** desta mesma pasta: veja "Briefing de marketing" abaixo.
    - **Cópia:** `copy_file` do miolo com `parentId` = `1C4tldArGWHRtrucU0QBsKoPfbBLQTzOk` e título `MIOLO <AAAA-MM-DD> – <Título> (externo).pdf`. O original fica intocado. Erro de permissão → Stand by: "Não consegui abrir o miolo. Ele precisa estar na pasta LIVROS da Global ou compartilhado com asesdaliteratura@gmail.com."
-2. **Ler o miolo:** a cópia fica em `_LEITURA NEWS (automação)`, que é compartilhada por link, então baixa direto (sem o Mac): veja "Baixar um PDF da pasta da automação" na seção Leitura gratuita. Rode `python3 scripts/trecho.py analisar miolo.pdf` (texto página a página). Se o download falhar, use `read_file_content` do Drive na cópia; se nada funcionar, Stand by por computador (veja "Stand by por computador" abaixo).
+2. **Ler o miolo:** a cópia fica em `_LEITURA NEWS (automação)`, que é compartilhada por link, então baixa direto (sem o Mac): veja "Baixar um PDF da pasta da automação" na seção Leitura gratuita. Rode `python3 scripts/trecho.py analisar miolo.pdf` (texto página a página). Se o download falhar, use `read_file_content` do Drive na cópia; se nada funcionar, Stand by com o erro no comentário.
 3. **Autor:** campo do card; senão a folha de rosto do miolo; senão a página de compra.
 4. **Capa** (precisa ser imagem em `https://` para o e-mail), nesta ordem:
    1. campo **Capa:** do card;
    2. a imagem principal da página de compra (`og:image`, pelo navegador do app), se for a capa do livro e tiver pelo menos 400 px de largura;
-   3. o arquivo de capa da pasta do livro no Drive da Global (às vezes o autor envia): nome com "capa". Se for imagem (JPG/PNG), `copy_file` para a subpasta `CAPAS` de `_LEITURA NEWS (automação)` (crie a subpasta na primeira vez, dentro da pasta da automação). Se for PDF, faça `copy_file` dele para `CAPAS` (o Drive da Global não está no Mac; a cópia sincroniza no espelho local), baixe a cópia direto ("Baixar um PDF da pasta da automação"; a pasta `CAPAS` herda o compartilhamento), renderize a 1ª página em JPG de 1000 px de largura (capa aberta, mais larga que alta, com lombada e contracapa: recorte só a metade da direita, a capa da frente), confira olhando a imagem e grave em `CAPAS` pelo espelho local com `device_commit_files` (este passo ainda precisa do Mac: o conector do Drive não grava imagens). Nome: `CAPA <Título>.jpg`; depois mande a cópia em PDF para a lixeira (foi a automação que criou). Use no e-mail `https://lh3.googleusercontent.com/d/<id do arquivo>=w1000` e confira que abre (navegador do app). Essas cópias de capa **não** vão para a lixeira na limpeza: o e-mail enviado continua usando;
+   3. o arquivo de capa da pasta do livro no Drive da Global (às vezes o autor envia): nome com "capa".
+      - **Imagem (JPG/PNG):** `copy_file` para a subpasta `CAPAS` de `_LEITURA NEWS (automação)` (crie a subpasta na primeira vez, dentro da pasta da automação), nome `CAPA <Título>.<ext>`. Use no e-mail `https://lh3.googleusercontent.com/d/<id do arquivo>=w1000`. Essas cópias **não** vão para a lixeira na limpeza: o e-mail enviado continua usando.
+      - **PDF** (sem o Mac): `copy_file` dele para `_LEITURA NEWS (automação)` com título `TEMP CAPA <AAAA-MM-DD> – <Título>.pdf`, baixe ("Baixar um PDF da pasta da automação") e mande a cópia para a lixeira logo depois. Renderize a 1ª página em JPG de 1000 px de largura, qualidade 85 (capa aberta, mais larga que alta, com lombada e contracapa: recorte só a metade da direita, a capa da frente) e confira olhando a imagem. Envie ao servidor da Ases como em "Enviar ao servidor da Ases" (seção Leitura gratuita), na pasta `leia/capas/`: `<código>.jpg` e `<código>.json` com `{"ate": <timestamp de 23:59:59 do dia do envio>}` (código novo, diferente do do trecho). Use no e-mail `https://assessoriaglobal.com.br/leia/capa.php?c=<código>`: o site da Global busca a imagem na primeira abertura (o teste para o Renan já faz isso) e guarda a própria cópia por até 1 ano sem uso; a da Ases some 30 dias depois do envio. No bloco "Dados da automação", `capa global:<código>`.
    4. nada disso → Stand by pedindo **Capa:** com o link de uma imagem da capa.
-   Se a única capa é o PDF da pasta e o Mac está offline → Stand by por computador (seção Leitura gratuita, passo 3), não o Stand by comum.
 5. **Base para o texto:** **Sinopse:** do card, se houver; senão o briefing da pasta do livro e o próprio miolo (apresentação, orelha ou prefácio, se houver, e as primeiras páginas do texto). Use só o que está no livro, sem revelar o desfecho.
 6. O id da cópia não vai na descrição do card: só no bloco "Dados da automação" do comentário (`miolo <id>`), para a limpeza depois.
 
@@ -310,14 +311,14 @@ As LPs dos livros são feitas por outra automação, no quadro **LP • Automaç
 
 ## Leitura gratuita
 
-O link carrega um "passe" cifrado com o arquivo, título, autor, compra, landing page e validade. O site busca o PDF (no Drive, ou no próprio servidor quando é trecho de livro da Ases), mostra como livro e encerra sozinho no fim do prazo.
+O link carrega um "passe" cifrado com o arquivo, título, autor, compra, landing page e validade. O site busca o PDF (no Drive, ou o trecho guardado no servidor da Ases: o leitor da Ases lê direto da pasta; o da Global busca de servidor para servidor), mostra como livro e encerra sozinho no fim do prazo.
 
 **Baixar um PDF da pasta da automação** (sem o Mac): arquivos dentro de `_LEITURA NEWS (automação)` são públicos por link, então baixam direto:
 ```
 curl -sSL --max-time 300 -o miolo.pdf "https://drive.google.com/uc?export=download&id=<id>&confirm=t"
 head -c 5 miolo.pdf   # tem que sair %PDF-
 ```
-Não saiu `%PDF-` → confira o compartilhamento (`get_file_permissions`); se não resolver, use o Mac (`device_stage_files`) ou Stand by por computador.
+Não saiu `%PDF-` → confira o compartilhamento (`get_file_permissions`); se não resolver, use o Mac (`device_stage_files`) se estiver disponível, senão Stand by por computador.
 
 1. **Achar o PDF:**
    - Livro da Ases: `search_files` com `title = '<Título>' and mimeType = 'application/vnd.google-apps.folder'` (pode haver várias; teste cada uma) → subpasta `PDF` → arquivo com `PARK` e `miolo` no nome. Sempre o PARK (sem marcas de corte). Não achou → Stand by. O ISBN do livro está no nome do arquivo (`PARK_<ISBN>_miolo.pdf`): anote para o catálogo.
@@ -334,7 +335,7 @@ Não saiu `%PDF-` → confira o compartilhamento (`get_file_permissions`); se n�
      - Sem capítulos (poesia, crônicas, devocional, diário): cerca de 15% das páginas de texto, nunca menos de 8 nem mais de 24, terminando no fim de um poema, crônica ou seção. Nunca no meio de um texto.
      - "Páginas do 1º capítulo" no card → respeite.
    - `python3 scripts/trecho.py cortar miolo.pdf <FIM> trecho.pdf` e renderize a última página para confirmar o ponto de corte.
-   - **Livro da Ases → enviar o trecho ao servidor da Ases** (sem o Mac):
+   - **Enviar ao servidor da Ases** (sem o Mac; vale para livro da Ases **e** externo, o passe é que muda):
      1. Código do trecho: `python3 -c "import secrets; print(secrets.token_hex(16))"` (32 letras e números). Grave `<código>.json` com `{"ate": <timestamp do fim da leitura>}` (o mesmo `e` do link real: 23:59:59 de Brasília do 7º dia depois do envio; `python3 -c "import datetime as d,zoneinfo as z; print(int(d.datetime.strptime('<AAAA-MM-DD do envio>','%Y-%m-%d').replace(tzinfo=z.ZoneInfo('America/Sao_Paulo'),hour=23,minute=59,second=59).timestamp()+7*86400))"`).
      2. `hosting_files_generate-upload-url` (Hostinger) com username `u155401317` e domain `asesdaliteratura.com`. Devolve `url`, `auth_key` e `rest_auth_key`: use só nos comandos abaixo, **nunca** em comentário, card, arquivo do repositório ou relatório.
      3. Para cada arquivo (`trecho.pdf` → `leia/trechos/<código>.pdf`, depois `<código>.json` → `leia/trechos/<código>.json`):
@@ -343,15 +344,14 @@ Não saiu `%PDF-` → confira o compartilhamento (`get_file_permissions`); se n�
         curl -sS -o /dev/null -w "%{http_code}\n" -X POST "<url>/leia/trechos/<nome>?override=true" -H "X-Auth: <auth_key>" -H "X-Auth-Rest: <rest_auth_key>" -H "Tus-Resumable: 1.0.0" -H "Upload-Length: $SIZE" -H "Upload-Offset: 0"     # 201
         curl -sS -o /dev/null -w "%{http_code}\n" -X PATCH "<url>/leia/trechos/<nome>?override=true" -H "X-Auth: <auth_key>" -H "X-Auth-Rest: <rest_auth_key>" -H "Tus-Resumable: 1.0.0" -H "Content-Type: application/offset+octet-stream" -H "Upload-Offset: 0" --data-binary "@<arquivo>"   # 204
         ```
-        Envie só para `leia/trechos/` e só esses dois arquivos: nada mais no servidor. Erro no envio → Stand by com o erro no comentário (não o Stand by por computador).
-     4. O arquivo do passe é `trecho:<código>` (vai em `--arquivo` do `leitura-link.py`). No bloco "Dados da automação", `leitura trecho:<código>`.
-     O servidor apaga o trecho sozinho 2 dias depois do fim da leitura. A pasta `leia/trechos/` é bloqueada para acesso direto: só o leitor, com passe válido, abre o PDF.
-   - **Livro externo → leitor da Global** (o site da Global não está nesta conta da Hostinger, então ainda precisa do Mac): grave `trecho.pdf` no espelho local de `_LEITURA NEWS (automação)` com `device_commit_files`, nome `LEITURA <AAAA-MM-DD> – <Título>.pdf`, aguarde a sincronização e pegue o id com `search_files` (`parentId = '1C4tldArGWHRtrucU0QBsKoPfbBLQTzOk'`). Mac desligado → Stand by por computador (abaixo).
+        Envie só para `leia/trechos/` (ou `leia/capas/`, no caso da capa convertida de externo) e só esses dois arquivos: nada mais no servidor. Para a capa, troque `leia/trechos/` por `leia/capas/` nos comandos. Erro no envio → Stand by com o erro no comentário (não o Stand by por computador).
+     4. O arquivo do passe é `trecho:<código>` (vai em `--arquivo` do `leitura-link.py`, com `--site ases` ou `--site global` conforme `site_leitura`). No bloco "Dados da automação", `leitura trecho:<código>`.
+     O servidor apaga o trecho sozinho 2 dias depois do fim da leitura. A pasta `leia/trechos/` é bloqueada para acesso direto: só o leitor, com passe válido, abre o PDF. Livro externo: o leitor da Global busca o trecho em `asesdaliteratura.com/leia/repasse.php` com uma chave compartilhada (instalada pelo Renan em 12/10/2026, testada no ar) e guarda a cópia em `global-private` até o fim da leitura; nenhum endereço da Ases aparece para o leitor.
    - **Stand by por computador:** comente e mova para ⏸️ Stand by com o bloco `stand by · mac` (é ele que faz a próxima rodada retomar sozinha):
      ```
      **⏸️ Aguardando o computador do Renan**
 
-     - O Mac estava desligado ou offline, e esta news precisa dele para <gravar o trecho de livro externo | ler o miolo | gravar a capa convertida>.
+     - O Mac estava desligado ou offline, e esta news precisa dele para <baixar o miolo>.
      - Não precisa fazer nada: a próxima rodada com o computador ligado retoma sozinha.
 
      ---
@@ -370,8 +370,8 @@ Não saiu `%PDF-` → confira o compartilhamento (`get_file_permissions`); se n�
 - Os modelos `[TESTE]` ficam na Brevo (o conector não apaga modelos). Lembre o Renan de limpá-los de vez em quando (Brevo › Modelos › filtrar "[TESTE]").
 - A opção **Não envie para contatos não reativos** (Destinatários) não existe na API: o Renan ou a Emilly marcam na Brevo depois do agendamento. O comentário de agendado sempre lembra disso.
 - O conector não envia teste de campanha nem edita campanha criada; por isso o teste é um modelo idêntico e a campanha é criada a partir dele. Mudança depois de agendada: o Renan faz na Brevo.
-- Os sites e os leitores são publicados pelo Renan (Hostinger). No servidor, a automação só envia trechos para `asesdaliteratura.com/leia/trechos/`; nada mais.
-- O site da Global (leitor de livros externos) não está na conta da Hostinger conectada: trecho de livro externo e capa externa em PDF ainda passam pelo Mac.
+- Os sites e os leitores são publicados pelo Renan (Hostinger). No servidor, a automação só envia trechos para `asesdaliteratura.com/leia/trechos/` e capas convertidas de externos para `asesdaliteratura.com/leia/capas/`; nada mais.
+- O site da Global está em outra conta da Hostinger, compartilhada só para leitura: a automação não grava nada lá. Por isso trechos e capas de externos ficam no servidor da Ases e a Global busca de servidor para servidor. Nenhuma etapa da news precisa mais do Mac (ele só serve de reserva se um download do Drive falhar).
 - O conector do Trello não cria etiquetas nem adiciona membros: isso é com o Renan.
 
 ## Anexo: scripts
