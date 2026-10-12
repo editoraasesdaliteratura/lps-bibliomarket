@@ -40,7 +40,7 @@
   --cor-texto-claro:#F6EEDD;
   --cor-rodape:#77482B;
   --cor-rodape-texto:#FFF8F0;
-  --orn-opacidade:0.55;
+  --orn-opacidade:0.9;
 
   --f-texto:"DM Sans", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --largura:1120px;
@@ -140,6 +140,24 @@ strong{font-weight:800}
   .lp-hero-corpo{justify-items:stretch}
 }
 
+/* Galeria de ilustrações do miolo (opcional) */
+.lp-galeria{background:var(--cor-medio)}
+.lp-galeria .lp-wrap{display:grid;gap:clamp(28px, 4vw, 48px)}
+.lp-galeria-topo{display:grid;gap:12px;justify-items:center;text-align:center}
+.lp-galeria .lp-h2{color:var(--cor-destaque)}
+.lp-galeria-intro{max-width:56ch;opacity:.85}
+.lp-galeria-lista{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px, 2.4vw, 32px);align-items:start}
+.lp-galeria-lista figure{margin:0;display:grid;gap:14px}
+.lp-galeria-lista .lp-foto{aspect-ratio:3/4}
+.lp-galeria-lista figcaption{font-size:14.5px;line-height:1.45;padding-inline:2px}
+.lp-galeria-lista li:nth-child(even){margin-top:clamp(0px, 4vw, 48px)}
+@media (max-width:860px){
+  .lp-galeria-lista{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:74%;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px var(--gutter) 18px;margin-inline:calc(var(--gutter) * -1);scrollbar-width:none}
+  .lp-galeria-lista::-webkit-scrollbar{display:none}
+  .lp-galeria-lista li{scroll-snap-align:center}
+  .lp-galeria-lista li:nth-child(even){margin-top:0}
+}
+
 /* Sinopse */
 .lp-sinopse .lp-wrap{display:grid;gap:clamp(28px, 4vw, 48px);justify-items:center;text-align:center}
 .lp-sinopse .lp-h2{max-width:22ch;color:var(--cor-texto-claro)}
@@ -209,6 +227,12 @@ strong{font-weight:800}
   .lp-btn{width:100%}
 }
 
+/* Textura do miolo (opcional): padrão leve no fundo do hero e do trecho */
+.lp-hero,.lp-trecho{background-image:url("img/textura.webp");background-size:280px auto;background-repeat:repeat}
+@media (max-width:860px){.lp-hero,.lp-trecho{background-size:202px auto}}
+
+.lp-trecho figure:has(.lp-divisor) blockquote::before{display:none}
+
 /* Rodapé + assinatura Global (fixos em todas as LPs) */
 .lp-rodape{background:var(--cor-rodape);color:var(--cor-rodape-texto);padding-block:40px calc(40px + env(safe-area-inset-bottom,0px))}
 .lp-rodape-grid{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:28px}
@@ -250,7 +274,7 @@ strong{font-weight:800}
 <main id="inicio">
 
   <section class="lp-hero" id="conteudo">
-<img class="lp-orn" src="img/ornamento.webp" alt="" aria-hidden="true">    <div class="lp-wrap lp-hero-grid">
+    <div class="lp-wrap lp-hero-grid">
       <div class="lp-hero-img"><div class="lp-recorte "><picture><source type="image/webp" srcset="img/mockup-pe-800.webp 800w, img/mockup-pe-1400.webp 1400w" sizes="(max-width:860px) 100vw, 560px"><img src="img/mockup-pe-1400.png" width="1180" height="1769" alt="Livro Sé7imo: a melodia da Terra, de Sebastian Levati" fetchpriority="high"></picture></div></div>
       <div class="lp-hero-head">
         <p class="lp-eyebrow">Sebastian Levati</p>
@@ -267,9 +291,18 @@ strong{font-weight:800}
 
   <section class="lp-secao lp-escura lp-sinopse" aria-labelledby="t-sinopse">
     <div class="lp-wrap">
-      
+      <img class="lp-divisor" src="img/divisor-claro.webp" alt="" aria-hidden="true" width="640" height="150" loading="lazy">
       <h2 class="lp-h2 rev" id="t-sinopse">Uma fábula cortante sobre a ambição dos homens e a lealdade da terra.</h2>
       <div class="lp-prosa rev"><p>Ao amanhecer, com um tiro entre as costelas, <strong>Sétimo</strong> chama para perto os sacis que rodopiam nos pés de vento. Antes que o dia termine, ele quer contar a quem tiver paciência as passagens da sua existência. Assim começa o livro: pelo fim, na voz de um cão que diz ter vivido intensamente.</p><p>A história volta à toca sob as raízes de uma jaqueira, onde ele nasceu ao lado da mãe de orelha rasgada. Vem a mata queimada, vem a fome, e vem o som de uma gaita: é <strong>Jonas</strong>, o menino que vira o caldeirão do almoço na porta da toca e se torna o seu primeiro amigo.</p><p>Ao lado da família de colonos, Sétimo acompanha colheitas e mudanças, o pai endividado com o patrão que arrenda os cafezais, a mãe adoentada, as noites de chuva e as partidas. Observa os humanos com os instintos de cão e o olhar de quem não entende como eles podem queimar coisas vivas.</p><p>Entre o realismo da vida rural e o mistério dos sacis, guardiões invisíveis da natureza, o romance fala de lealdade, dignidade e memória, e de quem ainda sabe escutar a terra.</p></div>
+    </div>
+  </section>
+
+  <section class="lp-secao lp-galeria" aria-labelledby="t-galeria">
+    <div class="lp-wrap">
+      <div class="lp-galeria-topo rev">
+        <h2 class="lp-h2" id="t-galeria">Das páginas do livro</h2>
+<p class="lp-galeria-intro">Ilustrações de Larissa Virgilli que acompanham a história de Sétimo.</p>      </div>
+      <ul class="lp-galeria-lista">        <li class="rev"><figure><div class="lp-foto "><picture><source type="image/webp" srcset="img/g-toca-800.webp 800w, img/g-toca-1400.webp 1400w" sizes="(max-width:860px) 74vw, 280px"><img src="img/g-toca-1400.jpg" width="1400" height="2000" alt="Ilustração do livro: Jonas encontra os filhotes na toca sob as raízes da jaqueira" loading="lazy" decoding="async"></picture></div><figcaption>Sob as raízes da jaqueira, a toca onde Sétimo nasceu e conheceu Jonas.</figcaption></figure></li>        <li class="rev"><figure><div class="lp-foto "><picture><source type="image/webp" srcset="img/g-redemoinho-800.webp 800w, img/g-redemoinho-1400.webp 1400w" sizes="(max-width:860px) 74vw, 280px"><img src="img/g-redemoinho-1400.jpg" width="1400" height="2000" alt="Ilustração do livro: um saci dentro de um redemoinho de vento e o filhote junto ao monte de lenha" loading="lazy" decoding="async"></picture></div><figcaption>Choco, o saci, gira no redemoinho que leva o filhote até a casa de Jonas.</figcaption></figure></li>        <li class="rev"><figure><div class="lp-foto "><picture><source type="image/webp" srcset="img/g-engradado-800.webp 800w, img/g-engradado-1400.webp 1400w" sizes="(max-width:860px) 74vw, 280px"><img src="img/g-engradado-1400.jpg" width="1400" height="2000" alt="Ilustração do livro: Sétimo num engradado de madeira na caçamba de uma caminhonete" loading="lazy" decoding="async"></picture></div><figcaption>No engradado do tio, a viagem que afasta Sétimo do amigo.</figcaption></figure></li>        <li class="rev"><figure><div class="lp-foto "><picture><source type="image/webp" srcset="img/g-correnteza-800.webp 800w, img/g-correnteza-1400.webp 1400w" sizes="(max-width:860px) 74vw, 280px"><img src="img/g-correnteza-1400.jpg" width="1400" height="2000" alt="Ilustração do livro: Sétimo sobre um tronco no rio, segurando um homem pela camisa" loading="lazy" decoding="async"></picture></div><figcaption>Na travessia do rio, Sétimo enfrenta a correnteza para salvar um homem.</figcaption></figure></li>      </ul>
     </div>
   </section>
 
@@ -280,19 +313,19 @@ strong{font-weight:800}
         <ul class="lp-ksp-lista">          <li class="rev"><h3 class="lp-ksp-titulo">Um cão que não é caricatura</h3><p>Sétimo mantém o faro, os instintos e o corpo de cão, mas observa tudo como um filósofo. Visto pelos olhos dele, o mundo dos homens perde as desculpas.</p></li>          <li class="rev"><h3 class="lp-ksp-titulo">Sacis como guardiões da natureza</h3><p>No meio dos redemoinhos, os sacis deixam de ser figuras de brincadeira: protegem a terra e os animais. O realismo mágico encontra a crítica social.</p></li>          <li class="rev"><h3 class="lp-ksp-titulo">Uma história contada a partir do fim</h3><p>Começar pelo cão ferido transforma o livro numa reflexão sobre aceitação, dignidade e memória, para leitores a partir de 14 anos.</p></li>        </ul>
         <div><a class="lp-btn" href="https://a.co/d/08Fr0b1l" target="_blank" rel="noopener" data-cta="diferenciais">Garanta o seu exemplar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
       </div>
-<div class="lp-ksp-img"><div class="lp-recorte " style="aspect-ratio:660 / 630"><picture><source type="image/webp" srcset="img/pegada-800.webp 800w, img/pegada-1400.webp 1400w" sizes="(max-width:860px) 100vw, 520px"><img src="img/pegada-1400.png" width="660" height="630" alt="Ilustração da orelha do livro: pegada de cachorro dentro de um coração marcado na terra" loading="lazy" decoding="async"></picture></div></div>    </div>
+<div class="lp-ksp-img"><div class="lp-foto " style="aspect-ratio:1400 / 1237"><picture><source type="image/webp" srcset="img/cao-na-mata-800.webp 800w, img/cao-na-mata-1400.webp 1400w" sizes="(max-width:860px) 100vw, 520px"><img src="img/cao-na-mata-1400.jpg" width="1400" height="1237" alt="Ilustração do livro: Sétimo, o cão dourado, na mata, olhando para o horizonte" loading="lazy" decoding="async"></picture></div></div>    </div>
   </section>
 
   <section class="lp-secao lp-trecho" aria-label="Trecho do livro">
-<img class="lp-orn" src="img/ornamento.webp" alt="" aria-hidden="true" loading="lazy">    <div class="lp-wrap">
-      <figure class="rev"><blockquote>Jonas sempre falou sobre os entes invisíveis que protegem a natureza. Não tenho certeza se algum dia ele chegou a vê-los. Só sei que vocês são muito espertos, muito velozes. Não gostam que maltratem a terra ou aqueles que dependem dela.</blockquote><figcaption>Introdução</figcaption></figure>
+    <div class="lp-wrap">
+      <figure class="rev"><img class="lp-divisor" src="img/divisor-escuro.webp" alt="" aria-hidden="true" width="640" height="150" loading="lazy"><blockquote>Jonas sempre falou sobre os entes invisíveis que protegem a natureza. Não tenho certeza se algum dia ele chegou a vê-los. Só sei que vocês são muito espertos, muito velozes. Não gostam que maltratem a terra ou aqueles que dependem dela.</blockquote><figcaption>Introdução</figcaption></figure>
     </div>
   </section>
 
 
   <section class="lp-secao lp-escura lp-bio" aria-labelledby="t-bio">
     <div class="lp-wrap lp-bio-grid">
-      <div class="lp-bio-texto rev">
+<div class="lp-foto rev"><picture><source type="image/webp" srcset="img/autor-800.webp 800w, img/autor-1400.webp 1400w" sizes="(max-width:860px) 100vw, 440px"><img src="img/autor-1400.jpg" width="495" height="593" alt="Sebastian Levati" loading="lazy" decoding="async"></picture></div>      <div class="lp-bio-texto rev">
         <p class="lp-eyebrow">Sobre o autor</p>
         <h2 class="lp-h2" id="t-bio">Sebastian Levati</h2>
         <div class="lp-prosa"><p><strong>Sebastian Levati</strong> é escritor e pesquisador literário. É autor do romance histórico <em>Cinzas de Cogumelos Azuis</em>, que debate a resistência política e as marcas da Ditadura Militar no Brasil.</p><p>Sua escrita, sensorial e humanista, transita entre a ficção social e o realismo mágico. Em <em>Sé7imo: a melodia da Terra</em>, constrói cenas de realismo e emoção, intercalando drama, ternura e leveza.</p></div>
@@ -302,7 +335,7 @@ strong{font-weight:800}
   </section>
 
   <section class="lp-secao lp-final" id="cta-final" aria-labelledby="t-final">
-<img class="lp-orn" src="img/ornamento.webp" alt="" aria-hidden="true" loading="lazy">    <div class="lp-wrap lp-final-grid">
+    <div class="lp-wrap lp-final-grid">
       <div class="lp-final-texto rev">
         <h2 class="lp-h2" id="t-final">São poucos os que tocam a melodia da terra.</h2>
         <p>Uma sinfonia poética de realismo mágico e denúncia social, narrada a partir do silêncio de um cão.</p>
