@@ -197,6 +197,27 @@ def montar(arq, previa=False, saida=None, url_base=None):
             tinta.putalpha(dv.getchannel("A"))
             tinta.save(img_dir / f"divisor-{chave}.webp", "WEBP", quality=90)
             divisor[chave] = f"divisor-{chave}.webp"
+    # Textura: padrão repetível tirado do miolo (máscara em tons de cinza: branco = traço), tingido
+    # numa cor da paleta e aplicado de leve no fundo do hero e do trecho.
+    textura = None
+    if d["tema"].get("textura"):
+        tx = Image.open(base / d["tema"]["textura"])
+        mascara = tx.getchannel("A") if tx.mode in ("RGBA", "LA") else tx.convert("L")
+        cor_tx = cores.get(d["tema"].get("textura_cor", "escuro"), d["tema"].get("textura_cor"))
+        rgb = tuple(int(cor_tx.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4))
+        op = float(d["tema"].get("textura_opacidade", .08))
+        tinta = Image.new("RGBA", mascara.size, rgb + (255,))
+        tinta.putalpha(mascara.point(lambda v: round(v * op)))
+        tinta.save(img_dir / "textura.webp", "WEBP", quality=90)
+        textura = {"arquivo": "textura.webp", "largura": int(d["tema"].get("textura_largura", 260))}
+    galeria = None
+    if d.get("galeria", {}).get("itens"):
+        g = d["galeria"]
+        if not 2 <= len(g["itens"]) <= 4:
+            raise SystemExit("galeria.itens precisa ter de 2 a 4 ilustrações")
+        galeria = {"titulo": rich(g.get("titulo", "Das páginas do livro")), "intro": rich(g.get("intro")),
+                   "itens": [{"imagem": img(i["imagem"], i.get("alt") or plain(i.get("legenda", ""))),
+                              "legenda": rich(i.get("legenda"))} for i in g["itens"]]}
     fin_img = img(d["final"]["imagem"], d["final"].get("alt") or f"Livro {titulo}")
     bio_img = img(d["bio"]["foto"], livro["autor"]) if d["bio"].get("foto") else None
     shutil.copy(AQUI / "assets" / "logo-global.png", img_dir / "logo-global.png")
@@ -239,6 +260,7 @@ def montar(arq, previa=False, saida=None, url_base=None):
         "fonte": {"google": f["google"], "peso": f["peso"], "css": Markup(f'"{fonte_nome}", {f["fallback"]}')},
         "cores": cores, "livro": {**livro, "titulo": titulo},
         "ornamento": ornamento, "ornamento_opacidade": d["tema"].get("ornamento_opacidade", .9), "divisor": divisor,
+        "textura": textura, "galeria": galeria,
         "jsonld": Markup(json.dumps(jsonld, ensure_ascii=False).replace("</", "<\\/")),
         "instagram": instagram,
         "compra": {"principal": d["compra"]["principal"], "outros": d["compra"].get("outros", []),

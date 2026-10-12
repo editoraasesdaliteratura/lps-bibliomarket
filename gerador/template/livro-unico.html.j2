@@ -141,6 +141,24 @@ strong{font-weight:800}
   .lp-hero-corpo{justify-items:stretch}
 }
 
+/* Galeria de ilustrações do miolo (opcional) */
+.lp-galeria{background:var(--cor-medio)}
+.lp-galeria .lp-wrap{display:grid;gap:clamp(28px, 4vw, 48px)}
+.lp-galeria-topo{display:grid;gap:12px;justify-items:center;text-align:center}
+.lp-galeria .lp-h2{color:var(--cor-destaque)}
+.lp-galeria-intro{max-width:56ch;opacity:.85}
+.lp-galeria-lista{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat({{ galeria.itens|length if galeria else 3 }},minmax(0,1fr));gap:clamp(16px, 2.4vw, 32px);align-items:start}
+.lp-galeria-lista figure{margin:0;display:grid;gap:14px}
+.lp-galeria-lista .lp-foto{aspect-ratio:3/4}
+.lp-galeria-lista figcaption{font-size:14.5px;line-height:1.45;padding-inline:2px}
+.lp-galeria-lista li:nth-child(even){margin-top:clamp(0px, 4vw, 48px)}
+@media (max-width:860px){
+  .lp-galeria-lista{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:74%;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px var(--gutter) 18px;margin-inline:calc(var(--gutter) * -1);scrollbar-width:none}
+  .lp-galeria-lista::-webkit-scrollbar{display:none}
+  .lp-galeria-lista li{scroll-snap-align:center}
+  .lp-galeria-lista li:nth-child(even){margin-top:0}
+}
+
 /* Sinopse */
 .lp-sinopse .lp-wrap{display:grid;gap:clamp(28px, 4vw, 48px);justify-items:center;text-align:center}
 .lp-sinopse .lp-h2{max-width:22ch;color:var(--cor-texto-claro)}
@@ -209,6 +227,13 @@ strong{font-weight:800}
   .lp-final-texto{justify-items:stretch}
   .lp-btn{width:100%}
 }
+
+/* Textura do miolo (opcional): padrão leve no fundo do hero e do trecho */
+{% if textura %}.lp-hero,.lp-trecho{background-image:url("img/{{ textura.arquivo }}");background-size:{{ textura.largura }}px auto;background-repeat:repeat}
+@media (max-width:860px){.lp-hero,.lp-trecho{background-size:{{ (textura.largura * 0.72)|round|int }}px auto}}
+{% endif %}
+
+.lp-trecho figure:has(.lp-divisor) blockquote::before{display:none}
 
 /* Rodapé + assinatura Global (fixos em todas as LPs) */
 .lp-rodape{background:var(--cor-rodape);color:var(--cor-rodape-texto);padding-block:40px calc(40px + env(safe-area-inset-bottom,0px))}
@@ -282,6 +307,20 @@ strong{font-weight:800}
       <div class="lp-prosa rev">{% for p in sinopse.paragrafos %}<p>{{ p }}</p>{% endfor %}</div>
     </div>
   </section>
+
+  {% if galeria %}
+  <section class="lp-secao lp-galeria" aria-labelledby="t-galeria">
+    <div class="lp-wrap">
+      <div class="lp-galeria-topo rev">
+        <h2 class="lp-h2" id="t-galeria">{{ galeria.titulo }}</h2>
+        {% if galeria.intro %}<p class="lp-galeria-intro">{{ galeria.intro }}</p>{% endif %}
+      </div>
+      <ul class="lp-galeria-lista">{% for g in galeria.itens %}
+        <li class="rev"><figure>{{ quadro(g.imagem, "(max-width:860px) 74vw, 280px") }}{% if g.legenda %}<figcaption>{{ g.legenda }}</figcaption>{% endif %}</figure></li>{% endfor %}
+      </ul>
+    </div>
+  </section>
+  {% endif %}
 
   <section class="lp-secao lp-ksp" aria-labelledby="t-dif">
     <div class="lp-wrap lp-ksp-grid">
