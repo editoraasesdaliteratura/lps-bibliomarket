@@ -1,0 +1,108 @@
+{
+  "modelo": "infantil",
+  "slug": "rua-dos-aimores",
+  "subdominio": "ruadosaimores",
+  "livro": {
+    "titulo": "Antes, durante e além da Rua dos Aimorés",
+    "autor": "Fábio Rodrigues Goulart",
+    "ilustrador": "Elaine Ladeira",
+    "isbn": "9786561940092"
+  },
+  "tema": {
+    "fonte_titulo": "Grandstander",
+    "fonte_texto": "Nunito",
+    "estampa": "bolinhas",
+    "cores": {
+      "papel": "#FFFDF6",
+      "creme": "#FDF4DF",
+      "sol": "#FBE6A0",
+      "sol_2": "#F4D67C",
+      "tinta": "#3B2A22",
+      "destaque": "#8C2E2A",
+      "botao": "#B4432A",
+      "botao_texto": "#FFFFFF",
+      "profundo": "#5C2E2C",
+      "texto_claro": "#FFF6E6",
+      "acento": "#2E74A3"
+    }
+  },
+  "seo": {
+    "titulo": "Antes, durante e além da Rua dos Aimorés · Fábio Goulart",
+    "descricao": "As memórias de uma infância no interior paulista, contadas em cinco casas: um livro ilustrado para ler em família e atravessar gerações."
+  },
+  "compra": {
+    "texto_botao": "Garanta o seu exemplar",
+    "texto_topo": "Comprar",
+    "principal": {
+      "rotulo": "Amazon",
+      "url": "https://a.co/d/08J4bSb5"
+    },
+    "outros": [
+      {
+        "rotulo": "Um Livro",
+        "url": "https://universidades.umlivro.com.br/antes--durante-e-alem-da-rua-dos-aimores-8522751/p"
+      }
+    ]
+  },
+  "instagram": {
+    "usuario": "fabiogoulart",
+    "rotulo": "Siga o autor"
+  },
+  "hero": {
+    "imagem": "mockup-frente.png",
+    "alt": "Livro Antes, durante e além da Rua dos Aimorés, de Fábio Rodrigues Goulart",
+    "tagline": "Histórias de uma infância no interior, contadas do jeito que a memória guarda: com *afeto* e simplicidade.",
+    "descricao": "Em Rio Preto, um menino de triciclo barulhento cresce entre pipas, futebol de rua, tios contadores de histórias e cinco casas diferentes, até chegar à Rua dos Aimorés."
+  },
+  "sinopse": {
+    "titulo": "Dizem que ele não tinha pressa nenhuma de crescer.",
+    "paragrafos": [
+      "Tudo começa numa casa de frente para a praça, em São José do Rio Preto. O menino vive de cueca por causa do calor, usa botas ortopédicas pesadas e pedala um triciclo vermelho que faz vrum-vrum pela calçada. A mágica de verdade chega com o toc-toc-toc da charrete do leiteiro.",
+      "Depois vêm outras moradas: o quintal com um **salgueiro-chorão** que ouvia segredos, o apartamento do Edifício Rio Branco com a loja de doces ao lado, os fins de semana no sítio com cheiro de café secando ao sol e a promessa de um pônei para o mês de agosto.",
+      "Na **Rua dos Aimorés**, o mundo fica gigante: o campinho ao lado da casa da dona Irene, as pipas que o pai cortava no bambu, o pão doce do padeiro, as partidas de pebolim e as lendas da Orguinha e do Branquelão, que faziam a turma correr.",
+      "Escrito para homenagear os pais e acolher a saudade, o livro mostra como as lembranças mais simples atravessam o tempo e continuam iluminando a vida adulta."
+    ]
+  },
+  "diferenciais": {
+    "titulo": "Para ler junto e conversar depois",
+    "itens": [
+      {
+        "icone": "casa",
+        "titulo": "Uma infância em cinco casas",
+        "texto": "Cada mudança abre um capítulo, com novos cenários, novos medos e novas descobertas. A casa vira o fio que costura a história."
+      },
+      {
+        "icone": "coracao",
+        "titulo": "Pais, avós e netos na mesma página",
+        "texto": "Para as crianças, aventura e imaginação. Para os adultos, a lembrança de um tempo de brincadeiras ao ar livre e vizinhos que viravam família."
+      },
+      {
+        "icone": "sol",
+        "titulo": "Gente e lugares de verdade",
+        "texto": "O leiteiro, a Jaja das esfirras, o tio Zequinha e seu Fusca, o clube Monte Líbano: nomes reais de uma comunidade do interior paulista."
+      }
+    ]
+  },
+  "trecho": {
+    "texto": "Mas o café da manhã compensava tudo: ia ao curral com meu copo, colher e chocolate em pó, esperando o leite recém-tirado. Era quase uma cerimônia — quente, doce, sincera.",
+    "referencia": "A estrada de terra e o pônei de agosto",
+    "imagem": "orelha.jpg",
+    "alt": "Ilustração da orelha do livro: o menino leva o copo ao curral enquanto o leite é tirado da vaca"
+  },
+  "bio": {
+    "rotulo": "Sobre o autor",
+    "nome": "Fábio Goulart",
+    "foto": "autor.jpg",
+    "paragrafos": [
+      "**Fábio Goulart** nasceu em 1971, em São José do Rio Preto (SP), onde viveu uma infância marcada por histórias e afetos. Aos 18 anos, mudou-se para a capital para cursar Direito; fez mestrado e seguiu carreira no Ministério Público como Promotor de Justiça.",
+      "É também autor do livro jurídico *Tribunal do Júri. Aspectos Críticos Relacionados à Prova*. Depois da perda dos pais, encontrou no resgate das memórias de infância uma forma de homenageá-los e de transformar a saudade em literatura."
+    ]
+  },
+  "final": {
+    "titulo": "As portas da infância ficam sempre abertas.",
+    "texto": "Uma viagem ao tempo em que o mundo cabia na rua de casa, para ler em voz alta, lembrar junto e contar as próprias histórias depois.",
+    "fecho": "Para crianças, pais e avós que gostam de boas lembranças.",
+    "imagem": "final-cao.png",
+    "alt": "Ilustração da contracapa: a pastora-alemã Cigana deitada ao lado de um coelho"
+  }
+}
