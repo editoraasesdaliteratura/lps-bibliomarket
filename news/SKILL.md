@@ -27,7 +27,7 @@ Há dois tipos de livro:
 
 ## Preparação (início de toda rodada)
 
-Grave os quatro scripts do anexo no fim deste arquivo em uma pasta de trabalho `scripts/` (Write, exatamente como estão). Eles não ficam salvos entre sessões. Se faltar biblioteca: `pip install pypdf cryptography --break-system-packages`.
+Grave os quatro scripts do anexo no fim deste arquivo em uma pasta de trabalho `scripts/` (Write, exatamente como estão). Eles não ficam salvos entre sessões. Se faltar biblioteca: `pip install pypdf pypdfium2 pillow cryptography --break-system-packages`.
 
 ## Configuração
 
@@ -330,12 +330,12 @@ Não saiu `%PDF-` → confira o compartilhamento (`get_file_permissions`); se n�
    - **Pegar o PDF:**
      - Livro da Ases (sem o Mac): `copy_file` do PARK com `parentId` = `1C4tldArGWHRtrucU0QBsKoPfbBLQTzOk` e título `TEMP <AAAA-MM-DD> – <Título>.pdf`, baixe ("Baixar um PDF da pasta da automação") e mande essa cópia para a lixeira (`trash_file`) logo depois de baixar: ela só serve para cortar.
      - Livro externo: baixe a cópia `MIOLO … (externo).pdf` do mesmo jeito.
-   - `python3 scripts/trecho.py analisar miolo.pdf`. Ele classifica cada página (`pré` = folha de rosto, ficha, dedicatória, sumário; `para` = prefácio, apresentação, nota do editor; `branco`; `texto`), diz **onde começa o texto do livro** e o **corte mínimo**. Decida o fim com **bom senso**:
-     - **Regra de ouro:** o leitor precisa ler o livro, não a abertura. O trecho sempre tem **pelo menos 8 páginas de texto do próprio livro**, contadas a partir da página onde o texto começa. Folha de rosto, ficha, dedicatória, sumário, prefácio, apresentação e páginas em branco vêm junto (são o começo do PDF), mas **não contam**.
-     - Com capítulos: do começo até o fim do 1º capítulo. Capítulo que deixa menos de 8 páginas de texto → siga até o fim do capítulo seguinte (e assim por diante). Capítulo enorme (mais de 35 páginas ou mais de 40% do livro) → corte num intervalo natural perto da 25ª página de texto.
-     - Sem capítulos (poesia, crônicas, devocional, diário): cerca de 15% das páginas de texto, nunca menos de 8 nem mais de 24, terminando no fim de um poema, crônica ou seção. Nunca no meio de um texto.
+   - `python3 scripts/trecho.py analisar miolo.pdf`. Ele separa a **abertura** do **livro**: `titulo` (folhas de rosto e títulos curtos), `pré` (ficha, copyright, dedicatória, agradecimentos, sumário), `para` (prefácio, apresentação, introdução, nota do editor), `branco`, `imagem` (ilustração) e `texto` (o livro de fato). Diz **em que página o livro começa** e o **corte mínimo**. Confira essa página olhando o PDF renderizado: se o script errou o começo (ex.: dedicatória longa sem a palavra "dedico"), decida pelo que você vê e diga no comentário do teste.
+     - **Regra de ouro:** o leitor precisa ler o livro, não a abertura. Livros costumam ter várias páginas iniciais (rosto, ficha, dedicatória, agradecimentos, sumário, prefácio...): elas vêm junto, porque são o começo do PDF, mas **nunca contam**. Conte sempre a partir da página onde o livro começa de verdade.
+     - **Livro com capítulos:** libere **o 1º capítulo inteiro**, do começo do PDF até a última página dele, seja qual for o tamanho. Se o 1º capítulo tiver menos de 8 páginas de texto, inclua também o 2º (e assim por diante, sempre terminando no fim de um capítulo).
+     - **Livro sem capítulos claros** (poesia, crônicas, devocional, diário, texto corrido): cerca de 15% das páginas de texto, **nunca menos de 8 nem mais de 24 páginas de texto**, contadas a partir do começo real do livro, terminando no fim de um poema, crônica ou seção. Nunca no meio de um texto.
      - "Páginas do 1º capítulo" no card → respeite, desde que dê pelo menos 8 páginas de texto; se não der, estenda e diga no comentário do teste.
-     - Livro ilustrado (o `analisar` avisa): conta toda página depois da ficha; o mínimo continua 8. Livro com menos páginas que isso → use o livro inteiro.
+     - Livro com menos de 8 páginas de texto no total → use o livro inteiro.
    - `python3 scripts/trecho.py cortar miolo.pdf <FIM> trecho.pdf`. Ele **recusa** o corte com menos de 8 páginas de texto do livro: nunca contorne com `--minimo` (só o Renan pode autorizar um mínimo menor, por card). Depois renderize **a primeira página de texto e a última página** do trecho e olhe as duas: a primeira tem de ser texto do livro, a última tem de fechar um capítulo, poema ou seção.
    - No comentário do teste, na linha **Leitura**, diga quantas páginas de texto o trecho tem: "trecho do livro (páginas 1 a N de T; texto da p. X à N, até "<último título>")".
    - **Enviar ao servidor da Ases** (sem o Mac; vale para livro da Ases **e** externo, o passe é que muda):
@@ -898,7 +898,9 @@ if __name__ == "__main__":
       Salva as páginas 1 até FIM (capa interna, folha de rosto e o trecho).
       TRAVA: recusa o corte se ele tiver menos de N páginas de texto do livro (padrão 8).
       Folha de rosto, ficha, dedicatória, sumário, prefácio, apresentação e páginas em branco
-      NÃO contam como texto. Livro ilustrado (pouco texto por página) é detectado sozinho.
+      NÃO contam como texto. O texto do livro começa depois da abertura (folha de rosto, ficha,
+      dedicatória, agradecimentos, sumário, prefácio, apresentação, introdução); páginas de
+      ilustração dentro do livro contam, páginas em branco não.
 """
 import re
 import sys
@@ -907,14 +909,14 @@ from collections import Counter
 from pypdf import PdfReader, PdfWriter
 
 MINIMO_PADRAO = 8
-TEXTO_MIN = 300  # caracteres para uma página de prosa contar como texto
 
+CABECALHO = re.compile(r"^(\d{1,4}\s*[•|·-]\s*.+|.+\s*[•|·-]\s*\d{1,4})$")
 PRE = re.compile(r"copyright|todos os direitos|isbn|dados internacionais|cataloga[cç][aã]o|cip[- ]brasil|ficha catalogr|"
                  r"^sum[aá]rio\b|^[ií]ndice\b|^dedic|^agradecimentos?\b|editora|revis[aã]o:|diagrama[cç][aã]o:|capa:",
                  re.I | re.M)
-PARA = re.compile(r"^(pref[aá]cio|apresenta[cç][aã]o|nota d[aoe]s? (editor|editora|autor|autora)|orelha|"
+PARA = re.compile(r"^(pref[aá]cio|apresenta[cç][aã]o|introdu[cç][aã]o|nota d[aoe]s? (editor|editora|autor|autora)|orelha|"
                   r"palavras? d[oa] (editor|editora))\b", re.I)
-INICIO = re.compile(r"^(cap[ií]tulo|parte|pr[oó]logo|introdu[cç][aã]o|ep[ií]logo|[ivxlc]+\.?$|\d{1,2}\.?$|\d{1,2}\s*[-–—.]\s*\S)", re.I)
+INICIO = re.compile(r"^(cap[ií]tulo|parte|pr[oó]logo|ep[ií]logo|[ivxlc]+\.?$|\d{1,2}\.?$|\d{1,2}\s*[-–—.]\s*\S)", re.I)
 
 
 def _linhas(pagina) -> list[str]:
@@ -922,8 +924,24 @@ def _linhas(pagina) -> list[str]:
     return [l.strip() for l in texto.splitlines() if l.strip()]
 
 
+def _tem_imagem(caminho: str, numero: int) -> bool:
+    """Página sem texto que tem ilustração de verdade: renderiza e mede a área com tinta,
+    ignorando as margens (onde às vezes vaza a imagem da página vizinha)."""
+    try:
+        import pypdfium2
+        img = pypdfium2.PdfDocument(caminho)[numero - 1].render(scale=0.4).to_pil().convert("L")
+    except Exception:
+        return False
+    w, h = img.size
+    miolo = img.crop((int(w * 0.1), int(h * 0.1), int(w * 0.9), int(h * 0.9)))
+    hist = miolo.histogram()
+    return sum(hist[:235]) / max(1, sum(hist)) > 0.05
+
+
 def classificar(caminho: str):
-    """Devolve (paginas, inicio_texto, ilustrado). paginas = lista de dicts por página."""
+    """Devolve (paginas, inicio). paginas = lista de dicts por página com o tipo:
+    pré (rosto, ficha, dedicatória, agradecimentos, sumário), para (prefácio, apresentação, introdução,
+    nota), titulo (página curta da abertura), branco, imagem, texto (texto do livro)."""
     leitor = PdfReader(caminho)
     brutas = [_linhas(p) for p in leitor.pages]
     # Cabeçalhos corridos: linhas do topo que se repetem em muitas páginas (nome do autor, título).
@@ -931,49 +949,60 @@ def classificar(caminho: str):
     repetidas = {l for l, n in topo.items() if n >= max(3, len(brutas) // 8)}
 
     paginas = []
-    for i, ls in enumerate(brutas, start=1):
+    for i, (pag, ls) in enumerate(zip(leitor.pages, brutas), start=1):
         limpas = list(ls)
-        while limpas and (limpas[0].isdigit() or limpas[0].lower() in repetidas):
+        while limpas and (limpas[0].isdigit() or limpas[0].lower() in repetidas or CABECALHO.match(limpas[0])):
             limpas.pop(0)
         while limpas and limpas[-1].isdigit():
             limpas.pop()
         texto = "\n".join(limpas)
         car = len(texto)
+        pontilhado = sum(1 for l in limpas if re.search(r"\.{5,}|…{3,}", l)) >= 3
         if car == 0:
-            tipo = "branco"
-        elif PRE.search(texto[:400]):
+            tipo = "imagem" if _tem_imagem(caminho, i) else "branco"
+        elif pontilhado or PRE.search(texto[:400]):
             tipo = "pré"
         elif limpas and PARA.match(limpas[0]):
             tipo = "para"
-        elif car >= TEXTO_MIN:
-            tipo = "texto"
         else:
-            tipo = "curta"
-        marca = bool(limpas) and bool(INICIO.match(limpas[0]) or PARA.match(limpas[0])
-                                      or (len(limpas[0]) < 45 and len(limpas) > 1 and car < 1600 and tipo == "texto"
-                                          and i > 1 and paginas[-1]["tipo"] in ("branco", "curta", "pré", "para")))
+            tipo = "conteudo"
+        marca = bool(limpas) and bool(INICIO.match(limpas[0]) or PARA.match(limpas[0]))
         paginas.append({"n": i, "tipo": tipo, "car": car, "linhas": limpas, "marca": marca})
 
-    # O paratexto continua até a próxima página que abre seção (prefácio de 3 páginas conta inteiro como paratexto).
+    # Paratexto (prefácio, apresentação...) continua até uma página em branco ou uma nova seção.
     em_para = False
     for p in paginas:
         if p["tipo"] == "para":
             em_para = True
-        elif p["marca"] or p["tipo"] in ("pré",):
+        elif p["tipo"] in ("branco", "pré") or p["marca"]:
             em_para = False
-        elif em_para and p["tipo"] in ("texto", "curta"):
+        elif em_para and p["tipo"] in ("conteudo", "imagem"):
             p["tipo"] = "para"
 
-    com_texto = [p["car"] for p in paginas if p["car"] > 0]
-    ilustrado = bool(com_texto) and sorted(com_texto)[len(com_texto) // 2] < TEXTO_MIN
-    if ilustrado:
-        # Livro ilustrado: depois da última página pré-textual do começo, toda página com texto ou imagem conta.
-        ultima_pre = max([p["n"] for p in paginas[: max(1, len(paginas) // 3)] if p["tipo"] == "pré"] or [0])
-        for p in paginas:
-            if p["n"] > ultima_pre and p["tipo"] in ("curta", "branco", "texto"):
-                p["tipo"] = "texto"
-    inicio = next((p["n"] for p in paginas if p["tipo"] == "texto"), None)
-    return paginas, inicio, ilustrado
+    # A abertura termina na última página pré/para da primeira metade do livro.
+    metade = max(1, len(paginas) // 2)
+    fim_abertura = max([p["n"] for p in paginas[:metade] if p["tipo"] in ("pré", "para")] or [0])
+    inicio = None
+    for p in paginas:
+        if p["n"] <= fim_abertura:
+            if p["tipo"] == "conteudo":
+                p["tipo"] = "titulo"
+            continue
+        if inicio is None:
+            # Primeira página com texto de verdade (ignora folha de título curta antes do 1º capítulo).
+            if p["tipo"] == "conteudo" and p["car"] >= 80:
+                inicio = p["n"]
+            elif p["tipo"] == "conteudo":
+                p["tipo"] = "titulo"
+        if inicio is not None and p["tipo"] in ("conteudo", "imagem"):
+            p["tipo"] = "texto"
+    for p in paginas:
+        if p["tipo"] == "conteudo":
+            p["tipo"] = "titulo"
+    if inicio is not None:
+        p0 = paginas[inicio - 1]
+        p0["marca"] = True
+    return paginas, inicio
 
 
 def paginas_de_texto(paginas, fim: int) -> list[int]:
@@ -983,11 +1012,11 @@ def paginas_de_texto(paginas, fim: int) -> list[int]:
 def analisar(caminho: str) -> None:
     import signal
     signal.signal(signal.SIGPIPE, signal.SIG_DFL)
-    paginas, inicio, ilustrado = classificar(caminho)
-    print(f"Total de páginas: {len(paginas)}" + ("  (livro ilustrado: pouco texto por página)" if ilustrado else ""))
+    paginas, inicio = classificar(caminho)
+    print(f"Total de páginas: {len(paginas)}")
     for p in paginas:
         primeiras = " | ".join(p["linhas"][:3])[:120] or "(sem texto / imagem / em branco)"
-        print(f"{p['n']:>4} | {p['tipo']:<6} | {p['car']:>5} car. | {primeiras}{'  <== início?' if p['marca'] else ''}")
+        print(f"{p['n']:>4} | {p['tipo']:<7} | {p['car']:>5} car. | {primeiras}{'  <== início?' if p['marca'] else ''}")
     if inicio is None:
         print("\nATENÇÃO: não achei página de texto do livro. Confira olhando as páginas renderizadas.")
         return
@@ -995,7 +1024,7 @@ def analisar(caminho: str) -> None:
     minimo = texto[MINIMO_PADRAO - 1] if len(texto) >= MINIMO_PADRAO else texto[-1]
     print(f"\nO texto do livro começa na página {inicio}. Páginas de texto no livro: {len(texto)}.")
     print(f"Corte mínimo (FIM) para ter {MINIMO_PADRAO} páginas de texto: {minimo}. "
-          "Pré-textuais, prefácio/apresentação e páginas em branco não contam.")
+          "A abertura (rosto, ficha, dedicatória, agradecimentos, sumário, prefácio, apresentação, introdução) e páginas em branco não contam.")
 
 
 def cortar(caminho: str, fim: int, saida: str, minimo: int) -> None:
@@ -1003,7 +1032,7 @@ def cortar(caminho: str, fim: int, saida: str, minimo: int) -> None:
     total = len(leitor.pages)
     if not 1 <= fim <= total:
         raise SystemExit(f"FIM precisa estar entre 1 e {total}.")
-    paginas, inicio, _ = classificar(caminho)
+    paginas, inicio = classificar(caminho)
     texto = paginas_de_texto(paginas, fim)
     no_livro = len([p for p in paginas if p["tipo"] == "texto"])
     exigido = min(minimo, no_livro)  # livro muito curto: o máximo possível
