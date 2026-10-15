@@ -6,7 +6,8 @@
 De onde vem cada dado:
   Foco ............ etiqueta Livro | Coletânea | Autor (exatamente uma)
   Origem .......... etiqueta Interno | Externo (exatamente uma)
-  Veio da news .... etiqueta "News + LP" (+ campo **Card da news:** com o link)
+  Veio da news .... etiqueta "News + LP" (+ campo **Cards da news:** com um link de card da news por linha;
+                    cards antigos: **Card da news:** com um link só). Todas as news da lista recebem o link da LP.
   Título/nome ..... nome do card (Livro: título; Coletânea: nome da coleção; Autor: nome do autor)
   Demais .......... descrição, no formato **Campo:** valor (veja o card "📋 Modelo de pedido")
   Dados da automação: último comentário com "Dados da automação (não editar):" e uma linha em código.
@@ -19,6 +20,8 @@ CAMPOS = {
     "news": "Card da news", "publico": "Público", "observacoes": "Observações", "livros": "Livros",
     "foto_autor": "Foto do autor", "lp_antiga": "LP antiga",
 }
+# rótulos alternativos (sem acento, minúsculas) → chave
+ALIASES = {"cards da news": "news"}
 FOCOS = {"livro": "livro", "coletanea": "coletanea", "autor": "autor"}
 MODELOS = {"editorial": "editorial", "grafico": "grafico", "infantil": "infantil"}
 MARKETPLACES = ("amazon.com.br", "amazon.com", "a.co", "amzn.to", "mercadolivre.com.br", "mercadolivre.com", "mercadolibre.com",
@@ -58,11 +61,11 @@ def ler_descricao(desc):
         m = re.match(r"\s*\*\*(.+?):\*\*\s*(.*)$", linha)
         if m:
             rotulo = sem_acento(m.group(1).split("(")[0])
-            atual = next((k for k, n in CAMPOS.items() if sem_acento(n) == rotulo), None)
+            atual = ALIASES.get(rotulo) or next((k for k, n in CAMPOS.items() if sem_acento(n) == rotulo), None)
             if atual:
                 dados[atual] = limpar(m.group(2))
             continue
-        if atual in ("livros", "outros", "observacoes") and linha.strip():
+        if atual in ("livros", "outros", "observacoes", "news") and linha.strip():
             item = limpar(re.sub(r"^\s*[-*•]\s*", "", linha))
             if item:
                 dados[atual] = (dados.get(atual, "") + "\n" + item).strip()
@@ -130,6 +133,14 @@ def ler(card):
     if d.get("modelo") and not modelo:
         falta.append("Modelo: editorial, gráfico ou infantil (ou vazio para a automação escolher)")
 
+    # links dos cards da news deste livro (sem repetir, na ordem)
+    cards_news = []
+    for u in re.findall(r"https://trello\.com/c/[A-Za-z0-9]+[^\s)>\]]*", d.get("news", "")):
+        u = u.rstrip(".,")
+        base = re.match(r"https://trello\.com/c/[A-Za-z0-9]+", u).group(0)
+        if base not in [re.match(r"https://trello\.com/c/[A-Za-z0-9]+", c).group(0) for c in cards_news]:
+            cards_news.append(u)
+
     livros = [l for l in (d.get("livros") or "").splitlines() if l.strip()]
     if foco == "coletanea" and len(livros) < 2:
         falta.append("Livros: um título por linha (a coletânea precisa de pelo menos 2)")
@@ -138,7 +149,8 @@ def ler(card):
 
     return {
         "nome": nome, "foco": foco, "externo": externo, "origem": "externo" if externo else ("interno" if origem else ""),
-        "veio_da_news": "news + lp" in etiquetas, "card_news": d.get("news", ""),
+        "veio_da_news": "news + lp" in etiquetas, "cards_news": cards_news,
+        "card_news": cards_news[0] if cards_news else "",
         "autor": d.get("autor", ""), "compra": compra, "outros_links": outros,
         "instagram": ig, "instagram_status": ig_status,
         "subdominio": sub, "modelo": modelo, "publico": d.get("publico", ""),

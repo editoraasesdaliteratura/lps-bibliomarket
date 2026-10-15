@@ -49,6 +49,7 @@ Substitui as LPs feitas no Canva pelo freelancer. O fluxo vive no quadro **LP �
 ### Trello — quadro da news ("News • Automação")
 - Quadro `ari:cloud:trello::board/workspace/68f24965f103541ec4b64879/6ac8eeddf9f8cf660f0cbcb8`. Listas que podem ter pedido de LP: ⏸️ Stand by `6ac8eeff48989d9e5367c8d7`, 🤖 Pronto para montar `6ac8ef026770bcd7c41deb7d`, 📥 Entrada `6ac8eefd555f4594f5ea50dc` (só ler). Etiqueta Externo da news: `6ac933a4496b1252d72b7f6c`.
 - A automação de LP só pode, no card da news: preencher o campo `**Landing page:**` e comentar. Nada mais.
+- **A LP é do livro, não da news.** Um livro tem uma LP só e todas as news dele recebem o mesmo link. Valores do campo `**Landing page:**` da news: link `https://` (já tem), `criar` (pedido), vazio (usa a LP do livro se houver) ou `sem LP` (esta news nunca leva LP: nunca preencha nem vincule; também valem `sem`, `não`, `nenhuma`, `-`).
 
 ### Google Drive (conta asesdaliteratura@gmail.com, só leitura)
 - **Global** — Marketing › 2.PRODUÇÃO DE CONTEÚDO › **LIVROS** `1Azkr8lx74bKRJ-mkaWYLw8o9TctRZJfA` › letra › pasta do título. Tem a pasta de **todo** livro (interno e externo): briefing de marketing, às vezes capa, miolo, foto, e um doc "LandingPage <título>" quando já existe LP antiga.
@@ -76,7 +77,7 @@ Substitui as LPs feitas no Canva pelo freelancer. O fluxo vive no quadro **LP �
 | Pastas | `**Pasta Global:**` / `**Pasta Ases:**` links (opcionais; vazio = a automação procura) |
 | Modelo | `**Modelo:**` editorial, gráfico ou infantil (opcional; vazio = a automação escolhe) |
 | Livros | `**Livros:**` um título por linha (só Coletânea e Autor) |
-| Card da news | `**Card da news:**` link (com a etiqueta News + LP) |
+| Cards da news | `**Cards da news:**` um link de card da news por linha (com a etiqueta News + LP). Cards antigos: `**Card da news:**` com um link só (o `card.py` lê os dois e devolve `cards_news`) |
 | Observações | `**Observações:**` pedidos do autor, o que destacar ou evitar |
 
 O que a equipe escreveu no card vale mais que o automático. `ferramentas/card.py card.json` lê tudo isso e devolve `falta`.
@@ -104,10 +105,12 @@ Para modelo que ainda não existe (Coletânea e Autor, enquanto não estiverem e
 Monte uma lista de tarefas e processe um card por vez.
 
 ### 0. Pedidos que vêm da news
-Leia os cards das listas da news citadas acima. Card com `**Landing page:**` igual a uma destas palavras (a mesma lista da news, sem acento e sem diferenciar maiúsculas): `criar`, `pedir`, `fazer`, `solicitar`, `sim`, `nova`, `criar lp`, `pedir lp`, e **sem** card correspondente no quadro de LP (procure pelo título com `trelloSearch` no quadro de LP) → crie o card em 🤖 Pronto para montar. A skill da news cria o mesmo pedido quando roda antes: nunca duplique.
-- nome = título do livro; etiquetas **Livro**, **News + LP** e **Externo** se o card da news tiver a etiqueta Externo, senão **Interno**;
-- descrição no formato do modelo, com `**Card da news:** <link do card da news>` e, se houver, o `**Link de compra:**` da news;
-- comente no card da news: `**🌐 LP pedida.** A automação de LP vai montar e colocar o link aqui quando for publicada.` (sem mexer em mais nada).
+Leia os cards das listas da news citadas acima. Para cada card com `**Landing page:**` igual a uma destas palavras (a mesma lista da news, sem acento e sem diferenciar maiúsculas): `criar`, `pedir`, `fazer`, `solicitar`, `sim`, `nova`, `criar lp`, `pedir lp`, procure o card do livro no quadro de LP (`trelloSearch` pelo título, só cards com etiqueta **Livro** e nome igual ao título, ignorando maiúsculas, acentos e pontuação). A skill da news faz o mesmo quando roda antes: **nunca duplique** o card de LP.
+- **Já existe e está em 🌐 Publicada** → no card da news, preencha `**Landing page:** <link publicado>` (do bloco "Dados da automação" do card de LP) e comente `**🌐 Landing page publicada:** [abrir](<link>)`. Vincule a news ao card de LP (abaixo).
+- **Já existe em outra lista** → vincule a news ao card de LP e comente no card da news: `**🌐 LP em produção.** Este livro já tem LP na automação de LP; o link entra aqui quando for publicada.`
+- **Não existe** → crie o card em 🤖 Pronto para montar: nome = título do livro; etiquetas **Livro**, **News + LP** e **Externo** se o card da news tiver a etiqueta Externo, senão **Interno**; descrição no formato do modelo, com `**Cards da news:**` e o link do card da news na linha de baixo (`- <link>`) e, se houver, o `**Link de compra:**` da news. Comente no card da news: `**🌐 LP pedida.** A automação de LP vai montar e colocar o link aqui quando for publicada.`
+
+**Vincular a news ao card de LP:** no card de LP, o campo `**Cards da news:**` lista um card da news por linha (`- <link>`). Card antigo com `**Card da news:** <link>` → troque por `**Cards da news:**` com esse link na primeira linha. Acrescente o link desta news se ainda não estiver na lista (`trelloWriteCard` `update`, campo `desc`, mexendo só nesse campo) e ponha a etiqueta **News + LP** se o card não tiver.
 
 ### 1. Ler o quadro de LP
 `trelloReadCard` `list_by_list` em ⏸️ Stand by, 🤖 Pronto para montar, 🔧 Ajuste e 🟢 Aprovado. Em Stand by, só mexa nos cards com `stand by · modelo <nome>` (veja acima).
@@ -195,13 +198,21 @@ Leia os cards das listas da news citadas acima. Card com `**Landing page:**` igu
    **🌐 LP publicada:** [<sub>.bibliomarket.com.br](https://<sub>.bibliomarket.com.br/)
 
    - Prévia continua em teste-lp para comparação.
-   - <Card da news atualizado com o link. | (sem card da news)>
+   - <News atualizadas com o link: N cards (<títulos/datas>). | Nenhuma news deste livro.>
 
    ---
    Dados da automação (não editar):
    `publicada https://<sub>.bibliomarket.com.br/ · slug <slug> · branch lp/<slug>`
    ```
-8. **News:** card de LP com `**Card da news:**` → no card da news, preencha `**Landing page:** https://<sub>.bibliomarket.com.br/` (troque só essa linha da descrição, ou acrescente se não existir; nada mais) e comente `**🌐 Landing page publicada:** [abrir](https://<sub>.bibliomarket.com.br/)`. Se o card da news está em ⏸️ Stand by só por esperar a LP, diga isso no comentário (a skill da news retoma).
+8. **News (todas as do livro):** o link vai para **todas** as news deste livro que ainda podem recebê-lo, não só a que pediu.
+   1. **Quais cards:** os de `cards_news` do `card.py` **mais** os cards do quadro da news com o mesmo título (`trelloSearch` pelo título, `boardIds` = quadro da news; nome do card igual ao título, ignorando maiúsculas, acentos e pontuação). Junte as duas listas sem repetir.
+   2. **Pule** o card cujo campo `**Landing page:**` já tem um link `https://` ou diz `sem LP` (ou `sem`, `não`, `nenhuma`, `-`).
+   3. **Pela lista em que o card da news está:**
+      - 📥 Entrada, ⏸️ Stand by, 🤖 Pronto para montar, 🔧 Ajuste → preencha `**Landing page:** https://<sub>.bibliomarket.com.br/` (troque só essa linha da descrição, ou acrescente se não existir; nada mais) e comente `**🌐 Landing page publicada:** [abrir](https://<sub>.bibliomarket.com.br/)`. Card em ⏸️ Stand by só por esperar a LP: diga no comentário que a skill da news retoma sozinha.
+      - 🧪 Teste enviado → **não** mexa na descrição (o teste já foi feito sem a LP). Só comente: `**🌐 A LP deste livro foi publicada:** [abrir](https://<sub>.bibliomarket.com.br/). Para a news levar o botão "Conheça o livro", escreva o link no campo Landing page e mova para 🔧 Ajuste.`
+      - 🟢 Aprovado, ⏰ Agendado, ⬇ Retirar leitura, ✅ Enviado → não mexa (a campanha já está pronta ou saiu).
+   4. Vincule ao card de LP (campo `**Cards da news:**`) os cards achados só pela busca, para o histórico.
+   5. No relatório e no comentário de publicada, liste quais news receberam o link e quais ficaram de fora (e por quê).
 
 ### 5. Relatório
 Tabela curta: card · o que foi feito · pendência. Para Stand by, diga exatamente o que falta.
