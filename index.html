@@ -18,7 +18,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap">
 <link rel="preload" as="image" href="img/livro-520.webp" imagesrcset="img/livro-520.webp 520w, img/livro-960.webp 960w" imagesizes="(max-width:860px) 80vw, 480px">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Book", "name": "Capivamores – pelo Brasil", "author": {"@type": "Person", "name": "Gabrielle Antunes"}, "inLanguage": "pt-BR", "url": "https://teste-lp.bibliomarket.com.br/capivamores-pelo-brasil/", "image": "https://teste-lp.bibliomarket.com.br/capivamores-pelo-brasil/img/og.jpg", "description": "Um livro de colorir em que duas capivaras viajam por cenários inspirados em paisagens reais do país, do Encontro das Águas ao calçadão do Rio, em páginas de traço limpo e cheias de detalhes.", "audience": {"@type": "PeopleAudience", "audienceType": "Crianças"}, "isbn": "9786584870406", "offers": {"@type": "Offer", "url": "https://www.amazon.com.br/dp/6584870405", "availability": "https://schema.org/InStock"}}</script>
 <!--
@@ -29,6 +29,7 @@
 <style>
 :root{
   --f-titulo:"Fredoka", system-ui, sans-serif;
+  --peso-titulo:500;--peso-titulo-2:500;
   --f-texto:"Nunito", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --papel:#FFFCFB;
   --creme:#FCF0F4;
@@ -66,12 +67,12 @@ strong{font-weight:800}
 .ki-prosa{display:grid;gap:1.05em;max-width:62ch}
 
 /* Tipografia */
-.ki-marca{font-family:var(--f-titulo);font-weight:800;font-size:clamp(16px, .9vw + 11px, 21px);line-height:1.1;text-decoration:none;color:var(--destaque)}
+.ki-marca{font-family:var(--f-titulo);font-weight:var(--peso-titulo);font-size:clamp(16px, .9vw + 11px, 21px);line-height:1.1;text-decoration:none;color:var(--destaque)}
 .ki-eyebrow{display:inline-flex;align-items:center;gap:.5em;font-weight:800;font-size:13px;line-height:1.3;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta);margin:0}
 .ki-eyebrow::before{content:"";width:22px;height:3px;border-radius:3px;background:var(--destaque)}
-.ki-h1{font-family:var(--f-titulo);font-weight:800;font-size:clamp(42px, 4.4vw + 14px, 80px);line-height:1;letter-spacing:-.01em;color:var(--destaque);margin:0;text-wrap:balance}
-.ki-h2{font-family:var(--f-titulo);font-weight:800;font-size:clamp(32px, 2.8vw + 14px, 54px);line-height:1.06;letter-spacing:-.005em;margin:0;text-wrap:balance;color:var(--destaque)}
-.ki-tagline{font-family:var(--f-titulo);font-weight:700;font-size:clamp(20px, .9vw + 15px, 26px);line-height:1.3;color:var(--tinta)}
+.ki-h1{font-family:var(--f-titulo);font-weight:var(--peso-titulo);font-size:clamp(42px, 4.4vw + 14px, 80px);line-height:1;letter-spacing:-.01em;color:var(--destaque);margin:0;text-wrap:balance}
+.ki-h2{font-family:var(--f-titulo);font-weight:var(--peso-titulo);font-size:clamp(32px, 2.8vw + 14px, 54px);line-height:1.06;letter-spacing:-.005em;margin:0;text-wrap:balance;color:var(--destaque)}
+.ki-tagline{font-family:var(--f-titulo);font-weight:var(--peso-titulo-2);font-size:clamp(20px, .9vw + 15px, 26px);line-height:1.3;color:var(--tinta)}
 .ki-tagline em{font-style:normal;color:var(--destaque)}
 .ki-intro{font-size:1.06em;max-width:56ch}
 
@@ -152,7 +153,7 @@ strong{font-weight:800}
 .ki-galeria li:nth-child(3n) .ki-cartao{transform:rotate(-1deg)}
 .ki-galeria .ki-cartao{transition:transform .3s ease}
 .ki-galeria li:hover .ki-cartao{transform:rotate(0) translateY(-4px)}
-.ki-legenda{font-family:var(--f-titulo);font-weight:700;font-size:clamp(16px,.5vw + 13px,19px);line-height:1.3;text-align:center;color:var(--tinta);max-width:24ch}
+.ki-legenda{font-family:var(--f-titulo);font-weight:var(--peso-titulo-2);font-size:clamp(16px,.5vw + 13px,19px);line-height:1.3;text-align:center;color:var(--tinta);max-width:24ch}
 .ki-galeria li:nth-child(3n+2) .ki-legenda{margin-top:18px}
 @media (max-width:760px){
   .ki-galeria{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:76%;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px var(--gutter) 22px;margin-inline:calc(var(--gutter) * -1);scrollbar-width:none}
@@ -174,14 +175,14 @@ strong{font-weight:800}
 .ki-card:nth-child(3n+2) .ki-icone{border-radius:44% 56% 52% 48% / 55% 45% 55% 45%}
 .ki-card:nth-child(3n) .ki-icone{border-radius:56% 44% 46% 54% / 46% 56% 44% 54%}
 .ki-icone svg{width:32px;height:32px;stroke:var(--destaque);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.ki-card-titulo{font-family:var(--f-titulo);font-weight:800;font-size:clamp(20px,.6vw + 16px,24px);line-height:1.2;margin:0;color:var(--tinta)}
+.ki-card-titulo{font-family:var(--f-titulo);font-weight:var(--peso-titulo);font-size:clamp(20px,.6vw + 16px,24px);line-height:1.2;margin:0;color:var(--tinta)}
 
 /* Trecho */
 .ki-trecho-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(36px,6vw,96px);align-items:center}
 .ki-trecho-grid:not(:has(.ki-cartao)){grid-template-columns:minmax(0,860px);justify-content:center;text-align:center}
 .ki-trecho .ki-cartao{transform:rotate(-2.5deg);max-width:380px;justify-self:center}
 .ki-trecho figure.ki-citacao{margin:0;display:grid;gap:22px}
-.ki-trecho blockquote{margin:0;font-family:var(--f-titulo);font-weight:700;font-size:clamp(25px,1.9vw + 15px,40px);line-height:1.28;color:var(--tinta);text-wrap:balance}
+.ki-trecho blockquote{margin:0;font-family:var(--f-titulo);font-weight:var(--peso-titulo-2);font-size:clamp(25px,1.9vw + 15px,40px);line-height:1.28;color:var(--tinta);text-wrap:balance}
 .ki-trecho blockquote::before{content:"\201C";display:block;font-size:2.6em;line-height:.62;color:var(--destaque)}
 .ki-trecho figcaption{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--destaque)}
 @media (max-width:860px){ .ki-trecho-grid{grid-template-columns:1fr} .ki-trecho .ki-cartao{max-width:300px} }
@@ -263,7 +264,7 @@ strong{font-weight:800}
       </div>
       <div class="ki-hero-img">
         <div class="ki-mancha" aria-hidden="true"><svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet"><defs><filter id="aq1" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="3" seed="10"/><feDisplacementMap in="SourceGraphic" scale="46"/><feGaussianBlur stdDeviation="1.2"/></filter></defs><path filter="url(#aq1)" fill="#F4CBD9" opacity=".9" d="M300 70c96 0 190 44 222 128s18 196-52 262-196 84-282 44S54 384 62 290s54-176 118-204 74-16 120-16z"/></svg></div>
-        <div class="ki-recorte "><picture><source type="image/webp" srcset="img/livro-520.webp 520w, img/livro-960.webp 960w" sizes="(max-width:860px) 80vw, 480px"><img src="img/livro-960.png" width="960" height="1070" alt="Livro Capivamores – pelo Brasil, de Gabrielle Antunes" fetchpriority="high"></picture></div>
+        <div class="ki-recorte "><picture><source type="image/webp" srcset="img/livro-520.webp 520w, img/livro-960.webp 960w" sizes="(max-width:860px) 80vw, 480px"><img src="img/livro-960.png" width="960" height="1027" alt="Livro Capivamores – pelo Brasil, de Gabrielle Antunes" fetchpriority="high"></picture></div>
         <div class="ki-coracoes" aria-hidden="true"><svg viewBox="0 0 32 29" style="left:8%;top:16%;--t:26px;--r:-14deg;--d:-0.0s"><path d="M16 29S0 19 0 8.6C0 3.7 3.8 0 8.4 0 11.6 0 14.4 1.8 16 4.4 17.6 1.8 20.4 0 23.6 0 28.2 0 32 3.7 32 8.6 32 19 16 29 16 29z"/></svg><svg viewBox="0 0 32 29" style="left:84%;top:10%;--t:18px;--r:12deg;--d:-1.7s"><path d="M16 29S0 19 0 8.6C0 3.7 3.8 0 8.4 0 11.6 0 14.4 1.8 16 4.4 17.6 1.8 20.4 0 23.6 0 28.2 0 32 3.7 32 8.6 32 19 16 29 16 29z"/></svg><svg viewBox="0 0 32 29" style="left:90%;top:64%;--t:30px;--r:8deg;--d:-3.4s"><path d="M16 29S0 19 0 8.6C0 3.7 3.8 0 8.4 0 11.6 0 14.4 1.8 16 4.4 17.6 1.8 20.4 0 23.6 0 28.2 0 32 3.7 32 8.6 32 19 16 29 16 29z"/></svg><svg viewBox="0 0 32 29" style="left:4%;top:74%;--t:16px;--r:-6deg;--d:-5.1s"><path d="M16 29S0 19 0 8.6C0 3.7 3.8 0 8.4 0 11.6 0 14.4 1.8 16 4.4 17.6 1.8 20.4 0 23.6 0 28.2 0 32 3.7 32 8.6 32 19 16 29 16 29z"/></svg></div>
       </div>
       <div class="ki-hero-corpo">
@@ -311,7 +312,7 @@ strong{font-weight:800}
   <svg class="ki-onda" style="background:#FFFCFB" viewBox="0 0 1440 48" preserveAspectRatio="none" aria-hidden="true"><path fill="#4A4A6E" d="M0 48V22c120-18 240-22 360-8s240 26 360 14 240-34 360-30 240 18 360 18v32z"/></svg>
   <section class="ki-secao ki-bio" aria-labelledby="t-bio">
     <div class="ki-wrap ki-bio-grid">
-<div class="ki-retrato rev"><picture><source type="image/webp" srcset="img/autor-320.webp 320w, img/autor-640.webp 640w" sizes="320px"><img src="img/autor-640.jpg" width="640" height="640" alt="Gabrielle Antunes" loading="lazy" decoding="async"></picture></div>      <div class="ki-bio-texto rev">
+<div class="ki-retrato rev"><picture><source type="image/webp" srcset="img/autor-320.webp 320w, img/autor-640.webp 640w" sizes="320px"><img src="img/autor-640.jpg" width="520" height="520" alt="Gabrielle Antunes" loading="lazy" decoding="async"></picture></div>      <div class="ki-bio-texto rev">
         <p class="ki-eyebrow">Sobre a autora</p>
         <h2 class="ki-h2" id="t-bio">Gabrielle Antunes</h2>
         <div class="ki-prosa"><p><strong>Gabrielle Antunes</strong> nasceu em São Paulo, em 1997, e passou grande parte da vida entre diferentes culturas, depois de viver oito anos fora do Brasil. Talvez por isso tenha desenvolvido um carinho ainda mais profundo pelas brasilidades, pelas memórias afetivas e pelos pequenos detalhes que tornam a cultura brasileira tão única.</p><p>Apaixonada por criatividade, ilustração e pelo universo dos livros, encontrou nas capivaras uma forma divertida e acolhedora de transformar sentimentos em arte. Assim nasceram os Capivamores. <em>Capivamores – pelo Brasil</em> é o primeiro livro da coleção e representa um reencontro com as suas raízes.</p></div>
