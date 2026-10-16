@@ -210,7 +210,7 @@ Leia os cards das listas da news citadas acima. Para cada card com `**Landing pa
    3. **Pela lista em que o card da news está:**
       - 📥 Entrada, ⏸️ Stand by, 🤖 Pronto para montar, 🔧 Ajuste → preencha `**Landing page:** https://<sub>.bibliomarket.com.br/` (troque só essa linha da descrição, ou acrescente se não existir; nada mais) e comente `**🌐 Landing page publicada:** [abrir](https://<sub>.bibliomarket.com.br/)`. Card em ⏸️ Stand by só por esperar a LP: diga no comentário que a skill da news retoma sozinha.
       - 🧪 Teste enviado → **não** mexa na descrição (o teste já foi feito sem a LP). Só comente: `**🌐 A LP deste livro foi publicada:** [abrir](https://<sub>.bibliomarket.com.br/). Para a news levar o botão "Conheça o livro", escreva o link no campo Landing page e mova para 🔧 Ajuste.`
-      - 🟢 Aprovado, ⏰ Agendado, ⬇ Retirar leitura, ✅ Enviado → não mexa (a campanha já está pronta ou saiu).
+      - 🟢 Aprovado, ⏰ Agendado, ⬇ Retirar leitura, ✅ Enviado, 🏁 Concluído → não mexa (a campanha já está pronta ou saiu).
    4. Vincule ao card de LP (campo `**Cards da news:**`) os cards achados só pela busca, para o histórico.
    5. No relatório e no comentário de publicada, liste quais news receberam o link e quais ficaram de fora (e por quê).
 

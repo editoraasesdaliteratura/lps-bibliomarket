@@ -43,7 +43,8 @@ Grave os quatro scripts do anexo no fim deste arquivo em uma pasta de trabalho `
   - 🟢 Aprovado `6ac8ef098a504b8bb01528e7`
   - ⏰ Agendado `6ac8ef0bd944bec38d18bbf0`
   - ⬇ Retirar leitura `6ac8ef0ec0c094bbe16ae375`
-  - ✅ Enviado `6ac8ef103a587c5e1ba39f39`
+  - ✅ Enviado `6ac8ef103a587c5e1ba39f39` — a news já saiu; a leitura gratuita pode estar em andamento.
+  - 🏁 Concluído `6ad24098ae55a9ca68da194f` — news enviada e leitura encerrada (cópias removidas). Fim do fluxo; nunca processar.
 - Etiquetas (`ari:cloud:trello::label/workspace/68f24965f103541ec4b64879/<id>`), colocadas pela Digital no card:
   - Leitores `6ac8fe34284ead7934941a45` · Escolas `6ac8fe4abcebff6b4e952e71` · Influencers `6ac8fe77a891175b21c2cea4`
   - Infantil `6ac8fe94ffa1381009d973b9` · Adulto `6ac8fe9d813e76e4e9c64b8b` · Com leitura `6ac8febf81aee5cb61627d0a`
@@ -59,7 +60,7 @@ Grave os quatro scripts do anexo no fim deste arquivo em uma pasta de trabalho `
 | Livro externo? | etiqueta Externo (Emilly) |
 | Data de envio | data de entrega do card (Emilly; horário ignorado: sempre 11h) |
 | Faixa | etiqueta Infantil/Adulto, se a Emilly quiser; senão a automação deduz (só muda o nome da campanha) |
-| Landing page | campo **Landing page:** (opcional, Emilly). Link pronto → botão "Conheça o livro" na news e no leitor. `criar` → pede uma LP nova à automação de LP e a news espera por ela (veja "Landing page pedida") |
+| Landing page | campo **Landing page:** (opcional, Emilly). Link pronto → botão "Conheça o livro" na news e no leitor. `criar` → pede uma LP nova à automação de LP e a news espera por ela. **Vazio** → a automação usa a LP do livro, se ele tiver uma, publicada ou em andamento (veja "LP do livro"). `sem LP` → esta news nunca leva LP |
 | Link de compra | **só livro externo**: campo **Link de compra:** (Emilly, obrigatório). Sempre de marketplace (regra 8) |
 | Miolo | **só livro externo, opcional**: campo **Miolo (Drive da Global):**. Vazio → a automação procura na pasta LIVROS da Global |
 | Autor, capa, texto, assunto, pré-visualização | **a automação completa** (veja "Completar o card") |
@@ -123,11 +124,11 @@ A Emilly lê os comentários, então escreva para ela: título em negrito com em
 Monte uma lista de tarefas e siga a ordem. Processe um card por vez, da data de entrega mais próxima à mais distante.
 
 ### 1. Ler o quadro
-`trelloReadCard` → `list_by_list` em ⏸️ Stand by, 🤖 Pronto para montar, 🔧 Ajuste, 🟢 Aprovado e ⏰ Agendado.
+`trelloReadCard` → `list_by_list` em ⏸️ Stand by, 🤖 Pronto para montar, 🔧 Ajuste, 🟢 Aprovado, ⏰ Agendado e ✅ Enviado.
 
 **Stand by por computador desligado volta sozinho.** Em ⏸️ Stand by, veja o bloco "Dados da automação" do último comentário da automação:
 - `stand by · mac` (a automação parou só porque o Mac do Renan estava inacessível): teste se o Mac responde agora (`device_list_dir` na pasta `_Livros PUBLICADOS`). Respondeu → mova o card para 🤖 Pronto para montar, comente `**▶️ Computador disponível de novo.** Retomando a montagem desta news.` e processe na mesma rodada (passo 2). Não respondeu → deixe como está, **sem comentar de novo** (evita comentário repetido a cada rodada) e cite no relatório.
-- `stand by · lp` (a news espera a landing page pedida): leia o card de novo. Campo **Landing page:** já tem link `https://` (a automação de LP preenche quando publica) → mova para 🤖 Pronto para montar, comente `**▶️ Landing page publicada.** Retomando a montagem desta news.` e processe na mesma rodada. Ainda sem link e a data de envio é amanhã ou hoje → mova para 🤖 Pronto para montar e monte **sem** o botão da LP (veja "Landing page pedida", passo 4). Senão, deixe como está, **sem comentar de novo**.
+- `stand by · lp` (a news espera a landing page do livro): leia o card de novo. Campo **Landing page:** já tem link `https://` (a automação de LP preenche quando publica) → mova para 🤖 Pronto para montar, comente `**▶️ Landing page publicada.** Retomando a montagem desta news.` e processe na mesma rodada. Ainda sem link e a data de envio é amanhã ou hoje → mova para 🤖 Pronto para montar e monte **sem** o botão da LP (veja "LP do livro", passo 7). Campo agora com `sem LP` → mova para 🤖 Pronto para montar e monte sem LP. Senão, deixe como está, **sem comentar de novo**.
 - `stand by` (falta informação da Digital ou decisão do Renan) e qualquer outro: não mexa. Quem completa o card move de volta para 🤖 Pronto para montar.
 - Card que estava em `stand by · mac` e cuja data de envio já passou (ou é hoje depois das 10h) → troque o motivo: comente o Stand by normal (passo 2.2), com `stand by` no bloco.
 
@@ -146,7 +147,7 @@ Monte uma lista de tarefas e siga a ordem. Processe um card por vez, da data de 
    Dados da automação (não editar):
    `stand by`
    ```
-2b. **Landing page pedida** (`lp_pedida` true no `ler_card.py`): siga a seção "Landing page pedida" abaixo antes de montar. Ela decide se a news espera (Stand by `stand by · lp`) ou segue sem o botão.
+2b. **LP do livro** (antes de montar, em todo card): siga a seção "LP do livro (integração com a automação de LP)" abaixo. Campo com link pronto → use. `lp_bloqueada` true (`sem LP`) → monte sem LP e não consulte o quadro de LP. `lp_pedida` true (`criar`) ou campo vazio → a seção decide se a news usa a LP já publicada, espera por ela (Stand by `stand by · lp`) ou segue sem o botão.
 3. **Completar o card** (se `preencher` não estiver vazio): veja "Completar o card" abaixo (livro da Ases ou livro externo). **Antes de escrever qualquer texto, procure o briefing de marketing** (seção "Briefing de marketing"), em todo livro, da Ases ou externo. Depois, rode `ler_card.py` de novo com o card atualizado.
 4. **Leitura** (se Leitura ≠ nenhuma): veja "Leitura gratuita" abaixo. Resultado: link real (`--envio` = data do card) e link de prévia.
 5. **Montar:** escreva `dados.json` e rode `python3 scripts/modelo_global.py dados.json news.html`. Em seguida, rode `python3 scripts/modelo_global.py --verificar news.html`: só siga com `OK: HTML íntegro`. Qualquer outra saída → regra 7.
@@ -164,7 +165,7 @@ Monte uma lista de tarefas e siga a ordem. Processe um card por vez, da data de 
    - **Pré-visualização:** <texto>
    - **Leitura:** <livro inteiro | trecho do livro (páginas 1 a N de T; texto do livro da p. X à N = K páginas, até "<último título>") | sem leitura>, disponível de <dd/mm> a <dd/mm>
    - **Ver o leitor agora:** [👉 Abrir prévia da leitura](<link de prévia>) (funciona até <dd/mm>)
-   - **Landing page:** [Conheça o livro](<link>)
+   - **Landing page:** [Conheça o livro](<link>) (ou "sem LP", a pedido; ou o aviso do passo 7 de "LP do livro")
    - **Briefing:** [<nome do arquivo>](<link>) · tom seguido: <resumo em poucas palavras> (ou "não encontrado no Drive da Global; usei o tom padrão")
    - **Livro externo:** leitor da Global, fora do catálogo da Ases
 
@@ -197,11 +198,23 @@ Leia os comentários posteriores ao último comentário da automação (pedido d
    `campanha <id> · teste <id> · leitura <id ou -> · miolo <id ou -> · isbn <ISBN ou -> · até <AAAA-MM-DD ou -> · site <ases|global>`
    ```
 
-### 5. Cards em ⏰ Agendado (conferência e limpeza)
+### 5. Cards em ⏰ Agendado (conferência e envio)
 - **Antes do envio, livro da Ases com leitura:** confira a campanha (`email_campaign_management_get_email_campaign`, excludeHtmlContent true). Se ela foi apagada, suspensa ou mudou de data na Brevo, tire ou corrija a linha do livro na planilha de leituras ativas (o catálogo não pode mostrar leitura de news que não vai sair naquele dia) e avise o Renan no relatório.
-- Campanha `sent`, sem leitura e sem cópia de miolo → ✅ Enviado.
-- Com leitura (ou com cópia de miolo): depois da data `até` do bloco "Dados da automação", mande para a lixeira (`trash_file`) **só** os arquivos de `leitura` e `miolo` que são ids do Drive (`leitura trecho:<código>` está no servidor e é apagado por ele: não faça nada com esse) (criados pela automação, dentro de `_LEITURA NEWS (automação)`; confira o `parentId` antes). Livro da Ases: apague também a linha desse ISBN na planilha de leituras ativas (`get_values` em `Página1!A:G` para achar a linha e `batch_clear_values` só nela; o catálogo já esconde sozinho depois do `fim`, isso é só limpeza). Comente `**✅ Leitura encerrada.** As cópias do livro foram removidas do Drive.` e mova para ✅ Enviado. Falhou → ⬇ Retirar leitura e avise.
-- Livro externo sem leitura: a cópia do miolo pode ir para a lixeira assim que a campanha estiver `sent`.
+- **Campanha `sent`, sem leitura e sem cópia de miolo** → comente `**✅ News enviada** em <dd/mm>. Sem leitura gratuita: nada mais a fazer.` e mova direto para 🏁 Concluído.
+- **Campanha `sent`, com leitura (ou com cópia de miolo)** → comente e mova para ✅ Enviado (a limpeza acontece lá, no passo 5b):
+  ```
+  **✅ News enviada** em <dd/mm>.
+
+  - A leitura gratuita fica no ar até <dd/mm do `até`>.
+  - Depois disso a automação remove as cópias do livro e move este card para 🏁 Concluído. Não precisa fazer nada.
+  ```
+  (Repita o bloco "Dados da automação" do último comentário, sem mudar nada, para a limpeza achar os ids.)
+
+### 5b. Cards em ✅ Enviado (limpeza da leitura)
+- Ainda dentro do prazo (hoje ≤ data `até` do bloco "Dados da automação") → não mexa e não comente.
+- Depois da data `até`: mande para a lixeira (`trash_file`) **só** os arquivos de `leitura` e `miolo` que são ids do Drive (`leitura trecho:<código>` está no servidor e é apagado por ele: não faça nada com esse) (criados pela automação, dentro de `_LEITURA NEWS (automação)`; confira o `parentId` antes). Se o mesmo id de leitura aparece em outro card que ainda não terminou (duas news do mesmo livro), espere o `até` mais distante antes de mandar para a lixeira. Livro da Ases: apague também a linha desse ISBN e dessas datas na planilha de leituras ativas (`get_values` em `Página1!A:G` para achar a linha e `batch_clear_values` só nela; o catálogo já esconde sozinho depois do `fim`, isso é só limpeza). Comente `**🏁 Leitura encerrada.** As cópias do livro foram removidas do Drive.` e mova para 🏁 Concluído. Falhou → ⬇ Retirar leitura e avise.
+- Livro externo sem leitura: a cópia do miolo pode ir para a lixeira assim que a campanha estiver `sent` (e o card vai para 🏁 Concluído).
+- Card antigo que ainda esteja em ⏰ Agendado com campanha `sent` (formato anterior a 16/10/2026): trate como acima, movendo primeiro para ✅ Enviado.
 
 ### 6. Relatório
 Tabela curta: card · o que foi feito · pendência. Para Stand by, diga exatamente o que falta.
@@ -281,38 +294,57 @@ Atualize a descrição do card (`trelloWriteCard` action `update`, campo `desc`)
 <texto escrito>
 ```
 
-## Landing page pedida (integração com a automação de LP)
+## LP do livro (integração com a automação de LP)
 
-As LPs dos livros são feitas por outra automação, no quadro **LP • Automação** (skill `lps-bibliomarket`), e publicadas em `<nome>.bibliomarket.com.br` depois da aprovação do Renan. A Emilly pede uma LP escrevendo `criar` no campo **Landing page:** do card da news.
+As LPs dos livros são feitas por outra automação, no quadro **LP • Automação** (skill `lps-bibliomarket`), e publicadas em `<nome>.bibliomarket.com.br` depois da aprovação do Renan. **A LP é do livro, não da news:** um livro tem uma LP só, e todas as news desse livro usam a mesma. A Emilly não precisa repetir o pedido em cada card.
 
 - Quadro de LP: `ari:cloud:trello::board/workspace/68f24965f103541ec4b64879/6aca62b9217ed13d8f6594ed`
-- Lista 🤖 Pronto para montar (LP): `ari:cloud:trello::list/workspace/68f24965f103541ec4b64879/6aca62d0e83b76c057cbc92c`
+- Listas (LP): 🤖 Pronto para montar `6aca62d0e83b76c057cbc92c` · 🌐 Publicada `6aca62e1089152c82dad6541` (prefixo `ari:cloud:trello::list/workspace/68f24965f103541ec4b64879/`)
 - Etiquetas (LP): Livro `6aca6381bba9c8d31b71ed83` · Interno `6aca63b30dea6469040cb94c` · Externo `6aca63bf29a35d2b80e09f6c` · News + LP `6aca63dbb9097d43fd8889c9` (prefixo `ari:cloud:trello::label/workspace/68f24965f103541ec4b64879/`)
 
-1. **Já existe pedido?** `trelloSearch` (`search_cards`) com o título do livro, `boardIds` = quadro de LP. Achou o card do livro → use esse (não duplique).
-2. **Criar o pedido** (se não existe): `trelloWriteCard` `create` na lista 🤖 Pronto para montar do quadro de LP, nome = título do livro, descrição:
-   ```
-   **Link de compra:** <link de compra da news, se já houver>
-   **Card da news:** <link do card da news>
-   **Observações:** Pedido pela news de <dd/mm>.
-   ```
-   e as etiquetas **Livro**, **News + LP** e **Externo** (se a news tem a etiqueta Externo) ou **Interno**. A automação de LP cuida do resto e, ao publicar, preenche o campo **Landing page:** deste card da news com o link e comenta aqui.
-3. **Esperar ou seguir:**
+**Campo Landing page: da news**
+| Valor | O que a automação faz |
+|---|---|
+| link `https://` | usa esse link (a Emilly ou a automação de LP colocou) |
+| `sem LP` (`lp_bloqueada`) | monta sem LP; não consulta nem vincula nada no quadro de LP |
+| `criar` (`lp_pedida`) | usa a LP do livro se existir; senão cria o pedido |
+| vazio | usa a LP do livro se existir; senão segue sem LP (não cria pedido) |
+
+1. **Procurar a LP do livro** (campo vazio ou `criar`): `trelloSearch` (`search_cards`) com o título do livro, `boardIds` = quadro de LP. Fique só com o card de etiqueta **Livro** cujo nome bate com o título (ignore maiúsculas, acentos e pontuação). LP de Autor ou Coletânea não entra sozinha: só se a Emilly colar o link.
+2. **LP publicada** (card em 🌐 Publicada; o link está no bloco "Dados da automação" do último comentário da automação no card de LP: `publicada https://<sub>.bibliomarket.com.br/ …`):
+   - grave no card da news `**Landing page:** <link>` (troque só essa linha da descrição, ou acrescente);
+   - vincule a news ao card de LP (passo 4), para o histórico;
+   - monte a news com esse link e diga no comentário do teste: `- **Landing page:** [Conheça o livro](<link>) (LP do livro, já publicada)`.
+3. **LP em andamento** (card de LP em qualquer outra lista): vincule a news ao card de LP (passo 4) e siga o passo 6 (esperar ou seguir).
+4. **Vincular a news ao card de LP:** no card de LP, o campo `**Cards da news:**` lista um link de card da news por linha (cards antigos usam `**Card da news:**` com um link só: transforme em `**Cards da news:**` mantendo o link que já estava). Se o link deste card da news ainda não está lá, acrescente uma linha `- <link do card da news>` logo abaixo do campo (`trelloWriteCard` `update`, campo `desc`, mexendo **só** nesse campo). É essa lista que faz a automação de LP pôr o link em todas as news do livro quando publicar.
+5. **Sem card de LP para o livro:**
+   - campo `criar` → crie o pedido: `trelloWriteCard` `create` na lista 🤖 Pronto para montar do quadro de LP, nome = título do livro, descrição:
+     ```
+     **Link de compra:** <link de compra da news, se já houver>
+     **Cards da news:**
+     - <link do card da news>
+     **Observações:** Pedido pela news de <dd/mm>.
+     ```
+     e as etiquetas **Livro**, **News + LP** e **Externo** (se a news tem a etiqueta Externo) ou **Interno**. Depois, passo 6.
+   - campo vazio → monte sem LP, sem comentar nada sobre LP (o livro não tem LP).
+6. **Esperar ou seguir** (LP em andamento ou recém-pedida):
    - Faltam 2 dias ou mais para o envio → comente e mova para ⏸️ Stand by:
      ```
      **⏸️ Aguardando a landing page**
 
-     - A LP deste livro foi pedida à automação de LP: [abrir pedido](<link do card de LP>)
+     - Este livro tem LP <pedida | em produção> na automação de LP: [abrir pedido](<link do card de LP>)
      - Quando o Renan aprovar e a LP for publicada, o link entra aqui sozinho e a news é montada na rodada seguinte.
      - Se a LP não ficar pronta até a véspera do envio, a news sai sem o botão "Conheça o livro".
+     - Para esta news não levar LP, escreva `sem LP` no campo Landing page e mova para 🤖 Pronto para montar.
 
      ---
      Dados da automação (não editar):
      `stand by · lp`
      ```
-   - Envio amanhã ou hoje → passo 4.
-4. **Seguir sem a LP:** monte a news normalmente com `lp` = null (sem o botão "Conheça o livro") e, no comentário do teste, acrescente a linha `- **Landing page:** pedida, mas ainda não publicada; a news sai sem o botão. [Pedido de LP](<link do card de LP>)`. Depois que a campanha é agendada, a LP não entra mais nesta news (a Brevo não deixa editar pelo conector).
-5. Nunca preencha o campo **Landing page:** à mão com link de prévia (`teste-lp.bibliomarket.com.br`): só a automação de LP põe o link final.
+   - Envio amanhã ou hoje → passo 7.
+7. **Seguir sem a LP:** monte a news normalmente com `lp` = null (sem o botão "Conheça o livro") e, no comentário do teste, acrescente a linha `- **Landing page:** a LP do livro ainda não foi publicada; a news sai sem o botão. [Pedido de LP](<link do card de LP>)`. Depois que a campanha é agendada, a LP não entra mais nesta news (a Brevo não deixa editar pelo conector).
+8. Nunca preencha o campo **Landing page:** com link de prévia (`teste-lp.bibliomarket.com.br`): só o link final da LP publicada.
+9. Nunca crie um segundo card de LP para o mesmo livro: se a busca do passo 1 achar dois, use o de 🌐 Publicada (ou o mais antigo) e cite o duplicado no relatório.
 
 ## Leitura gratuita
 
@@ -400,7 +432,8 @@ De onde vem cada dado:
   Leitura ........... etiqueta "Com leitura" (tipo no campo **Leitura:** livro inteiro | 1º capítulo; vazio = 1º capítulo)
   Externo ........... etiqueta "Externo" = livro que não é da Ases (sem catálogo, leitor da Global)
   Data de envio ..... data de entrega do card (o horário é ignorado: sempre 11h)
-  Landing page ...... link https:// pronto, ou "criar" para pedir uma LP nova à automação de LP (lp_pedida)
+  Landing page ...... link https:// pronto; "criar" pede uma LP nova à automação de LP (lp_pedida);
+                      "sem LP" = esta news nunca leva LP (lp_bloqueada); vazio = usa a LP do livro, se houver
   Demais campos ..... descrição, no formato **Campo:** valor (a automação completa o que estiver vazio)
 Cards antigos com **Público:**, **Faixa:**, **Título:** e **Data de envio:** na descrição continuam funcionando.
 """
@@ -422,6 +455,7 @@ CAMPOS = {
 }
 PUBLICOS = {"leitores": "Leitores", "escolas": "Escolas", "influencers": "Influencers"}
 PEDIR_LP = ("criar", "pedir", "fazer", "solicitar", "sim", "nova", "criar lp", "pedir lp")
+SEM_LP = ("sem lp", "sem", "nao", "nenhuma", "nenhum", "-", "nao usar", "sem landing page")
 FAIXAS = {"infantil": "Infantil", "adulto": "Adulto"}
 # Link de compra: sempre marketplace. Nunca WhatsApp, Instagram, site do autor, Linktree, Pix etc.
 MARKETPLACES = (
@@ -529,8 +563,11 @@ def ler(card: dict) -> dict:
     miolo_id = id_drive(campos.get("miolo", ""))
 
     # "criar" no campo Landing page = pedido de LP nova (não é link)
-    lp_pedida = sem_acento(campos.get("lp", "")).rstrip(".!") in PEDIR_LP
-    if lp_pedida:
+    valor_lp = sem_acento(campos.get("lp", "")).rstrip(".!")
+    lp_pedida = valor_lp in PEDIR_LP
+    # "sem LP" no campo Landing page = esta news não leva LP, nem a do livro
+    lp_bloqueada = valor_lp in SEM_LP
+    if lp_pedida or lp_bloqueada:
         campos["lp"] = ""
 
     falta = []
@@ -572,6 +609,7 @@ def ler(card: dict) -> dict:
         "compra_marketplace": marketplace(campos.get("compra", "")) if campos.get("compra") else None,
         "lp": campos.get("lp", ""),
         "lp_pedida": lp_pedida,
+        "lp_bloqueada": lp_bloqueada,
         "miolo": campos.get("miolo", ""),
         "miolo_id": miolo_id,
         "texto": campos.get("texto", ""),
