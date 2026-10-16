@@ -1,0 +1,94 @@
+{
+  "modelo": "livro-unico",
+  "slug": "rute-a-estrangeira",
+  "subdominio": "ruteaestrangeira",
+  "livro": {
+    "titulo": "Rute – a estrangeira",
+    "autor": "Lycia Barros",
+    "isbn": "9786584870222",
+    "titulo_completo": "Rute – a estrangeira"
+  },
+  "tema": {
+    "fonte_titulo": "Cormorant Garamond",
+    "cores": {
+      "claro": "#F6F1EA",
+      "medio": "#E6D6C4",
+      "escuro": "#3A2521",
+      "destaque": "#7A472B",
+      "botao": "#6F4434",
+      "botao_texto": "#FFF8F0",
+      "texto": "#2E211D",
+      "texto_claro": "#F4ECE2",
+      "rodape": "#6F4434"
+    }
+  },
+  "seo": {
+    "titulo": "Rute – a estrangeira · Lycia Barros",
+    "descricao": "Romance de Lycia Barros baseado na história bíblica de Rute, a moabita que deixa a sua terra com a sogra Noemi e vai trabalhar nos campos de Boaz, em Belém."
+  },
+  "compra": {
+    "texto_botao": "Garanta o seu exemplar",
+    "principal": {
+      "rotulo": "Amazon",
+      "url": "https://www.amazon.com.br/dp/6584870227"
+    },
+    "outros": []
+  },
+  "hero": {
+    "imagem": "mockup-pe.png",
+    "alt": "Livro Rute – a estrangeira, de Lycia Barros",
+    "tagline": "A história bíblica de Rute e Boaz, contada pela voz da *estrangeira*.",
+    "descricao": "Antes dos campos de Belém, Rute foi uma menina moabita cheia de perguntas. Lycia Barros reconstrói a sua trajetória, das margens do Mar Morto à sega, num romance sobre fé, perda e resgate."
+  },
+  "sinopse": {
+    "titulo": "Aonde quer que tu fores, irei eu.",
+    "paragrafos": [
+      "Em Kir, cidade de Moabe, as imagens dos deuses estão por toda parte, e o sacrifício de crianças inocentes é o maior pesadelo de **Rute**. Desde menina, ela nunca se sente à vontade com as práticas de adoração que observa à sua volta, e o seu instinto questionador acaba lhe trazendo muitos problemas em casa.",
+      "Tudo muda quando ela conhece **Noemi**, uma senhora judia que, com amor e carinho, se dispõe a responder às perguntas daquela pequena moabita curiosa. Rute se apaixona pelo Deus Criador, cresce e se casa com um judeu. Mas a vida conjugal é repleta de tragédias, que põem à prova a sua fé.",
+      "Quando o pior acontece, confusa e sentindo-se responsável pela sogra, Rute deixa a cidade natal rumo a um futuro desconhecido em Belém. Lá, sem nenhuma experiência na sega, vai trabalhar nos campos de **Boaz**, um homem poderoso, enigmático e fascinante, que trata os seus servos com extrema generosidade.",
+      "Narrado pela própria Rute, o romance parte da história bíblica e a preenche com a cultura, os costumes e as paisagens de Moabe e de Judá. Um caminho cheio de desafios, mas também de resgate, em que uma estrangeira aprende, aos poucos, a reconhecer os planos de Deus para a sua vida."
+    ]
+  },
+  "diferenciais": {
+    "titulo": "Por que ler esta história",
+    "itens": [
+      {
+        "titulo": "A Bíblia como ponto de partida",
+        "texto": "A autora se ateve ao máximo ao enredo bíblico e, como romancista, preencheu o que as Escrituras não contam. Rute é uma das duas únicas mulheres que dão nome a um livro da Bíblia."
+      },
+      {
+        "titulo": "Um mundo antigo em detalhes",
+        "texto": "Para escrever, Lycia pesquisou locais, cultura, cronologia e clima. A leitura passa por poços, caravanas, colheitas e costumes de um tempo de outras regras e outros hábitos."
+      },
+      {
+        "titulo": "Uma voz que pergunta",
+        "texto": "É a própria Rute quem conta: uma moabita curiosa e questionadora, que atravessa perdas e escolhas difíceis sem deixar de buscar respostas."
+      }
+    ],
+    "imagem": "detalhe-capa.jpg",
+    "alt": "Detalhe da capa: Rute, de costas, com os longos cabelos soltos"
+  },
+  "trecho": {
+    "texto": "Imaginei-me ali com eles, livre, podendo ir para onde eu quisesse... Desfrutando do silêncio que há no céu. Minha cidade era barulhenta demais, mas ali, naquele precioso momento de solidão, eu conseguia ouvir os meus pensamentos.",
+    "referencia": "Capítulo 1"
+  },
+  "bio": {
+    "rotulo": "Sobre a autora",
+    "nome": "Lycia Barros",
+    "foto": "autora.jpg",
+    "paragrafos": [
+      "**Lycia Barros** é uma premiada autora luso-brasileira de romances cristãos. Nascida em 1976, hoje vive em Braga, Portugal, com o marido e os filhos. Tem diversos livros publicados no Brasil e no exterior.",
+      "*Rute – a estrangeira* abre a **Coleção Elas**, criada pela autora para contar as histórias de mulheres da Bíblia, com a devida licença literária para desenvolver o enredo. Foi, nas palavras dela, o livro que mais demorou a escrever: exigiu longas pesquisas sobre locais, cultura, cronologia e clima, e um tempo imenso dedicado às Escrituras."
+    ]
+  },
+  "final": {
+    "titulo": "O teu povo é o meu povo, o teu Deus é o meu Deus.",
+    "texto": "Um romance sobre fidelidade, perda e resgate, para conhecer a história de Rute pela voz de quem a viveu.",
+    "fecho": "Para quem ama romances cristãos e histórias da Bíblia contadas com emoção.",
+    "imagem": "mockup-frente.png"
+  },
+  "instagram": {
+    "usuario": "lyciabarros",
+    "rotulo": "Siga a autora"
+  }
+}
