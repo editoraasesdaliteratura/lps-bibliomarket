@@ -1,0 +1,20 @@
+{
+  "lombada": true,
+  "avisos": [],
+  "metodo": "PDF da capa (TrimBox)",
+  "proporcao_origem": "imagem da frente",
+  "confianca": 0.979,
+  "orelha_px": 1200,
+  "lombada_px": 48,
+  "W": 2400,
+  "H": 2400,
+  "T": 48,
+  "T_estimada": 48,
+  "mm": {
+    "frente": 200.0,
+    "altura": 200.0,
+    "lombada": 4.0,
+    "orelha": 100.0,
+    "lombada_esperada_papel_75g": 2.8
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "modelo": "infantil",
+  "slug": "capivamores-pelo-brasil",
+  "subdominio": "democapivamores",
+  "livro": {
+    "titulo": "Capivamores – pelo Brasil",
+    "autor": "Gabrielle Antunes",
+    "isbn": "9786584870406"
+  },
+  "tema": {
+    "fonte_titulo": "Fredoka",
+    "fonte_texto": "Nunito",
+    "estampa": "coracoes",
+    "divisor": "vinheta.png",
+    "cores": {
+      "papel": "#FFFCFB",
+      "creme": "#FCF0F4",
+      "sol": "#F4CBD9",
+      "sol_2": "#EDB6C9",
+      "tinta": "#3E3735",
+      "destaque": "#B0364A",
+      "botao": "#B0364A",
+      "botao_texto": "#FFFFFF",
+      "profundo": "#4A4A6E",
+      "texto_claro": "#FFF7FA",
+      "acento": "#5D6CA6"
+    },
+    "peso_titulo": 500
+  },
+  "seo": {
+    "titulo": "Capivamores – pelo Brasil · Gabrielle Antunes",
+    "descricao": "Livro de colorir em que um casal de capivaras viaja por cenários inspirados em paisagens reais do Brasil. Para quem ama arte, bichinhos e viagens."
+  },
+  "compra": {
+    "texto_botao": "Garanta o seu exemplar",
+    "texto_topo": "Comprar",
+    "principal": {
+      "rotulo": "Amazon",
+      "url": "https://www.amazon.com.br/dp/6584870405"
+    },
+    "outros": []
+  },
+  "hero": {
+    "imagem": "mockup-pe-22.png",
+    "alt": "Livro Capivamores – pelo Brasil, de Gabrielle Antunes",
+    "tagline": "Um casal de capivaras, uma mala cheia de adesivos e o Brasil inteiro para *colorir*.",
+    "descricao": "Um livro de colorir em que duas capivaras viajam por cenários inspirados em paisagens reais do país, do Encontro das Águas ao calçadão do Rio, em páginas de traço limpo e cheias de detalhes."
+  },
+  "sinopse": {
+    "titulo": "Próximo embarque: o Brasil inteiro.",
+    "paragrafos": [
+      "Na sala de embarque, ela está de óculos de coração e flor na orelha, puxando uma mala cor-de-rosa coberta de adesivos. Ele usa boné azul e leva a câmera a tiracolo. Lá fora, o avião já decola. O casal de capivaras está pronto para viajar, e o destino é o próprio país.",
+      "O **roteiro de viagem** passa por Belém, Manaus, Salvador, Olinda, Rio de Janeiro, Ouro Preto, Curitiba, Gramado, Chapada Diamantina, Foz do Iguaçu, Bonito e outros lugares. Página a página, as capivaras andam de barco, provam um tacacá, tomam água de coco no calçadão e se agasalham para um chá quentinho.",
+      "São cenas em preto e branco, de linhas claras e muitos pequenos elementos, esperando as cores de quem pega o lápis ou a canetinha. Um convite para relaxar, colorir e se encantar com a diversidade natural e cultural do Brasil, uma paisagem de cada vez."
+    ]
+  },
+  "galeria": {
+    "titulo": "Espie as páginas",
+    "intro": "Cada página é um cenário para colorir, com o casal de capivaras sempre no meio do passeio.",
+    "itens": [
+      {
+        "imagem": "pagina-roteiro.jpg",
+        "legenda": "O roteiro de viagem: de Belém a Bonito, um quadradinho para cada destino.",
+        "alt": "Página do livro: lista Roteiro de viagem com cidades de Belém a Bonito e caixinhas para marcar"
+      },
+      {
+        "imagem": "pagina-aguas.jpg",
+        "legenda": "De barco, a caminho do Encontro das Águas.",
+        "alt": "Página para colorir: as capivaras num barco com a placa Encontro das Águas, um boto saltando ao lado"
+      },
+      {
+        "imagem": "pagina-tacaca.jpg",
+        "legenda": "Uma pausa para o tacacá da Dona Lu.",
+        "alt": "Página para colorir: as capivaras sentadas num banco tomam tacacá diante da barraca da Dona Lu"
+      },
+      {
+        "imagem": "pagina-rio.jpg",
+        "legenda": "Calçadão, água de coco e o Cristo lá no alto.",
+        "alt": "Página para colorir: as capivaras passeiam no calçadão de ondas, com o Cristo Redentor ao fundo"
+      }
+    ]
+  },
+  "diferenciais": {
+    "titulo": "Para colorir junto e conversar sobre o caminho",
+    "itens": [
+      {
+        "icone": "lapis",
+        "titulo": "Traço limpo, muitos detalhes",
+        "texto": "Linhas claras e páginas bem preenchidas, com pequenos elementos que fazem o colorir render: bom para lápis de cor, canetinha e paletas criativas."
+      },
+      {
+        "icone": "casa",
+        "titulo": "Um roteiro pelo país",
+        "texto": "Os cenários são inspirados em paisagens reais, do Norte ao Sul. Dá para colorir conversando sobre cada lugar, marcar os destinos no roteiro e sonhar com a próxima viagem."
+      },
+      {
+        "icone": "coracao",
+        "titulo": "Cultura que cabe na página",
+        "texto": "Entre um destino e outro tem tacacá, água de coco, barco e chá quentinho: a diversidade do Brasil aparece também nos sabores e nos costumes."
+      }
+    ]
+  },
+  "trecho": {
+    "texto": "Com desenhos adoráveis e cenários inspirados em paisagens reais, este livro é um convite para relaxar, colorir e se encantar com a diversidade natural e cultural do Brasil.",
+    "referencia": "Da orelha do livro",
+    "imagem": "pagina-gramado.jpg",
+    "alt": "Página para colorir: o casal de capivaras, de gorro e cachecol, toma chá com bolo sob uma cúpula de vidro"
+  },
+  "bio": {
+    "rotulo": "Sobre a autora",
+    "nome": "Gabrielle Antunes",
+    "foto": "autora-centrada.jpg",
+    "paragrafos": [
+      "**Gabrielle Antunes** nasceu em São Paulo, em 1997, e passou grande parte da vida entre diferentes culturas, depois de viver oito anos fora do Brasil. Talvez por isso tenha desenvolvido um carinho ainda mais profundo pelas brasilidades, pelas memórias afetivas e pelos pequenos detalhes que tornam a cultura brasileira tão única.",
+      "Apaixonada por criatividade, ilustração e pelo universo dos livros, encontrou nas capivaras uma forma divertida e acolhedora de transformar sentimentos em arte. Assim nasceram os Capivamores. *Capivamores – pelo Brasil* é o primeiro livro da coleção e representa um reencontro com as suas raízes."
+    ]
+  },
+  "final": {
+    "titulo": "Escolha as cores e embarque nessa viagem.",
+    "texto": "Dezesseis destinos no roteiro, um casal de capivaras apaixonado por viajar e muitas páginas esperando cor.",
+    "fecho": "Perfeito para quem ama arte, bichinhos e viagens.",
+    "imagem": "capivaras-casal.png",
+    "alt": "Ilustração: o casal de capivaras sentado num banco, com mapa, álbum de fotos, mochila e câmera"
+  }
+}
