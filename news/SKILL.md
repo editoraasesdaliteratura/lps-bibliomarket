@@ -73,6 +73,8 @@ O que a Emilly preencher na descrição sempre vale mais que o automático: a au
 - Teste vai para três pessoas, sempre juntas: **diretor.criativo@asesdaliteratura.com.br** (Renan), **marketing@assessoriaglobal.com.br** (Emilly) e **lyciabarros@gmail.com** (Lycia, diretora). Os três já são contatos da Brevo em alguma lista (exigência da API de teste). Limite da Brevo: 50 e-mails de teste por dia (cada teste conta 3), então um dia de rodada comporta até 16 testes.
 - Envio: **11:00 (America/Sao_Paulo)** na data do card
 - Listas: Geral **12** · Educadores **10** · Influencers **13** · Equipe de Marketing **19** (sempre incluída)
+- **Listas de exclusão (sempre, em toda campanha, qualquer público):** Sem Interesse **18** · Nunca assinantes (Wix) **22**. Regra do Renan (16/10/2026, limpeza da base vinda da Wix): quem está nessas listas nunca recebe news, mesmo que continue em outra lista. A 18 guarda quem marcou spam, deu bounce, tem e-mail inválido ou está parado desde 2022–2024; a 22 guarda quem nunca se inscreveu na Wix. Nunca tire contatos dessas listas nem mande campanha para elas.
+- **Créditos de envio:** o plano Standard tem um limite de envios por ciclo mensal (renova no dia 9). Cada campanha gasta 1 crédito por contato da lista. Antes de agendar, confira se cabe (passo 2 de "Cards em 🟢 Aprovado").
 - A pré-visualização vai **no HTML** (pré-cabeçalho escondido do modelo). Não preencha `previewText` na campanha: duplicaria o texto na caixa de entrada.
 
 | Público | Faixa | Listas | Sufixo do nome da campanha | Logo no modelo Global |
@@ -181,15 +183,21 @@ Leia os comentários posteriores ao último comentário da automação (pedido d
 
 ### 4. Cards em 🟢 Aprovado
 1. Pegue o número do teste (`teste <id>`) no bloco "Dados da automação" do último comentário da automação. Se a data de envio já passou, comente e mova para Stand by.
-2. `email_campaign_management_create_email_campaign`:
+2. **Conferir créditos antes de agendar:**
+   - `accounts_get_account` → `plan[0].credits` (créditos de envio que sobram no ciclo) e `plan[0].endDate` (fim do ciclo).
+   - `email_campaign_management_get_email_campaigns` com status `queued` (excludeHtmlContent true) → some o campo `statistics.remaining` das campanhas agendadas **até o fim do ciclo**.
+   - `lists_get_list` da lista do público → `uniqueSubscribers` = custo estimado desta campanha (se a data de envio cai depois do fim do ciclo, ela gasta créditos do ciclo seguinte: não bloqueie, só registre).
+   - Se `créditos − agendadas − custo desta` < 0 → **não agende**. Comente no card (créditos do ciclo, já comprometidos, custo desta, data de renovação) com o próximo passo "Renan decide: mudar a data para depois de <dd/mm da renovação> ou comprar créditos extras", mova para Stand by e ponha no relatório.
+   - Se sobrar menos de 10% dos créditos do ciclo depois desta, agende mas avise no comentário e no relatório.
+3. `email_campaign_management_create_email_campaign`:
    - name `<Título> <sufixo>` · subject = assunto (sem `[TESTE]`) · sender `{"name": "Global Assessoria", "id": 2}` · replyTo `contato@assessoriaglobal.com.br`
-   - recipients `{"listIds": [<lista do público>, 19]}` · templateId = número do teste (copia exatamente o que o Renan aprovou)
+   - recipients `{"listIds": [<lista do público>, 19], "exclusionListIds": [18, 22]}` · templateId = número do teste (copia exatamente o que o Renan aprovou)
    - scheduledAt `AAAA-MM-DDT11:00:00-03:00` · mirrorActive true · sem `tag` (o plano não permite) e sem `previewText`
-3. Confira com `email_campaign_management_get_email_campaign` (excludeHtmlContent true): agendada (`queued`), listas, remetente e horário certos. Divergiu → não mexa, avise o Renan.
-4. **Catálogo** (só livro da Ases com leitura; **nunca** externo): acrescente a linha na planilha de leituras ativas com `append_values` em `Página1!A:G`: `'<isbn>`, título, rótulo do botão, link real, `'<data de envio>`, `'<data até>`, link do card. Se já existir linha com o mesmo ISBN e as mesmas datas (card que voltou do Ajuste), não duplique.
-5. Comente e mova para ⏰ Agendado:
+4. Confira com `email_campaign_management_get_email_campaign` (excludeHtmlContent true): agendada (`queued`), listas, **listas de exclusão 18 e 22** (`recipients.exclusionLists`), remetente e horário certos. Divergiu → não mexa, avise o Renan.
+5. **Catálogo** (só livro da Ases com leitura; **nunca** externo): acrescente a linha na planilha de leituras ativas com `append_values` em `Página1!A:G`: `'<isbn>`, título, rótulo do botão, link real, `'<data de envio>`, `'<data até>`, link do card. Se já existir linha com o mesmo ISBN e as mesmas datas (card que voltou do Ajuste), não duplique.
+6. Comente e mova para ⏰ Agendado:
    ```
-   **⏰ Campanha agendada** para <dd/mm> às 11h, para <base do público> + Equipe de Marketing.
+   **⏰ Campanha agendada** para <dd/mm> às 11h, para <base do público> + Equipe de Marketing (sem Sem Interesse e Nunca assinantes). Créditos do ciclo depois dela: <n>.
 
    **Próximo passo (manual, na Brevo):** abra a campanha "<nome da campanha>" › Destinatários › marque **Não envie para contatos não reativos** › Salvar. A automação não consegue marcar essa opção.
 
@@ -410,6 +418,7 @@ Não saiu `%PDF-` → confira o compartilhamento (`get_file_permissions`); se n�
 
 ## Limites conhecidos
 - Os modelos `[TESTE]` ficam na Brevo (o conector não apaga modelos). Lembre o Renan de limpá-los de vez em quando (Brevo › Modelos › filtrar "[TESTE]").
+- Base limpa em 16/10/2026: Sem Interesse (18) e Nunca assinantes (Wix) (22) vêm da limpeza da base importada da Wix (arquivos em `Newsletters/Contatos exportados e reorganizados Wix/Limpeza Geral 2026-10`, no Mac do Renan). Campanhas agendadas antes dessa data não têm as listas de exclusão: só o Renan consegue acrescentar na Brevo (o conector não edita campanha).
 - A opção **Não envie para contatos não reativos** (Destinatários) não existe na API: o Renan ou a Emilly marcam na Brevo depois do agendamento. O comentário de agendado sempre lembra disso.
 - O conector não envia teste de campanha nem edita campanha criada; por isso o teste é um modelo idêntico e a campanha é criada a partir dele. Mudança depois de agendada: o Renan faz na Brevo.
 - Os sites e os leitores são publicados pelo Renan (Hostinger). No servidor, a automação só envia trechos para `asesdaliteratura.com/leia/trechos/` e capas convertidas de externos para `asesdaliteratura.com/leia/capas/`; nada mais.
