@@ -200,8 +200,8 @@ Leia os comentários posteriores ao último comentário da automação (pedido d
 
 ### 5. Cards em ⏰ Agendado (conferência e envio)
 - **Antes do envio, livro da Ases com leitura:** confira a campanha (`email_campaign_management_get_email_campaign`, excludeHtmlContent true). Se ela foi apagada, suspensa ou mudou de data na Brevo, tire ou corrija a linha do livro na planilha de leituras ativas (o catálogo não pode mostrar leitura de news que não vai sair naquele dia) e avise o Renan no relatório.
-- **Campanha `sent`, sem leitura e sem cópia de miolo** → comente `**✅ News enviada** em <dd/mm>. Sem leitura gratuita: nada mais a fazer.` e mova direto para 🏁 Concluído.
-- **Campanha `sent`, com leitura (ou com cópia de miolo)** → comente e mova para ✅ Enviado (a limpeza acontece lá, no passo 5b):
+- **Campanha `sent`, sem leitura e sem cópia de miolo** → comente `**✅ News enviada** em <dd/mm>. Sem leitura gratuita: nada mais a fazer.` e mova direto para 🏁 Concluído. Marque a data de entrega como concluída (`trelloWriteCard` `mark_done`).
+- **Campanha `sent`, com leitura (ou com cópia de miolo)** → comente, mova para ✅ Enviado e marque a data de entrega como concluída (`trelloWriteCard` `mark_done`; a limpeza acontece lá, no passo 5b):
   ```
   **✅ News enviada** em <dd/mm>.
 
@@ -211,7 +211,8 @@ Leia os comentários posteriores ao último comentário da automação (pedido d
   (Repita o bloco "Dados da automação" do último comentário, sem mudar nada, para a limpeza achar os ids.)
 
 ### 5b. Cards em ✅ Enviado (limpeza da leitura)
-- Ainda dentro do prazo (hoje ≤ data `até` do bloco "Dados da automação") → não mexa e não comente.
+- Ainda dentro do prazo (hoje ≤ data `até` do bloco "Dados da automação") → não mexa e não comente (só marque a data de entrega como concluída com `mark_done`, se ainda não estiver).
+- **Por que marcar a data como concluída:** o brief matinal do Renan mostra como "atrasado" todo card destes quadros com data vencida e não concluída. Card em ✅ Enviado ou 🏁 Concluído já saiu: nunca pode aparecer como atrasado.
 - Depois da data `até`: mande para a lixeira (`trash_file`) **só** os arquivos de `leitura` e `miolo` que são ids do Drive (`leitura trecho:<código>` está no servidor e é apagado por ele: não faça nada com esse) (criados pela automação, dentro de `_LEITURA NEWS (automação)`; confira o `parentId` antes). Se o mesmo id de leitura aparece em outro card que ainda não terminou (duas news do mesmo livro), espere o `até` mais distante antes de mandar para a lixeira. Livro da Ases: apague também a linha desse ISBN e dessas datas na planilha de leituras ativas (`get_values` em `Página1!A:G` para achar a linha e `batch_clear_values` só nela; o catálogo já esconde sozinho depois do `fim`, isso é só limpeza). Comente `**🏁 Leitura encerrada.** As cópias do livro foram removidas do Drive.` e mova para 🏁 Concluído. Falhou → ⬇ Retirar leitura e avise.
 - Livro externo sem leitura: a cópia do miolo pode ir para a lixeira assim que a campanha estiver `sent` (e o card vai para 🏁 Concluído).
 - Card antigo que ainda esteja em ⏰ Agendado com campanha `sent` (formato anterior a 16/10/2026): trate como acima, movendo primeiro para ✅ Enviado.

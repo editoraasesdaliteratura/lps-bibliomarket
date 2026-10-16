@@ -193,7 +193,7 @@ Leia os cards das listas da news citadas acima. Para cada card com `**Landing pa
    3. Confira `hosting_domains_list-website-subdomains`: o novo subdomínio aponta para `.../public_html/lps/<slug>`.
    **Republicação** (já existe e aponta para `lps/<slug>`): só o deploy (ele puxa a versão nova).
 6. **Conferir no ar** `https://<sub>.bibliomarket.com.br/` com WebFetch (título, canonical, sem `noindex`, botão de compra, imagens). O certificado HTTPS de subdomínio novo pode levar alguns minutos (o WebFetch responde `ROBOTS_DISALLOWED` enquanto isso): espere uns 5 minutos e confira de novo antes de comentar; se continuar, comente avisando.
-7. Comente e mova para 🌐 Publicada:
+7. Comente, mova para 🌐 Publicada e marque a data de entrega como concluída (`trelloWriteCard` `mark_done`; o brief matinal mostra como atrasado todo card com data vencida e não concluída):
    ```
    **🌐 LP publicada:** [<sub>.bibliomarket.com.br](https://<sub>.bibliomarket.com.br/)
 
