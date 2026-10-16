@@ -541,6 +541,19 @@ def montar_infantil(d, base, previa, saida, url_base):
         if f not in FONTES_INFANTIL:
             raise SystemExit(f"fonte inválida: {f}. Use uma de: {', '.join(FONTES_INFANTIL)}")
     estampa, estampa_tam = estampa_css(d["tema"].get("estampa", "coracoes"), c["sol_2"])
+    # Peso da fonte dos títulos (opcional; padrão 800 nos títulos e 700 na tagline/legendas/citação).
+    peso = d["tema"].get("peso_titulo")
+    if peso is not None and (not isinstance(peso, int) or not 300 <= peso <= 800 or peso % 100):
+        raise SystemExit("tema.peso_titulo precisa ser 300, 400, 500, 600, 700 ou 800")
+    pesos = {"titulo": peso or 800, "secundario": min(peso, 700) if peso else 700}
+    fontes_google = []
+    for f in dict.fromkeys((ft, fx)):
+        g = FONTES_INFANTIL[f]["google"]
+        if f == ft and peso:
+            base_g, _, lista = g.partition(":wght@")
+            ws = sorted({int(w) for w in lista.split(";") if w} | {pesos["titulo"], pesos["secundario"]})
+            g = f"{base_g}:wght@{';'.join(map(str, ws))}"
+        fontes_google.append(g)
 
     def imagem(chave, nome, alt, larguras=LARGURAS):
         return processar_imagem(base / chave, nome, img_dir, alt, larguras)
@@ -606,8 +619,9 @@ def montar_infantil(d, base, previa, saida, url_base):
         "seo": {"titulo": seo.get("titulo") or f"{titulo} · {livro['autor']}", "descricao": seo_desc}, "og_imagem": og,
         "c": c, "estampa": estampa, "estampa_tam": estampa_tam, "semente": sum(map(ord, d["slug"])) % 97,
         "icones": {k: Markup(v) for k, v in ICONES.items()},
-        "fontes_url": Markup("&".join(FONTES_INFANTIL[f]["google"] for f in dict.fromkeys((ft, fx)))),
+        "fontes_url": Markup("&".join(fontes_google)),
         "fonte_titulo": Markup(FONTES_INFANTIL[ft]["css"]), "fonte_texto": Markup(FONTES_INFANTIL[fx]["css"]),
+        "pesos": pesos,
         "livro": {**livro, "titulo": titulo},
         "jsonld": Markup(json.dumps(jsonld, ensure_ascii=False).replace("</", "<\\/")),
         "instagram": instagram, "divisor": divisor,

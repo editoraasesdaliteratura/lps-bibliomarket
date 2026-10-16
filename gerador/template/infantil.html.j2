@@ -30,6 +30,7 @@
 <style>
 :root{
   --f-titulo:{{ fonte_titulo }};
+  --peso-titulo:{{ pesos.titulo }};--peso-titulo-2:{{ pesos.secundario }};
   --f-texto:{{ fonte_texto }};
   --papel:{{ c.papel }};
   --creme:{{ c.creme }};
@@ -67,12 +68,12 @@ strong{font-weight:800}
 .ki-prosa{display:grid;gap:1.05em;max-width:62ch}
 
 /* Tipografia */
-.ki-marca{font-family:var(--f-titulo);font-weight:800;font-size:clamp(16px, .9vw + 11px, 21px);line-height:1.1;text-decoration:none;color:var(--destaque)}
+.ki-marca{font-family:var(--f-titulo);font-weight:var(--peso-titulo);font-size:clamp(16px, .9vw + 11px, 21px);line-height:1.1;text-decoration:none;color:var(--destaque)}
 .ki-eyebrow{display:inline-flex;align-items:center;gap:.5em;font-weight:800;font-size:13px;line-height:1.3;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta);margin:0}
 .ki-eyebrow::before{content:"";width:22px;height:3px;border-radius:3px;background:var(--destaque)}
-.ki-h1{font-family:var(--f-titulo);font-weight:800;font-size:clamp(42px, 4.4vw + 14px, 80px);line-height:1;letter-spacing:-.01em;color:var(--destaque);margin:0;text-wrap:balance}
-.ki-h2{font-family:var(--f-titulo);font-weight:800;font-size:clamp(32px, 2.8vw + 14px, 54px);line-height:1.06;letter-spacing:-.005em;margin:0;text-wrap:balance;color:var(--destaque)}
-.ki-tagline{font-family:var(--f-titulo);font-weight:700;font-size:clamp(20px, .9vw + 15px, 26px);line-height:1.3;color:var(--tinta)}
+.ki-h1{font-family:var(--f-titulo);font-weight:var(--peso-titulo);font-size:clamp(42px, 4.4vw + 14px, 80px);line-height:1;letter-spacing:-.01em;color:var(--destaque);margin:0;text-wrap:balance}
+.ki-h2{font-family:var(--f-titulo);font-weight:var(--peso-titulo);font-size:clamp(32px, 2.8vw + 14px, 54px);line-height:1.06;letter-spacing:-.005em;margin:0;text-wrap:balance;color:var(--destaque)}
+.ki-tagline{font-family:var(--f-titulo);font-weight:var(--peso-titulo-2);font-size:clamp(20px, .9vw + 15px, 26px);line-height:1.3;color:var(--tinta)}
 .ki-tagline em{font-style:normal;color:var(--destaque)}
 .ki-intro{font-size:1.06em;max-width:56ch}
 
@@ -153,7 +154,7 @@ strong{font-weight:800}
 .ki-galeria li:nth-child(3n) .ki-cartao{transform:rotate(-1deg)}
 .ki-galeria .ki-cartao{transition:transform .3s ease}
 .ki-galeria li:hover .ki-cartao{transform:rotate(0) translateY(-4px)}
-.ki-legenda{font-family:var(--f-titulo);font-weight:700;font-size:clamp(16px,.5vw + 13px,19px);line-height:1.3;text-align:center;color:var(--tinta);max-width:24ch}
+.ki-legenda{font-family:var(--f-titulo);font-weight:var(--peso-titulo-2);font-size:clamp(16px,.5vw + 13px,19px);line-height:1.3;text-align:center;color:var(--tinta);max-width:24ch}
 .ki-galeria li:nth-child(3n+2) .ki-legenda{margin-top:18px}
 @media (max-width:760px){
   .ki-galeria{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:76%;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px var(--gutter) 22px;margin-inline:calc(var(--gutter) * -1);scrollbar-width:none}
@@ -175,14 +176,14 @@ strong{font-weight:800}
 .ki-card:nth-child(3n+2) .ki-icone{border-radius:44% 56% 52% 48% / 55% 45% 55% 45%}
 .ki-card:nth-child(3n) .ki-icone{border-radius:56% 44% 46% 54% / 46% 56% 44% 54%}
 .ki-icone svg{width:32px;height:32px;stroke:var(--destaque);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.ki-card-titulo{font-family:var(--f-titulo);font-weight:800;font-size:clamp(20px,.6vw + 16px,24px);line-height:1.2;margin:0;color:var(--tinta)}
+.ki-card-titulo{font-family:var(--f-titulo);font-weight:var(--peso-titulo);font-size:clamp(20px,.6vw + 16px,24px);line-height:1.2;margin:0;color:var(--tinta)}
 
 /* Trecho */
 .ki-trecho-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(36px,6vw,96px);align-items:center}
 .ki-trecho-grid:not(:has(.ki-cartao)){grid-template-columns:minmax(0,860px);justify-content:center;text-align:center}
 .ki-trecho .ki-cartao{transform:rotate(-2.5deg);max-width:380px;justify-self:center}
 .ki-trecho figure.ki-citacao{margin:0;display:grid;gap:22px}
-.ki-trecho blockquote{margin:0;font-family:var(--f-titulo);font-weight:700;font-size:clamp(25px,1.9vw + 15px,40px);line-height:1.28;color:var(--tinta);text-wrap:balance}
+.ki-trecho blockquote{margin:0;font-family:var(--f-titulo);font-weight:var(--peso-titulo-2);font-size:clamp(25px,1.9vw + 15px,40px);line-height:1.28;color:var(--tinta);text-wrap:balance}
 .ki-trecho blockquote::before{content:"\201C";display:block;font-size:2.6em;line-height:.62;color:var(--destaque)}
 .ki-trecho figcaption{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--destaque)}
 @media (max-width:860px){ .ki-trecho-grid{grid-template-columns:1fr} .ki-trecho .ki-cartao{max-width:300px} }

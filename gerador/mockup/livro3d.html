@@ -39,6 +39,7 @@ root.setProperty('--cw',cw+'px');root.setProperty('--ch',ch+'px');
 // proporções do livro: altura fixa de 1417px na cena, largura e lombada proporcionais
 const H=1417, W=Math.round(H*(+q.get('W')||1004)/(+q.get('H')||1417)), T=Math.max(4,Math.round(H*(+q.get('T')||126)/(+q.get('H')||1417)));
 root.setProperty('--W',W+'px');root.setProperty('--H',H+'px');root.setProperty('--T',T+'px');
+const giro=q.get('giro')!==null?+q.get('giro'):null;
 const c=document.getElementById('cena'), cena=q.get('cena')||'pe', chao=ch*.86;
 const k=ch*.74/H; // s=1 → livro ocupa ~74% da altura da tela
 const pos=(s)=>`translate(-50%,-50%) translate(0px,${chao - ch/2 - s*k*H/2}px) scale(${s*k})`;
@@ -47,10 +48,10 @@ const faces=()=>`<div class="f verso"></div><div class="f base"></div><div class
 const livro=(t)=>`<div class="livro" style="transform:${t}">${faces()}</div>`;
 if(cena==='pe'){          // em pé, 3/4, mostrando a lombada (precisa de lombada medida)
   const s=+q.get('s')||0.60;
-  c.innerHTML=contato(cw/2+cw*.05,s*k*W*1.05)+livro(`translateX(${cw*.05}px) ${pos(s)} rotateX(-3deg) rotateY(34deg)`);
+  c.innerHTML=contato(cw/2+cw*.05,s*k*W*1.05)+livro(`translateX(${cw*.05}px) ${pos(s)} rotateX(-3deg) rotateY(${giro??34}deg)`);
 }else if(cena==='frente'){ // em pé, girado para o outro lado: mostra frente e o bloco de páginas, sem lombada
   const s=+q.get('s')||0.62;
-  c.innerHTML=contato(cw/2-cw*.03,s*k*W*1.02)+livro(`translateX(${-cw*.03}px) ${pos(s)} rotateX(-3deg) rotateY(-24deg)`);
+  c.innerHTML=contato(cw/2-cw*.03,s*k*W*1.02)+livro(`translateX(${-cw*.03}px) ${pos(s)} rotateX(-3deg) rotateY(${-(giro??24)}deg)`);
 }else if(cena==='par'){   // frente e contracapa lado a lado (precisa do verso)
   const s=+q.get('s')||0.52;
   c.innerHTML=contato(cw*.34,s*k*W*.95)+contato(cw*.66,s*k*W)+

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Renderiza o mockup 3D de um livro (brochura) em PNG.
 
-  python3 mockup/render.py <pasta-faces> <saida.png> [--cena pe|frente|par] [--tam 2000] [--s 0.9] [--fundo]
+  python3 mockup/render.py <pasta-faces> <saida.png> [--cena pe|frente|par] [--tam 2000] [--s 0.9] [--giro 22] [--fundo]
 
 <pasta-faces> é a saída de `ferramentas/capa.py faces`: frente.jpg, lombada.jpg, verso.jpg e faces.json
 (com W, H, T). Sem lombada medida (faces.json com "lombada": false) só a cena "frente" é permitida:
@@ -18,7 +18,7 @@ def porta_livre():
     s = socket.socket(); s.bind(("127.0.0.1", 0)); p = s.getsockname()[1]; s.close(); return p
 
 
-async def render(pasta, saida, cena, tam, s, fundo):
+async def render(pasta, saida, cena, tam, s, fundo, giro=None):
     from playwright.async_api import async_playwright
     meta = json.loads((pasta / "faces.json").read_text())
     if cena != "frente" and not meta.get("lombada"):
@@ -39,7 +39,7 @@ async def render(pasta, saida, cena, tam, s, fundo):
     porta = porta_livre()
     srv = http.server.ThreadingHTTPServer(("127.0.0.1", porta), functools.partial(Q, directory=str(tmp)))
     threading.Thread(target=srv.serve_forever, daemon=True).start()
-    q = f"w={tam}&h={tam}&W={meta['W']}&H={meta['H']}&T={meta.get('T') or meta.get('T_estimada') or round(meta['H'] * .035)}&cena={cena}&s={s}" + ("" if fundo else "&recorte=1")
+    q = f"w={tam}&h={tam}&W={meta['W']}&H={meta['H']}&T={meta.get('T') or meta.get('T_estimada') or round(meta['H'] * .035)}&cena={cena}&s={s}" + (f"&giro={giro}" if giro is not None else "") + ("" if fundo else "&recorte=1")
     async with async_playwright() as p:
         b = await p.chromium.launch()
         pg = await b.new_page(viewport={"width": tam, "height": tam}, device_scale_factor=1)
@@ -67,6 +67,7 @@ if __name__ == "__main__":
     ap.add_argument("--tam", type=int, default=2000)
     ap.add_argument("--s", type=float, default=None, help="escala do livro na cena (1 = livro com ~74%% da altura; padrão pe 1, frente 1, par .82)")
     ap.add_argument("--fundo", action="store_true")
+    ap.add_argument("--giro", type=float, default=None, help="giro do livro em graus (padrão pe 34, frente 24); menor = mais de frente")
     a = ap.parse_args()
     s = a.s or {"pe": 1.0, "frente": 1.0, "par": .82}[a.cena]
-    asyncio.run(render(Path(a.faces).resolve(), Path(a.saida).resolve(), a.cena, a.tam, s, a.fundo))
+    asyncio.run(render(Path(a.faces).resolve(), Path(a.saida).resolve(), a.cena, a.tam, s, a.fundo, a.giro))
